@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "env-cmd next dev",
     "build": "next build",
     "start": "next start",
-    "check:types": "tsc -p ."
+    "check:types": "tsc -p .",
+    "dc:up": "env-cmd sh -c \"cd dev; docker-compose up\"",
+    "dc:destroy": "env-cmd sh -c \"cd dev; docker-compose down; docker-compose rm -f\""
   },
   "husky": {
     "hooks": {
