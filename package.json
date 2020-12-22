@@ -15,6 +15,8 @@
     "check:format": "prettier --check .",
     "test": "yarn test:once --watch",
     "test:once": "NODE_ENV=test env-cmd jest --runInBand",
+    "test:db:reset": "NODE_ENV=test yarn db:reset",
+    "db:reset": " env-cmd sh -c \"prisma migrate reset --preview-feature\"",
     "dc:up": "env-cmd sh -c \"cd dev; docker-compose up\"",
     "dc:destroy": "env-cmd sh -c \"cd dev; docker-compose down; docker-compose rm -f\""
   },
