@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>[TODO]</div>;
+  return <div>[TODO]</div>
 }

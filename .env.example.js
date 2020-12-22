@@ -1,11 +1,11 @@
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = process.env
 
-const PG_DB = `starter-${NODE_ENV}`;
+const PG_DB = `starter-${NODE_ENV}`
 
-const PG_PASSWORD = "starter";
-const PG_PORT = "5433";
-const PG_USER = "starter";
-const PG_URL = `postgresql://${PG_USER}:${PG_PASSWORD}@localhost:${PG_PORT}/${PG_DB}?schema=public`;
+const PG_PASSWORD = "starter"
+const PG_PORT = "5433"
+const PG_USER = "starter"
+const PG_URL = `postgresql://${PG_USER}:${PG_PASSWORD}@localhost:${PG_PORT}/${PG_DB}?schema=public`
 
 module.exports = {
   ADMINER_PORT: "8080",
@@ -14,4 +14,4 @@ module.exports = {
   PG_PORT,
   PG_USER,
   PG_URL,
-};
+}
