@@ -8,6 +8,11 @@
     "start": "next start",
     "check:types": "tsc -p ."
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn check:types"
+    }
+  },
   "dependencies": {
     "next": "10.0.4",
     "react": "17.0.1",
