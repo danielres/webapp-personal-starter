@@ -1,5 +1,10 @@
 {
   "name": "webapp-starter",
+  "author": {
+    "name": "Daniel Reszka",
+    "url": "https://github.com/danielres"
+  },
+  "license": "UNLICENSED",
   "version": "0.1.0",
   "private": true,
   "scripts": {
