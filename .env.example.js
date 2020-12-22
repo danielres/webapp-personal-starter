@@ -1,3 +1,5 @@
+if (!process.env.NODE_ENV) process.env.NODE_ENV = "dev"
+
 const { NODE_ENV } = process.env
 
 const PG_DB = `starter-${NODE_ENV}`
