@@ -8,6 +8,8 @@
     "start": "next start",
     "check:types": "tsc -p .",
     "check:format": "prettier --check .",
+    "test": "yarn test:once --watch",
+    "test:once": "NODE_ENV=test env-cmd jest --runInBand",
     "dc:up": "env-cmd sh -c \"cd dev; docker-compose up\"",
     "dc:destroy": "env-cmd sh -c \"cd dev; docker-compose down; docker-compose rm -f\""
   },
