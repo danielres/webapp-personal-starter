@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn check:format && yarn check:types",
+      "pre-push": "yarn check:format && yarn check:types && yarn test:once",
       "pre-commit": "lint-staged"
     }
   },
