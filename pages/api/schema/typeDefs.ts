@@ -15,4 +15,8 @@ export const typeDefs = /* GraphQL */ `
   type Query {
     users: [User]!
   }
+
+  type Mutation {
+    signup(name: String!, email: EmailAddress!, password: Password!): User
+  }
 `

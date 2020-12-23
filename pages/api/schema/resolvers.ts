@@ -13,4 +13,12 @@ export const resolvers = {
     users: async (_: unused, __: unused, { prisma }: Context) =>
       prisma.user.findMany({ where: {} }),
   },
+
+  Mutation: {
+    signup: async (
+      _: unused,
+      args: { email: string; name: string; password: string },
+      { prisma }: Context
+    ) => prisma.user.create({ data: args }),
+  },
 }
