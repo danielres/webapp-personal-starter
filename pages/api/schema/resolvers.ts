@@ -1,9 +1,6 @@
 import { EmailAddressResolver } from "graphql-scalars"
-import { context } from "../context"
 import { PasswordResolver } from "./resolvers/scalars/PasswordResolver"
-
-type Context = typeof context
-type unused = unknown
+import { Context, unused } from "./resolvers/types"
 
 export const resolvers = {
   EmailAddress: EmailAddressResolver,
