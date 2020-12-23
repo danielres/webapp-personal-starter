@@ -1,0 +1,14 @@
+# This file has been automatically generated.
+# Please do not edit!
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  users: [User]!
+}
