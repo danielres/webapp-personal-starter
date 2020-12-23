@@ -1,12 +1,15 @@
 # This file has been automatically generated.
 # Please do not edit!
 
+scalar Date
+
 type User {
-  id: Int!
+  id: ID!
   name: String!
-  email: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  email: EmailAddress!
+  isSuperUser: Boolean!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type Query {
