@@ -10,6 +10,7 @@ describe("User.create", () => {
       data: {
         email: "user@example.com",
         name: "User",
+        password: "123",
       },
     })
 
