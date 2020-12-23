@@ -1,6 +1,6 @@
 import { EmailAddressResolver } from "graphql-scalars"
 import { context } from "../context"
-import { PasswordResolver } from "./scalars/PasswordResolver"
+import { PasswordResolver } from "./resolvers/scalars/PasswordResolver"
 
 type Context = typeof context
 type unused = unknown
