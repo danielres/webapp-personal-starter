@@ -2,6 +2,8 @@
 # Please do not edit!
 
 scalar Date
+scalar EmailAddress
+scalar Password
 
 type User {
   id: ID!
@@ -14,4 +16,9 @@ type User {
 
 type Query {
   users: [User]!
+}
+
+type Mutation {
+  signup(email: EmailAddress!, password: Password!, name: String!): User
+  signin(email: EmailAddress!, password: Password!): User
 }
