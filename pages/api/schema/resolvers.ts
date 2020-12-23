@@ -1,4 +1,5 @@
 import { EmailAddressResolver } from "graphql-scalars"
+import { signup } from "./resolvers/mutations/signup"
 import { PasswordResolver } from "./resolvers/scalars/PasswordResolver"
 import { Context, unused } from "./resolvers/types"
 
@@ -12,10 +13,6 @@ export const resolvers = {
   },
 
   Mutation: {
-    signup: async (
-      _: unused,
-      args: { email: string; name: string; password: string },
-      { prisma }: Context
-    ) => prisma.user.create({ data: args }),
+    signup,
   },
 }
