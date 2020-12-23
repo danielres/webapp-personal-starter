@@ -1,7 +1,24 @@
+import bcrypt from "bcrypt"
+import * as config from "config"
 import { Context, unused } from "../types"
+
+type SignupArgs = { email: string; name: string; password: string }
 
 export const signup = async (
   _: unused,
-  args: { email: string; name: string; password: string },
+  args: SignupArgs,
   { prisma }: Context
-) => prisma.user.create({ data: args })
+) => {
+  const { password, ...rest } = args
+  const usersCount = await prisma.user.count()
+  const isSuperUser = usersCount === 0
+  const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRounts)
+
+  return prisma.user.create({
+    data: {
+      ...rest,
+      isSuperUser,
+      password: hashedPassword,
+    },
+  })
+}
