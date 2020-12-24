@@ -9,7 +9,7 @@ type SigninArgs = {
 export const signin = async (
   _: unused,
   args: SigninArgs,
-  { prisma }: Context
+  { prisma, req }: Context
 ) => {
   const signinError = new Error("Invalid credentials.")
 
@@ -18,6 +18,8 @@ export const signin = async (
 
   const isValidPassword = await bcrypt.compare(args.password, user.password)
   if (!isValidPassword) throw signinError
+
+  if (req.session) req.session.user = { id: user.id }
 
   return user
 }
