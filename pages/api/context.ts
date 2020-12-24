@@ -1,13 +1,15 @@
 import { PrismaClient } from "@prisma/client"
-import { IncomingMessage, ServerResponse } from "http"
+import { Request, Response } from "./graphql"
 
 export type ContextArgs = {
-  req: IncomingMessage
-  res: ServerResponse
+  req: Request
+  res: Response
 }
 
-export type Context = ContextArgs & {
+export type Context = {
   prisma: PrismaClient
+  req: Request
+  res: Response
 }
 
 export const context = ({ req, res }: ContextArgs) => ({
