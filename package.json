@@ -37,6 +37,7 @@
     "@prisma/client": "2.13.1",
     "apollo-server-micro": "^2.19.0",
     "bcrypt": "^5.0.0",
+    "cookie-session": "^1.4.0",
     "graphql-request": "^3.4.0",
     "graphql-scalars": "^1.7.0",
     "next": "10.0.4",
