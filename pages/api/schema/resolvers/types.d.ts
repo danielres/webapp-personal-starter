@@ -1,4 +1,4 @@
-import { context } from "../../context"
+import { Context, ContextArgs } from "../../context"
 
-export type Context = typeof context
+export type Context = Context
 export type unused = unknown
