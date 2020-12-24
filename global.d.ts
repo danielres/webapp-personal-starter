@@ -1,3 +1,3 @@
-declare module "cookie-session"
+// declare module "cookie-session"
 
-type unused = unknown
+// type unused = unknown
