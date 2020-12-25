@@ -12,6 +12,7 @@
     "dev:schema:dump": "ts-node ./dev/bin/dumpSchema.ts",
     "build": "next build",
     "start": "next start",
+    "codegen": "graphql-codegen --config dev/codegen.yml",
     "check:types": "tsc -p .",
     "check:format": "prettier --check .",
     "test": "yarn test:once --watch",
