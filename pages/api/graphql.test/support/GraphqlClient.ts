@@ -1,12 +1,18 @@
 // GraphQL client for api integration tests
 
+import { PrismaClient } from "@prisma/client"
 import request from "supertest"
-import handler from "../../graphql"
 import * as config from "../../../../config"
+import { makeHandler } from "../../graphql"
 
 const { endpoint: defaultEndpoint } = config.graphql
 
-export const GraphqlClient = ({ endpoint = defaultEndpoint } = {}) => {
+export const GraphqlClient = ({
+  endpoint = defaultEndpoint,
+  prisma = new PrismaClient(),
+}) => {
+  const handler = makeHandler({ prisma })
+
   const client = async (query: string, variables = {}) => {
     const { body, headers } = await request(handler)
       .post(endpoint)
