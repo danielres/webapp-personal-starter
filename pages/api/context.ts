@@ -12,8 +12,11 @@ export type Context = {
   res: Response
 }
 
-export const context = ({ req, res }: ContextArgs) => ({
-  prisma: new PrismaClient(),
+export const makeContext = ({ prisma }: { prisma: PrismaClient }) => ({
+  req,
+  res,
+}: ContextArgs) => ({
+  prisma,
   req,
   res,
 })
