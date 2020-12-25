@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
-import * as config from "config"
 import { Context } from "../../../context"
+import * as config from "../../../../../config"
 
 type SignupArgs = { email: string; name: string; password: string }
 
