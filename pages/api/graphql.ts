@@ -13,7 +13,7 @@ export type Request = NextApiRequest & {
 
 export type Response = NextApiResponse
 
-const makeHandler = ({ prisma = new PrismaClient() }) => (
+export const makeHandler = ({ prisma = new PrismaClient() }) => (
   req: Request,
   res: Response
 ) => {
