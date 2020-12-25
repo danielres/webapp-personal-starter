@@ -12,3 +12,7 @@ export const cookieSession = {
   keys: [KEY1, KEY2],
   maxAge: 24 * 60 * 60 * 1000,
 }
+
+export const graphql = {
+  endpoint: "/api/graphql",
+}

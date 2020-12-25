@@ -1,5 +1,6 @@
 import { ApolloServer } from "apollo-server-micro"
 import { NextApiRequest, NextApiResponse } from "next"
+import * as config from "../../config"
 import { context } from "./context"
 import { middlewareCookieSession } from "./middleware/middlewareCookieSession"
 import { resolvers } from "./schema/resolvers"
@@ -17,11 +18,12 @@ const apolloServer = new ApolloServer({
   resolvers,
 })
 
-const handler = apolloServer.createHandler({ path: "/api/graphql" })
+const handler = apolloServer.createHandler({ path: config.graphql.endpoint })
 
 export default (req: Request, res: Response) => {
   middlewareCookieSession(req, res)
   return handler(req, res)
 }
 
-export const config = { api: { bodyParser: false } }
+const nextConfig = { api: { bodyParser: false } }
+export { nextConfig as config }
