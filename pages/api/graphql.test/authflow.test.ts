@@ -17,7 +17,7 @@ describe("auth flow", () => {
   describe("when previously signed up", () => {
     beforeAll(() => client(mutations.signup, { email, name, password }))
 
-    test("signin returns user details + sets signed session cookie", async () => {
+    test("signin returns user details + sets signed session cookies", async () => {
       const { body, headers } = await client(mutations.signin, {
         email,
         password,
@@ -27,20 +27,33 @@ describe("auth flow", () => {
 
       expect(body.data.signin).toMatchObject(expected)
 
-      const cookieNames = headers["set-cookie"].map(
-        (c: string) => c.split("=")[0]
-      )
+      expect(headers["set-cookie"].length).toEqual(2)
 
-      const cookieValues = headers["set-cookie"].map(
-        (c: string) => c.split("=")[1].split(";")[0]
-      )
+      expect(getCookieNames(headers)).toMatchObject(["session", "session.sig"])
 
-      expect(cookieNames).toMatchObject(["session", "session.sig"])
-
-      cookieValues.forEach((value: string) => {
+      getCookieValues(headers).forEach((value: string) => {
         expect(typeof value).toEqual("string")
         expect(value.length > 0).toBe(true)
       })
     })
   })
+  describe("signout ", () => {
+    it("deletes session cookies", async () => {
+      const { headers } = await client(mutations.signout)
+      expect(headers["set-cookie"].length).toEqual(2)
+      expect(getCookieNames(headers)).toMatchObject(["session", "session.sig"])
+
+      headers["set-cookie"].forEach((element: string) =>
+        expect(element).toMatch("expires=Thu, 01 Jan 1970")
+      )
+    })
+  })
 })
+
+function getCookieNames(headers: { "set-cookie": string[] }) {
+  return headers["set-cookie"].map((c: string) => c.split("=")[0])
+}
+
+function getCookieValues(headers: { "set-cookie": string[] }) {
+  return headers["set-cookie"].map((c: string) => c.split("=")[1].split(";")[0])
+}

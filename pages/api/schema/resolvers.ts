@@ -1,6 +1,7 @@
 import { EmailAddressResolver } from "graphql-scalars"
 import { Context } from "../context"
 import { signin } from "./resolvers/mutations/signin"
+import { signout } from "./resolvers/mutations/signout"
 import { signup } from "./resolvers/mutations/signup"
 import { PasswordResolver } from "./resolvers/scalars/PasswordResolver"
 
@@ -16,5 +17,6 @@ export const resolvers = {
   Mutation: {
     signin,
     signup,
+    signout,
   },
 }
