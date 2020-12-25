@@ -1,4 +1,4 @@
-/** @injectPrisma */
+/** @usePrisma */
 import { JestGlobal } from "jest/types.d"
 
 declare const global: JestGlobal
