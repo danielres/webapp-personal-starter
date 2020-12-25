@@ -1,15 +1,15 @@
 import { ApolloServer } from "apollo-server-micro"
-import { IncomingMessage, ServerResponse } from "http"
+import { NextApiRequest, NextApiResponse } from "next"
 import { context } from "./context"
 import { middlewareCookieSession } from "./middleware/middlewareCookieSession"
 import { resolvers } from "./schema/resolvers"
 import { typeDefs } from "./schema/typeDefs"
 
-export type Request = IncomingMessage & {
+export type Request = NextApiRequest & {
   session: null | Record<string, any>
 }
 
-export type Response = ServerResponse
+export type Response = NextApiResponse
 
 const apolloServer = new ApolloServer({
   context,
