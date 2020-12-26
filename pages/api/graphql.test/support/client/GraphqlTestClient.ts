@@ -2,12 +2,12 @@
 
 import { PrismaClient } from "@prisma/client"
 import request from "supertest"
-import * as config from "../../../../config"
-import { makeHandler } from "../../graphql"
+import * as config from "../../../../../config"
+import { makeHandler } from "../../../graphql"
 
 const { endpoint: defaultEndpoint } = config.graphql
 
-export const GraphqlClient = ({
+export const GraphqlTestClient = ({
   endpoint = defaultEndpoint,
   prisma = new PrismaClient(),
 }) => {
