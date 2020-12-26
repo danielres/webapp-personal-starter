@@ -1,4 +1,6 @@
+const isDev = process.env.NODE_ENV === "development"
 const isProd = process.env.NODE_ENV === "production"
+const isTest = process.env.NODE_ENV === "test"
 
 export const bcrypt = {
   saltRounts: isProd ? 10 : 1,
@@ -19,4 +21,5 @@ export const graphql = {
 
 export const sentry = {
   dsn: process.env.SENTRY_DSN,
+  isEnabled: !(isDev || isTest),
 }
