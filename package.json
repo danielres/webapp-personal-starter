@@ -18,6 +18,7 @@
     "test": "yarn test:once --watch",
     "test:once": "NODE_ENV=test env-cmd jest --runInBand",
     "test:db:reset": "NODE_ENV=test yarn db:reset",
+    "test:ci": "yarn prisma migrate deploy --preview-feature && yarn jest --runInBand",
     "db:migrate:create": "env-cmd sh -c \"prisma migrate dev --preview-feature --create-only\"",
     "db:migrate:apply": "env-cmd sh -c \"prisma migrate deploy --preview-feature\"",
     "db:reset": " env-cmd sh -c \"prisma migrate reset --preview-feature\"",
