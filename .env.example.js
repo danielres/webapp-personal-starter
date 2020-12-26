@@ -18,4 +18,5 @@ module.exports = {
   PG_PORT,
   PG_USER,
   PG_URL,
+  SENTRY_DSN: "CHANGEME",
 }

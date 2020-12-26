@@ -16,3 +16,7 @@ export const cookieSession = {
 export const graphql = {
   endpoint: "/api/graphql",
 }
+
+export const sentry = {
+  dsn: process.env.SENTRY_DSN,
+}
