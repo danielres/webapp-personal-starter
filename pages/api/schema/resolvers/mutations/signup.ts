@@ -1,13 +1,18 @@
 import bcrypt from "bcrypt"
 import * as config from "../../../../../config"
 import { Context } from "../../../context"
-import * as errors from "../../../errors/errors"
-import { reportError } from "../../../errors/reportError"
+import * as codes from "../../../errors/codes"
+import { ServerError } from "../../../errors/ServerError"
 import { sendEmail } from "./sendEmail"
 
-type SignupArgs = { email: string; name: string; password: string }
+type SignupArgs = {
+  email: string
+  name: string
+  password: string
+}
 
-// Always returns true to avoid leaking info about account existence
+// Only returns true to avoid leaking info about account existence,
+// any info are only sent by email:
 export const signup = async (
   _: unused,
   args: SignupArgs,
@@ -28,19 +33,32 @@ export const signup = async (
       },
     })
   } catch (error) {
-    const accountAlreadyExists =
-      error.code === errors.codes.prisma.UNIQUE_VALIDATION_FAILURE
+    const emailExists =
+      error.code === codes.prisma.UNIQUE_VALIDATION_FAILURE &&
+      error.meta?.target?.includes("email")
 
-    if (accountAlreadyExists) {
-      await sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email, name })
+    const nameExists =
+      error.code === codes.prisma.UNIQUE_VALIDATION_FAILURE &&
+      error.meta?.target?.includes("name")
+
+    if (emailExists) {
+      sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email }) // don't await, return immediately
       return true
     }
 
-    reportError(error)
-    throw errors.ServerError("8fba2535")
+    if (nameExists) {
+      throw new ServerError({
+        message: "Please choose a different name.",
+        report: false,
+      })
+    }
+
+    throw new ServerError({
+      message: "Could not signup, please try again later.",
+      report: true,
+    })
   }
 
-  await sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email, name })
-
+  sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email }) // don't await, return immediately
   return true
 }
