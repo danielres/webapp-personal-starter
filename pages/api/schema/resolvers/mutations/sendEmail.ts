@@ -16,7 +16,7 @@ export const sendEmail = async <K extends keyof Args>(
 
       const { email } = options
       // TODO
-      console.log("[sendEmail] AFTER_SIGNUP_INSTRUCTIONS", { email, name })
+      console.log("[sendEmail] AFTER_SIGNUP_INSTRUCTIONS", { email })
       break
 
     default:

@@ -19,7 +19,7 @@ export const signup = async (
   { prisma }: Context
 ): Promise<true> => {
   const { password, ...rest } = args
-  const { email, name } = rest
+  const { email } = rest
 
   try {
     const usersCount = await prisma.user.count()
