@@ -42,7 +42,7 @@ export type Query = {
 
 export type Mutation = {
   __typename?: "Mutation"
-  signup?: Maybe<User>
+  signup: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
 }
@@ -77,14 +77,10 @@ export type SignupMutationVariables = Exact<{
   password: Scalars["Password"]
 }>
 
-export type SignupMutation = { __typename?: "Mutation" } & {
-  signup?: Maybe<
-    { __typename?: "User" } & Pick<
-      User,
-      "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
-    >
-  >
-}
+export type SignupMutation = { __typename?: "Mutation" } & Pick<
+  Mutation,
+  "signup"
+>
 
 export type SigninMutationVariables = Exact<{
   email: Scalars["EmailAddress"]
@@ -121,14 +117,7 @@ export const UsersDocument = gql`
 `
 export const SignupDocument = gql`
   mutation Signup($email: EmailAddress!, $name: String!, $password: Password!) {
-    signup(email: $email, name: $name, password: $password) {
-      id
-      name
-      email
-      isSuperUser
-      createdAt
-      updatedAt
-    }
+    signup(email: $email, name: $name, password: $password)
   }
 `
 export const SigninDocument = gql`
