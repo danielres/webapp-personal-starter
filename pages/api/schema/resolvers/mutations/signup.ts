@@ -42,7 +42,7 @@ export const signup = async (
       error.meta?.target?.includes("name")
 
     if (emailExists) {
-      sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email }) // don't await, return immediately
+      await sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email })
       return true
     }
 
@@ -59,6 +59,6 @@ export const signup = async (
     })
   }
 
-  sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email }) // don't await, return immediately
+  await sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email })
   return true
 }
