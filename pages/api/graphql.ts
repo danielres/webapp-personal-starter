@@ -3,6 +3,7 @@ import { ApolloServer } from "apollo-server-micro"
 import { NextApiRequest, NextApiResponse } from "next"
 import * as config from "../../config"
 import { makeContext } from "./context"
+import { formatError } from "./formatError"
 import { middlewareCookieSession } from "./middleware/middlewareCookieSession"
 import { resolvers } from "./schema/resolvers"
 import { typeDefs } from "./schema/typeDefs"
@@ -23,6 +24,7 @@ export const makeHandler = ({ prisma = new PrismaClient() }) => (
     context,
     typeDefs,
     resolvers,
+    formatError,
   })
 
   const handler = apolloServer.createHandler({ path: config.graphql.endpoint })

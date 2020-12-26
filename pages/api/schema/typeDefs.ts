@@ -17,7 +17,7 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    signup(email: EmailAddress!, password: Password!, name: String!): User
+    signup(email: EmailAddress!, password: Password!, name: String!): Boolean!
     signin(email: EmailAddress!, password: Password!): User
     signout: Boolean!
   }
