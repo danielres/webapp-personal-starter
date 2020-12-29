@@ -19,7 +19,10 @@ export const signin = async (
   const isValidPassword = await bcrypt.compare(args.password, user.password)
   if (!isValidPassword) throw signinError
 
-  if (req.session) req.session.user = { id: user.id }
+  if (req.session) {
+    const { id, isSuperUser } = user
+    req.session.user = { id, isSuperUser }
+  }
 
   return user
 }
