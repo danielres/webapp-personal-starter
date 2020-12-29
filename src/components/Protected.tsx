@@ -1,7 +1,7 @@
-import { SigninMutationVariables } from "generated/operations"
+import { SigninMutationVariables } from "src/generated/operations"
 import React from "react"
 import { useForm } from "react-hook-form"
-import { sdk } from "../sdk"
+import { sdk } from "../../sdk"
 
 type ProtectedProps = {
   children: React.ReactNode

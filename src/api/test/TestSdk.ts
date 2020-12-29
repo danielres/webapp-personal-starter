@@ -2,7 +2,7 @@ import { GraphQLClient } from "graphql-request"
 import { JestGlobal } from "jest/types"
 import request from "supertest"
 import * as config from "../../../config"
-import { getSdk, SdkFunctionWrapper } from "../../../generated/operations"
+import { getSdk, SdkFunctionWrapper } from "../../generated/operations"
 import { makeHandler } from "../graphql"
 
 const { prisma: globalPrisma } = (global as unknown) as JestGlobal

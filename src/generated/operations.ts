@@ -59,6 +59,17 @@ export type MutationSigninArgs = {
   password: Scalars["Password"]
 }
 
+export type MeQueryVariables = Exact<{ [key: string]: never }>
+
+export type MeQuery = { __typename?: "Query" } & {
+  me?: Maybe<
+    { __typename?: "User" } & Pick<
+      User,
+      "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
+    >
+  >
+}
+
 export type UsersQueryVariables = Exact<{ [key: string]: never }>
 
 export type UsersQuery = { __typename?: "Query" } & {
@@ -68,17 +79,6 @@ export type UsersQuery = { __typename?: "Query" } & {
         User,
         "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
       >
-    >
-  >
-}
-
-export type MeQueryVariables = Exact<{ [key: string]: never }>
-
-export type MeQuery = { __typename?: "Query" } & {
-  me?: Maybe<
-    { __typename?: "User" } & Pick<
-      User,
-      "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
     >
   >
 }
@@ -115,9 +115,9 @@ export type SignoutMutation = { __typename?: "Mutation" } & Pick<
   "signout"
 >
 
-export const UsersDocument = gql`
-  query Users {
-    users {
+export const MeDocument = gql`
+  query Me {
+    me {
       id
       name
       email
@@ -127,9 +127,9 @@ export const UsersDocument = gql`
     }
   }
 `
-export const MeDocument = gql`
-  query Me {
-    me {
+export const UsersDocument = gql`
+  query Users {
+    users {
       id
       name
       email
@@ -170,6 +170,14 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper
 ) {
   return {
+    Me(
+      variables?: MeQueryVariables,
+      requestHeaders?: Headers
+    ): Promise<MeQuery> {
+      return withWrapper(() =>
+        client.request<MeQuery>(print(MeDocument), variables, requestHeaders)
+      )
+    },
     Users(
       variables?: UsersQueryVariables,
       requestHeaders?: Headers
@@ -180,14 +188,6 @@ export function getSdk(
           variables,
           requestHeaders
         )
-      )
-    },
-    Me(
-      variables?: MeQueryVariables,
-      requestHeaders?: Headers
-    ): Promise<MeQuery> {
-      return withWrapper(() =>
-        client.request<MeQuery>(print(MeDocument), variables, requestHeaders)
       )
     },
     Signup(
@@ -246,6 +246,13 @@ export function getSdkWithHooks(
   ]
   return {
     ...sdk,
+    useMe(variables?: MeQueryVariables, config?: SWRConfigInterface<MeQuery>) {
+      return useSWR<MeQuery>(
+        genKey<MeQueryVariables>("Me", variables),
+        () => sdk.Me(variables),
+        config
+      )
+    },
     useUsers(
       variables?: UsersQueryVariables,
       config?: SWRConfigInterface<UsersQuery>
@@ -253,13 +260,6 @@ export function getSdkWithHooks(
       return useSWR<UsersQuery>(
         genKey<UsersQueryVariables>("Users", variables),
         () => sdk.Users(variables),
-        config
-      )
-    },
-    useMe(variables?: MeQueryVariables, config?: SWRConfigInterface<MeQuery>) {
-      return useSWR<MeQuery>(
-        genKey<MeQueryVariables>("Me", variables),
-        () => sdk.Me(variables),
         config
       )
     },

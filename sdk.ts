@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request"
 import * as config from "./config"
-import { getSdkWithHooks } from "./generated/operations"
+import { getSdkWithHooks } from "./src/generated/operations"
 
 const { endpoint } = config.graphql
 
