@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import { Context } from "../../../context"
+import { SigninError } from "../../../errors/SigninError"
 
 type SigninArgs = {
   email: string
@@ -11,13 +12,11 @@ export const signin = async (
   args: SigninArgs,
   { prisma, req }: Context
 ) => {
-  const signinError = new Error("Invalid credentials.")
-
   const user = await prisma.user.findUnique({ where: { email: args.email } })
-  if (!user) throw signinError
+  if (!user) return new SigninError()
 
   const isValidPassword = await bcrypt.compare(args.password, user.password)
-  if (!isValidPassword) throw signinError
+  if (!isValidPassword) return new SigninError()
 
   if (req.session) {
     const { id } = user
