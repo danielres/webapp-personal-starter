@@ -37,6 +37,7 @@ export type User = {
 
 export type Query = {
   __typename?: "Query"
+  me?: Maybe<User>
   users: Array<Maybe<User>>
 }
 
@@ -67,6 +68,17 @@ export type UsersQuery = { __typename?: "Query" } & {
         User,
         "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
       >
+    >
+  >
+}
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>
+
+export type MeQuery = { __typename?: "Query" } & {
+  me?: Maybe<
+    { __typename?: "User" } & Pick<
+      User,
+      "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
     >
   >
 }
@@ -106,6 +118,18 @@ export type SignoutMutation = { __typename?: "Mutation" } & Pick<
 export const UsersDocument = gql`
   query Users {
     users {
+      id
+      name
+      email
+      isSuperUser
+      createdAt
+      updatedAt
+    }
+  }
+`
+export const MeDocument = gql`
+  query Me {
+    me {
       id
       name
       email
@@ -156,6 +180,14 @@ export function getSdk(
           variables,
           requestHeaders
         )
+      )
+    },
+    Me(
+      variables?: MeQueryVariables,
+      requestHeaders?: Headers
+    ): Promise<MeQuery> {
+      return withWrapper(() =>
+        client.request<MeQuery>(print(MeDocument), variables, requestHeaders)
       )
     },
     Signup(
@@ -221,6 +253,13 @@ export function getSdkWithHooks(
       return useSWR<UsersQuery>(
         genKey<UsersQueryVariables>("Users", variables),
         () => sdk.Users(variables),
+        config
+      )
+    },
+    useMe(variables?: MeQueryVariables, config?: SWRConfigInterface<MeQuery>) {
+      return useSWR<MeQuery>(
+        genKey<MeQueryVariables>("Me", variables),
+        () => sdk.Me(variables),
         config
       )
     },

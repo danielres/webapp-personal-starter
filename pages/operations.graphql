@@ -1,3 +1,14 @@
+query Me {
+  me {
+    id
+    name
+    email
+    isSuperUser
+    createdAt
+    updatedAt
+  }
+}
+
 query Users {
   users {
     id
