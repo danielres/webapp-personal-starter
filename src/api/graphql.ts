@@ -1,18 +1,24 @@
 import { PrismaClient } from "@prisma/client"
-import { ApolloServer } from "apollo-server-micro"
-import { NextApiRequest, NextApiResponse } from "next"
+import { ApolloServer, makeExecutableSchema } from "apollo-server-micro"
+import { applyMiddleware } from "graphql-middleware"
+import type { NextApiRequest, NextApiResponse } from "next"
 import * as config from "../../config"
 import { makeContext } from "./context"
 import { formatError } from "./formatError"
 import { middlewareCookieSession } from "./middleware/middlewareCookieSession"
+import { permissions } from "./permissions"
 import { resolvers } from "./schema/resolvers"
 import { typeDefs } from "./schema/typeDefs"
-
 export type Request = NextApiRequest & {
   session: null | Record<string, any>
 }
 
 export type Response = NextApiResponse
+
+const schema = applyMiddleware(
+  makeExecutableSchema({ typeDefs, resolvers }),
+  permissions
+)
 
 export const makeHandler = ({ prisma = new PrismaClient() }) => (
   req: Request,
@@ -22,9 +28,8 @@ export const makeHandler = ({ prisma = new PrismaClient() }) => (
 
   const apolloServer = new ApolloServer({
     context,
-    typeDefs,
-    resolvers,
     formatError,
+    schema,
   })
 
   const handler = apolloServer.createHandler({ path: config.graphql.endpoint })
