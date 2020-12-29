@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import type { User } from "../generated/operations"
 import { Request, Response } from "./graphql"
 
 export type ContextArgs = {
@@ -7,16 +8,20 @@ export type ContextArgs = {
 }
 
 export type Context = {
+  me?: User
   prisma: PrismaClient
   req: Request
-  res: Response
 }
 
-export const makeContext = ({ prisma }: { prisma: PrismaClient }) => ({
+export const makeContext = ({ prisma }: { prisma: PrismaClient }) => async ({
   req,
-  res,
-}: ContextArgs) => ({
-  prisma,
-  req,
-  res,
-})
+}: ContextArgs) => {
+  const id = req.session?.user?.id
+  const me = id ? await prisma.user.findUnique({ where: { id } }) : null
+
+  return {
+    me,
+    prisma,
+    req,
+  }
+}

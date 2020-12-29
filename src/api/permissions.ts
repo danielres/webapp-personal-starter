@@ -1,16 +1,12 @@
 import { allow, deny, rule, shield } from "graphql-shield"
 
-const isAuthenticated = rule({ cache: "contextual" })(
-  async (_: unused, __: unused, { req }) => {
-    return Boolean(req?.session?.user?.id)
-  }
-)
+const isAuthenticated = rule({
+  cache: "contextual",
+})((_: unused, __: unused, { me }) => Boolean(me))
 
-const isSuperUser = rule({ cache: "contextual" })(
-  async (_: unused, __: unused, { req }) => {
-    return Boolean(req?.session?.user?.isSuperUser)
-  }
-)
+const isSuperUser = rule({
+  cache: "contextual",
+})((_: unused, __: unused, { me }) => Boolean(me?.isSuperUser))
 
 export const permissions = shield({
   Query: {
