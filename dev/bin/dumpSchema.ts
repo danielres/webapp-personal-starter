@@ -1,7 +1,7 @@
 import fs from "fs"
-import { typeDefs } from "../../pages/api/schema/typeDefs"
+import { typeDefs } from "../../src/api/schema/typeDefs"
 
-const path = "generated/schema.graphql"
+const path = "src/generated/schema.graphql"
 
 const output = `# This file has been automatically generated.
 # Please do not edit!

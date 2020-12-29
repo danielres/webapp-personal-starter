@@ -1,5 +1,5 @@
 import React from "react"
-import { sdk } from "../sdk"
+import { sdk } from "../../sdk"
 
 export default function MenuPrimary() {
   const { data, mutate } = sdk.useMe()
