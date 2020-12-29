@@ -20,8 +20,8 @@ export const signin = async (
   if (!isValidPassword) throw signinError
 
   if (req.session) {
-    const { id, isSuperUser } = user
-    req.session.user = { id, isSuperUser }
+    const { id } = user
+    req.session.user = { id }
   }
 
   return user
