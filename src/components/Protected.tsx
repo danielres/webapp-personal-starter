@@ -19,6 +19,7 @@ export default function Protected({ children }: ProtectedProps) {
     try {
       await sdk.Signin(vars)
       await revalidate()
+      setErrorResponse(undefined)
     } catch (error) {
       setErrorResponse(error)
     }
