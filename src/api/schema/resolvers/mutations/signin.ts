@@ -1,17 +1,13 @@
 import bcrypt from "bcrypt"
+import { SigninMutationVariables } from "../../../../generated/operations"
 import { SigninInput, validate } from "../../../../validators/structs"
 import { Context } from "../../../context"
 import { ValidationErrors } from "../../../errors/InputValidationError"
 import { SigninError } from "../../../errors/SigninError"
 
-type SigninArgs = {
-  email: string
-  password: string
-}
-
 export const signin = async (
   _: unused,
-  args: SigninArgs,
+  args: SigninMutationVariables,
   { prisma, req }: Context
 ) => {
   const [error] = validate(args, SigninInput)
