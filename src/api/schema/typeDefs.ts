@@ -13,6 +13,7 @@ export const typeDefs = /* GraphQL */ `
   type Query {
     me: User
     users: [User]!
+    user(id: Int!): User
   }
 
   type Mutation {
