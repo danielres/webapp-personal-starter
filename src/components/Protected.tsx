@@ -1,11 +1,12 @@
+import type { ApolloError } from "apollo-server-micro"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SigninMutationVariables } from "src/generated/operations"
 import { sdk } from "../../sdk"
 import { ApolloErrors } from "./ui/forms/ApolloErrors"
+import { FormRow } from "./ui/forms/FormRow"
 import { InputEmail } from "./ui/forms/InputEmail"
 import { InputPassword } from "./ui/forms/InputPassword"
-import type { ApolloError } from "apollo-server-micro"
 
 type ProtectedProps = {
   children: React.ReactNode
@@ -38,17 +39,17 @@ export default function Protected({ children }: ProtectedProps) {
 
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <div>
+          <FormRow>
             <InputEmail />
-          </div>
+          </FormRow>
 
-          <div>
+          <FormRow>
             <InputPassword />
-          </div>
+          </FormRow>
 
-          <div>
+          <FormRow>
             <button type="submit">Sign in</button>
-          </div>
+          </FormRow>
         </form>
       </FormProvider>
     </>
