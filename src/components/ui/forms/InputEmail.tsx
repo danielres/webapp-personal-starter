@@ -1,6 +1,7 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { Email, messages, is } from "../../../validators"
+import { messages } from "../../../validators/messages"
+import { isEmail } from "../../../validators/isEmail"
 
 export function InputEmail() {
   const { register, errors } = useFormContext()
@@ -9,9 +10,7 @@ export function InputEmail() {
     <>
       <input
         name="email"
-        ref={register({
-          validate: (value) => is(value, Email) || messages.Email,
-        })}
+        ref={register({ validate: (v) => isEmail(v) || messages.Email })}
         placeholder="email"
       />
       {errors?.email && <div>{errors.email.message}</div>}
