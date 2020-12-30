@@ -1,12 +1,10 @@
 export const typeDefs = /* GraphQL */ `
   scalar Date
-  scalar EmailAddress
-  scalar Password
 
   type User {
     id: ID!
     name: String!
-    email: EmailAddress!
+    email: String!
     isSuperUser: Boolean!
     createdAt: Date!
     updatedAt: Date!
@@ -18,8 +16,8 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    signup(email: EmailAddress!, password: Password!, name: String!): Boolean!
-    signin(email: EmailAddress!, password: Password!): User
+    signup(email: String!, password: String!, name: String!): Boolean!
+    signin(email: String!, password: String!): User
     signout: Boolean!
   }
 `

@@ -21,15 +21,13 @@ export type Scalars = {
   Int: number
   Float: number
   Date: any
-  EmailAddress: any
-  Password: any
 }
 
 export type User = {
   __typename?: "User"
   id: Scalars["ID"]
   name: Scalars["String"]
-  email: Scalars["EmailAddress"]
+  email: Scalars["String"]
   isSuperUser: Scalars["Boolean"]
   createdAt: Scalars["Date"]
   updatedAt: Scalars["Date"]
@@ -49,14 +47,14 @@ export type Mutation = {
 }
 
 export type MutationSignupArgs = {
-  email: Scalars["EmailAddress"]
-  password: Scalars["Password"]
+  email: Scalars["String"]
+  password: Scalars["String"]
   name: Scalars["String"]
 }
 
 export type MutationSigninArgs = {
-  email: Scalars["EmailAddress"]
-  password: Scalars["Password"]
+  email: Scalars["String"]
+  password: Scalars["String"]
 }
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
@@ -84,9 +82,9 @@ export type UsersQuery = { __typename?: "Query" } & {
 }
 
 export type SignupMutationVariables = Exact<{
-  email: Scalars["EmailAddress"]
+  email: Scalars["String"]
   name: Scalars["String"]
-  password: Scalars["Password"]
+  password: Scalars["String"]
 }>
 
 export type SignupMutation = { __typename?: "Mutation" } & Pick<
@@ -95,8 +93,8 @@ export type SignupMutation = { __typename?: "Mutation" } & Pick<
 >
 
 export type SigninMutationVariables = Exact<{
-  email: Scalars["EmailAddress"]
-  password: Scalars["Password"]
+  email: Scalars["String"]
+  password: Scalars["String"]
 }>
 
 export type SigninMutation = { __typename?: "Mutation" } & {
@@ -140,12 +138,12 @@ export const UsersDocument = gql`
   }
 `
 export const SignupDocument = gql`
-  mutation Signup($email: EmailAddress!, $name: String!, $password: Password!) {
+  mutation Signup($email: String!, $name: String!, $password: String!) {
     signup(email: $email, name: $name, password: $password)
   }
 `
 export const SigninDocument = gql`
-  mutation Signin($email: EmailAddress!, $password: Password!) {
+  mutation Signin($email: String!, $password: String!) {
     signin(email: $email, password: $password) {
       id
       name
