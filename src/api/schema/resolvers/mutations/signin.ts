@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt"
+import { SigninInput, validate } from "../../../../validators/structs"
 import { Context } from "../../../context"
+import { ValidationErrors } from "../../../errors/InputValidationError"
 import { SigninError } from "../../../errors/SigninError"
 
 type SigninArgs = {
@@ -12,6 +14,9 @@ export const signin = async (
   args: SigninArgs,
   { prisma, req }: Context
 ) => {
+  const [error] = validate(args, SigninInput)
+  if (error) return new ValidationErrors(error.failures())
+
   const user = await prisma.user.findUnique({ where: { email: args.email } })
   if (!user) return new SigninError()
 

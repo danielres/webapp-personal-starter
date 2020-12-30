@@ -1,3 +1,5 @@
+// REMOVE ME
+
 import { GraphQLScalarType } from "graphql"
 
 const PASSWORD_MIN_LENGTH = 8

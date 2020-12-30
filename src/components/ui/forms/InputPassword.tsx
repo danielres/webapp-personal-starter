@@ -1,6 +1,7 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { Password, messages, is } from "../../../validators"
+import { isPassword } from "../../../validators/isPassword"
+import { messages } from "../../../validators/messages"
 
 export function InputPassword() {
   const { register, errors } = useFormContext()
@@ -10,9 +11,7 @@ export function InputPassword() {
       <input
         name="password"
         placeholder="password"
-        ref={register({
-          validate: (value) => is(value, Password) || messages.Password,
-        })}
+        ref={register({ validate: (v) => isPassword(v) || messages.Password })}
         type="password"
       />
       {errors?.password && <div>{errors.password.message}</div>}

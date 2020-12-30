@@ -2,9 +2,10 @@ import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SigninMutationVariables } from "src/generated/operations"
 import { sdk } from "../../sdk"
-import { ErrorResponse, ServerErrorResponse } from "./ui/forms/ErrorResponse"
+import { ApolloErrors } from "./ui/forms/ApolloErrors"
 import { InputEmail } from "./ui/forms/InputEmail"
 import { InputPassword } from "./ui/forms/InputPassword"
+import type { ApolloError } from "apollo-server-micro"
 
 type ProtectedProps = {
   children: React.ReactNode
@@ -13,15 +14,15 @@ type ProtectedProps = {
 export default function Protected({ children }: ProtectedProps) {
   const formMethods = useForm()
   const { data, error, revalidate } = sdk.useMe()
-  const [errorResponse, setErrorResponse] = useState<ServerErrorResponse>()
+  const [apolloErrors, setApolloErrors] = useState<ApolloError[]>([])
 
   const onSubmit = async (vars: SigninMutationVariables) => {
     try {
       await sdk.Signin(vars)
       await revalidate()
-      setErrorResponse(undefined)
-    } catch (error) {
-      setErrorResponse(error)
+      setApolloErrors([])
+    } catch ({ response }) {
+      setApolloErrors(response.errors)
     }
   }
 
@@ -33,7 +34,7 @@ export default function Protected({ children }: ProtectedProps) {
 
   return (
     <>
-      <ErrorResponse response={errorResponse} />
+      <ApolloErrors errors={apolloErrors} />
 
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
