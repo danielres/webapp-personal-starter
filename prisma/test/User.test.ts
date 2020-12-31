@@ -1,5 +1,5 @@
 /** @usePrisma */
-import { JestGlobal } from "jest/types.d"
+import type { JestGlobal } from "../../jest/types.d"
 
 declare const global: JestGlobal
 const { prisma } = global

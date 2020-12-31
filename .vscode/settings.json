@@ -1,0 +1,8 @@
+{
+  "jest.enableInlineErrorMessages": true,
+  "jest.pathToJest": "yarn env-cmd jest --watchAll",
+  "jest.debugCodeLens.showWhenTestStateIn": ["pass", "fail", "unknown", "skip"],
+  "jest.runAllTestsFirst": false,
+  "jest.showCoverageOnLoad": true,
+  "jest.autoEnable": false
+}
