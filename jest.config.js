@@ -6,6 +6,7 @@ module.exports = {
     "<rootDir>/node_modules/",
     "<rootDir>/coverage/",
     "<rootDir>/.vscode/",
+    "<rootDir>/tmp/",
   ],
   testEnvironment: "./jest/CustomEnvironment",
   verbose: true,
