@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import { sdk } from "../../../sdk"
 import { User as TUser } from "../../generated/operations"
 
@@ -18,6 +19,7 @@ export function UsersTable() {
         <th>isSuperUser</th>
         <th>created at</th>
         <th>updated at</th>
+        <th>actions</th>
       </thead>
       <tbody>{data.users.map((user) => user && <UserRow user={user} />)}</tbody>
     </table>
@@ -33,6 +35,9 @@ function UserRow({ user }: { user: TUser }) {
       <td>{user.isSuperUser.toString()}</td>
       <td>{user.createdAt}</td>
       <td>{user.updatedAt}</td>
+      <td>
+        <Link href={`/admin/user/${user.id}`}>edit</Link>
+      </td>
     </tr>
   )
 }
