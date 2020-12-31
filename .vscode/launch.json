@@ -8,13 +8,12 @@
       "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",
-      "args": ["jest", "--runInBand"],
+      "runtimeArgs": ["test:once"],
       "runtimeExecutable": "yarn",
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "program": "env-cmd"
+      "disableOptimisticBPs": true
     }
   ]
 }
