@@ -10,24 +10,30 @@ import { InputCheckbox } from "../ui/forms/InputCheckbox"
 import { InputEmail } from "../ui/forms/InputEmail"
 import { InputText } from "../ui/forms/InputText"
 import type { User } from "../../generated/operations"
+import { useRouter } from "next/router"
 
 export function UserEditor({ id }: { id: number }) {
   const { data } = sdk.useUser({ id })
 
-  if (!data?.user) return <div>Loading</div>
+  if (!data?.user) return <div>Loading...</div>
+
   return <UserEditorForm user={data.user} />
 }
+
 type UserEditorFormProps = {
   user: User
 }
+
 function UserEditorForm({ user }: UserEditorFormProps) {
   const formMethods = useForm({ defaultValues: user })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>()
+  const router = useRouter()
 
   const onSubmit = async (vars: any) => {
     try {
       await sdk.UpdateUser({ ...vars, id: Number(user.id) })
       setApolloErrors(undefined)
+      router.push("/admin")
     } catch ({ response }) {
       setApolloErrors(response.errors)
     }
