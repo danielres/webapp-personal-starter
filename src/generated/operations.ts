@@ -36,8 +36,8 @@ export type User = {
 export type Query = {
   __typename?: "Query"
   me?: Maybe<User>
-  users: Array<Maybe<User>>
   user?: Maybe<User>
+  users: Array<Maybe<User>>
 }
 
 export type QueryUserArgs = {
@@ -49,6 +49,7 @@ export type Mutation = {
   signup: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
+  updateUser?: Maybe<User>
 }
 
 export type MutationSignupArgs = {
@@ -60,6 +61,12 @@ export type MutationSignupArgs = {
 export type MutationSigninArgs = {
   email: Scalars["String"]
   password: Scalars["String"]
+}
+
+export type MutationUpdateUserArgs = {
+  id: Scalars["Int"]
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
 }
 
 export type UserFieldsFragment = { __typename?: "User" } & Pick<
@@ -114,6 +121,16 @@ export type SignoutMutation = { __typename?: "Mutation" } & Pick<
   "signout"
 >
 
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars["Int"]
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+}>
+
+export type UpdateUserMutation = { __typename?: "Mutation" } & {
+  updateUser?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
+}
+
 export const UserFieldsFragmentDoc = gql`
   fragment UserFields on User {
     id
@@ -165,6 +182,14 @@ export const SignoutDocument = gql`
   mutation Signout {
     signout
   }
+`
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($id: Int!, $email: String, $name: String) {
+    updateUser(id: $id, email: $email, name: $name) {
+      ...UserFields
+    }
+  }
+  ${UserFieldsFragmentDoc}
 `
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
@@ -238,6 +263,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<SignoutMutation>(
           print(SignoutDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    UpdateUser(
+      variables: UpdateUserMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<UpdateUserMutation> {
+      return withWrapper(() =>
+        client.request<UpdateUserMutation>(
+          print(UpdateUserDocument),
           variables,
           requestHeaders
         )

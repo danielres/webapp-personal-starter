@@ -14,12 +14,13 @@ type User {
 
 type Query {
   me: User
-  users: [User]!
   user(id: Int!): User
+  users: [User]!
 }
 
 type Mutation {
   signup(email: String!, password: String!, name: String!): Boolean!
   signin(email: String!, password: String!): User
   signout: Boolean!
+  updateUser(id: Int!, email: String, name: String): User
 }

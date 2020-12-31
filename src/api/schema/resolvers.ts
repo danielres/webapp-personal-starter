@@ -3,6 +3,7 @@ import { Context } from "../context"
 import { signin } from "./resolvers/mutations/signin"
 import { signout } from "./resolvers/mutations/signout"
 import { signup } from "./resolvers/mutations/signup"
+import { updateUser } from "./resolvers/mutations/updateUser"
 import { me } from "./resolvers/queries/me"
 
 export const resolvers = {
@@ -20,5 +21,6 @@ export const resolvers = {
     signin,
     signup,
     signout,
+    updateUser,
   },
 }

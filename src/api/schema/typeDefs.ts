@@ -2,7 +2,7 @@ export const typeDefs = /* GraphQL */ `
   scalar Date
 
   type User {
-    id: ID!
+    id: Int!
     name: String!
     email: String!
     isSuperUser: Boolean!
@@ -12,13 +12,14 @@ export const typeDefs = /* GraphQL */ `
 
   type Query {
     me: User
-    users: [User]!
     user(id: Int!): User
+    users: [User]!
   }
 
   type Mutation {
     signup(email: String!, password: String!, name: String!): Boolean!
     signin(email: String!, password: String!): User
     signout: Boolean!
+    updateUser(id: Int!, email: String, name: String): User
   }
 `

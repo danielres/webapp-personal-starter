@@ -21,5 +21,6 @@ export const permissions = shield({
     signup: allow,
     signin: allow,
     signout: allow,
+    updateUser: isSuperUser,
   },
 })

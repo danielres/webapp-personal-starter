@@ -38,3 +38,9 @@ mutation Signin($email: String!, $password: String!) {
 mutation Signout {
   signout
 }
+
+mutation UpdateUser($id: Int!, $email: String, $name: String) {
+  updateUser(id: $id, email: $email, name: $name) {
+    ...UserFields
+  }
+}
