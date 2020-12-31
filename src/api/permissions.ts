@@ -12,6 +12,7 @@ export const permissions = shield({
   Query: {
     "*": deny,
     me: isAuthenticated,
+    user: isSuperUser,
     users: isSuperUser,
   },
 
@@ -20,5 +21,6 @@ export const permissions = shield({
     signup: allow,
     signin: allow,
     signout: allow,
+    updateUser: isSuperUser,
   },
 })

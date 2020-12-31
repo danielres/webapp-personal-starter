@@ -36,7 +36,12 @@ export type User = {
 export type Query = {
   __typename?: "Query"
   me?: Maybe<User>
+  user?: Maybe<User>
   users: Array<Maybe<User>>
+}
+
+export type QueryUserArgs = {
+  id: Scalars["Int"]
 }
 
 export type Mutation = {
@@ -44,6 +49,7 @@ export type Mutation = {
   signup: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
+  updateUser?: Maybe<User>
 }
 
 export type MutationSignupArgs = {
@@ -57,28 +63,35 @@ export type MutationSigninArgs = {
   password: Scalars["String"]
 }
 
+export type MutationUpdateUserArgs = {
+  id: Scalars["Int"]
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+}
+
+export type UserFieldsFragment = { __typename?: "User" } & Pick<
+  User,
+  "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
+>
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
 export type MeQuery = { __typename?: "Query" } & {
-  me?: Maybe<
-    { __typename?: "User" } & Pick<
-      User,
-      "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
-    >
-  >
+  me?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
+}
+
+export type UserQueryVariables = Exact<{
+  id: Scalars["Int"]
+}>
+
+export type UserQuery = { __typename?: "Query" } & {
+  user?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>
 
 export type UsersQuery = { __typename?: "Query" } & {
-  users: Array<
-    Maybe<
-      { __typename?: "User" } & Pick<
-        User,
-        "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
-      >
-    >
-  >
+  users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>>
 }
 
 export type SignupMutationVariables = Exact<{
@@ -98,12 +111,7 @@ export type SigninMutationVariables = Exact<{
 }>
 
 export type SigninMutation = { __typename?: "Mutation" } & {
-  signin?: Maybe<
-    { __typename?: "User" } & Pick<
-      User,
-      "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
-    >
-  >
+  signin?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
 export type SignoutMutationVariables = Exact<{ [key: string]: never }>
@@ -113,29 +121,49 @@ export type SignoutMutation = { __typename?: "Mutation" } & Pick<
   "signout"
 >
 
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars["Int"]
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+}>
+
+export type UpdateUserMutation = { __typename?: "Mutation" } & {
+  updateUser?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
+}
+
+export const UserFieldsFragmentDoc = gql`
+  fragment UserFields on User {
+    id
+    name
+    email
+    isSuperUser
+    createdAt
+    updatedAt
+  }
+`
 export const MeDocument = gql`
   query Me {
     me {
-      id
-      name
-      email
-      isSuperUser
-      createdAt
-      updatedAt
+      ...UserFields
     }
   }
+  ${UserFieldsFragmentDoc}
+`
+export const UserDocument = gql`
+  query User($id: Int!) {
+    user(id: $id) {
+      ...UserFields
+    }
+  }
+  ${UserFieldsFragmentDoc}
 `
 export const UsersDocument = gql`
   query Users {
     users {
-      id
-      name
-      email
-      isSuperUser
-      createdAt
-      updatedAt
+      ...UserFields
     }
   }
+  ${UserFieldsFragmentDoc}
 `
 export const SignupDocument = gql`
   mutation Signup($email: String!, $name: String!, $password: String!) {
@@ -145,19 +173,23 @@ export const SignupDocument = gql`
 export const SigninDocument = gql`
   mutation Signin($email: String!, $password: String!) {
     signin(email: $email, password: $password) {
-      id
-      name
-      email
-      isSuperUser
-      createdAt
-      updatedAt
+      ...UserFields
     }
   }
+  ${UserFieldsFragmentDoc}
 `
 export const SignoutDocument = gql`
   mutation Signout {
     signout
   }
+`
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($id: Int!, $email: String, $name: String) {
+    updateUser(id: $id, email: $email, name: $name) {
+      ...UserFields
+    }
+  }
+  ${UserFieldsFragmentDoc}
 `
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
@@ -174,6 +206,18 @@ export function getSdk(
     ): Promise<MeQuery> {
       return withWrapper(() =>
         client.request<MeQuery>(print(MeDocument), variables, requestHeaders)
+      )
+    },
+    User(
+      variables: UserQueryVariables,
+      requestHeaders?: Headers
+    ): Promise<UserQuery> {
+      return withWrapper(() =>
+        client.request<UserQuery>(
+          print(UserDocument),
+          variables,
+          requestHeaders
+        )
       )
     },
     Users(
@@ -224,6 +268,18 @@ export function getSdk(
         )
       )
     },
+    UpdateUser(
+      variables: UpdateUserMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<UpdateUserMutation> {
+      return withWrapper(() =>
+        client.request<UpdateUserMutation>(
+          print(UpdateUserDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
   }
 }
 export type Sdk = ReturnType<typeof getSdk>
@@ -248,6 +304,16 @@ export function getSdkWithHooks(
       return useSWR<MeQuery>(
         genKey<MeQueryVariables>("Me", variables),
         () => sdk.Me(variables),
+        config
+      )
+    },
+    useUser(
+      variables: UserQueryVariables,
+      config?: SWRConfigInterface<UserQuery>
+    ) {
+      return useSWR<UserQuery>(
+        genKey<UserQueryVariables>("User", variables),
+        () => sdk.User(variables),
         config
       )
     },

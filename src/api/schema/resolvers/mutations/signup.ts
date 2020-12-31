@@ -1,21 +1,16 @@
 import bcrypt from "bcrypt"
 import * as config from "../../../../../config"
+import { SignupMutationVariables } from "../../../../generated/operations"
 import { Context } from "../../../context"
 import * as codes from "../../../errors/codes"
 import { ServerError } from "../../../errors/ServerError"
 import { sendEmail } from "./sendEmail"
 
-type SignupArgs = {
-  email: string
-  name: string
-  password: string
-}
-
 // Only returns true to avoid leaking info about account existence,
 // any info are only sent by email:
 export const signup = async (
   _: unused,
-  args: SignupArgs,
+  args: SignupMutationVariables,
   { prisma }: Context
 ): Promise<true> => {
   const { password, ...rest } = args

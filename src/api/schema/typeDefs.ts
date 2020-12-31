@@ -2,7 +2,7 @@ export const typeDefs = /* GraphQL */ `
   scalar Date
 
   type User {
-    id: ID!
+    id: Int!
     name: String!
     email: String!
     isSuperUser: Boolean!
@@ -12,6 +12,7 @@ export const typeDefs = /* GraphQL */ `
 
   type Query {
     me: User
+    user(id: Int!): User
     users: [User]!
   }
 
@@ -19,5 +20,6 @@ export const typeDefs = /* GraphQL */ `
     signup(email: String!, password: String!, name: String!): Boolean!
     signin(email: String!, password: String!): User
     signout: Boolean!
+    updateUser(id: Int!, email: String, name: String): User
   }
 `

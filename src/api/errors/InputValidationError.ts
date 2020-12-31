@@ -12,16 +12,10 @@ export class ValidationErrors extends SafeError {
 
     this.message = "Validation errors occured"
 
-    // error.messages contains user-friendly error messages
-    // with details about each validation failure:
     this.messages = failures.map(
-      ({ key, type }) => `${key}: ${messages[type] ?? "unknown error"}`
+      ({ key, message }) => `${key}: ${message ?? "unknown error"}`
     )
 
-    // Report the error only if any of the failures
-    // misses a user-friendly error message:
-    this.report = failures
-      .map(({ type }) => type in messages)
-      .some((result) => result === false)
+    this.report = false
   }
 }

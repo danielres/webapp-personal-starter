@@ -1,22 +1,27 @@
+fragment UserFields on User {
+  id
+  name
+  email
+  isSuperUser
+  createdAt
+  updatedAt
+}
+
 query Me {
   me {
-    id
-    name
-    email
-    isSuperUser
-    createdAt
-    updatedAt
+    ...UserFields
+  }
+}
+
+query User($id: Int!) {
+  user(id: $id) {
+    ...UserFields
   }
 }
 
 query Users {
   users {
-    id
-    name
-    email
-    isSuperUser
-    createdAt
-    updatedAt
+    ...UserFields
   }
 }
 
@@ -26,15 +31,16 @@ mutation Signup($email: String!, $name: String!, $password: String!) {
 
 mutation Signin($email: String!, $password: String!) {
   signin(email: $email, password: $password) {
-    id
-    name
-    email
-    isSuperUser
-    createdAt
-    updatedAt
+    ...UserFields
   }
 }
 
 mutation Signout {
   signout
+}
+
+mutation UpdateUser($id: Int!, $email: String, $name: String) {
+  updateUser(id: $id, email: $email, name: $name) {
+    ...UserFields
+  }
 }
