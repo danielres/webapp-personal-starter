@@ -1,6 +1,10 @@
 import type { ApolloError } from "apollo-server-micro"
 
-export function ApolloErrors({ errors }: { errors: ApolloError[] }) {
+type ApolloErrorsProps = {
+  errors?: ApolloError[]
+}
+
+export function ApolloErrors({ errors }: ApolloErrorsProps) {
   if (!errors?.length) return null
 
   const getMessages = (error: ApolloError): string[] =>
@@ -8,13 +12,13 @@ export function ApolloErrors({ errors }: { errors: ApolloError[] }) {
 
   return (
     <div>
-      {errors.map((error) => (
-        <div>
+      {errors.map((error, i) => (
+        <div key={i}>
           <div>{error.message}</div>
           {getMessages(error).length > 0 && (
             <ul>
               {getMessages(error)?.map((message) => (
-                <li>{message}</li>
+                <li key={message}>{message}</li>
               ))}
             </ul>
           )}
