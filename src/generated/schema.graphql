@@ -4,7 +4,7 @@
 scalar Date
 
 type User {
-  id: ID!
+  id: Int!
   name: String!
   email: String!
   isSuperUser: Boolean!
