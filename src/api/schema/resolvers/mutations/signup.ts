@@ -32,20 +32,9 @@ export const signup = async (
       error.code === codes.prisma.UNIQUE_VALIDATION_FAILURE &&
       error.meta?.target?.includes("email")
 
-    const nameExists =
-      error.code === codes.prisma.UNIQUE_VALIDATION_FAILURE &&
-      error.meta?.target?.includes("name")
-
     if (emailExists) {
       await sendEmail("AFTER_SIGNUP_INSTRUCTIONS", { email })
       return true
-    }
-
-    if (nameExists) {
-      throw new ServerError({
-        message: "Please choose a different name.",
-        report: false,
-      })
     }
 
     throw new ServerError({

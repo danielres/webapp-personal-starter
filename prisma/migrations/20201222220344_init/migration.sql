@@ -12,7 +12,4 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User.name_unique" ON "User"("name");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
