@@ -1,5 +1,5 @@
 /** @usePrisma */
-import { pick } from "../../../../utils/pick"
+import { pick } from "../../../../utils/object"
 import { TestSdk } from "../../../test/TestSdk"
 import { sendEmail } from "../mutations/sendEmail"
 ;(sendEmail as any) = jest.fn()
