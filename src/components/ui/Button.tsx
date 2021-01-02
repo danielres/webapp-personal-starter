@@ -1,20 +1,36 @@
 import classnames from "classnames"
+import ui from "./ui.module.css"
 
 type ButtonProps = {
+  as?: "button" | "a"
   children: React.ReactNode
-  type: "button" | "submit"
-  variant?: "primary" | "secondary"
+  href?: string
+  onClick?: () => void
+  type?: "button" | "submit"
+  variant?: "primary" | "secondary" | "action"
 }
 
-export function Button({ children, type = "button", variant }: ButtonProps) {
+export function Button({
+  as = "button",
+  children,
+  href,
+  type,
+  variant,
+  onClick,
+}: ButtonProps) {
+  const Component = as
+
   return (
-    <button
-      className={classnames("px-3 py-2 rounded", {
-        "bg-blue-400 text-white font-semibold": variant === "primary",
+    <Component
+      className={classnames({
+        [ui.btn_primary]: variant === "primary",
+        [ui.btn_action]: variant === "action",
       })}
-      type={type}
+      href={href}
+      onClick={onClick}
+      type={type ?? (as === "button" ? "button" : undefined)}
     >
       {children}
-    </button>
+    </Component>
   )
 }
