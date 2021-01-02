@@ -1,13 +1,20 @@
 import type { AppProps } from "next/app"
 import MenuPrimary from "../components/MenuPrimary"
 import Protected from "../components/Protected"
+import { Card } from "../components/ui/Card"
+import "../styles/globals.css"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div>
       <Protected>
         <MenuPrimary />
-        <Component {...pageProps} />
+
+        <div className="container mx-auto mt-4">
+          <Card>
+            <Component {...pageProps} />
+          </Card>
+        </div>
       </Protected>
     </div>
   )

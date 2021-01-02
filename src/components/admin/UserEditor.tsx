@@ -1,16 +1,20 @@
 import type { ApolloError } from "apollo-server-micro"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
+import { isEmail } from "src/validators/isEmail"
 import { isName } from "src/validators/isName"
 import { messages } from "src/validators/messages"
 import { sdk } from "../../../sdk"
+import type { User } from "../../generated/operations"
+import { Button } from "../ui/Button"
 import { ApolloErrors } from "../ui/forms/ApolloErrors"
 import { FormRow } from "../ui/forms/FormRow"
 import { InputCheckbox } from "../ui/forms/InputCheckbox"
-import { InputEmail } from "../ui/forms/InputEmail"
 import { InputText } from "../ui/forms/InputText"
-import type { User } from "../../generated/operations"
-import { useRouter } from "next/router"
+import { Stack } from "../ui/Stack"
+import { Time } from "../ui/Time"
 
 export function UserEditor({ id }: { id: number }) {
   const { data } = sdk.useUser({ id })
@@ -45,32 +49,56 @@ function UserEditorForm({ user }: UserEditorFormProps) {
 
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <div>ID: {user.id}</div>
+          <Stack>
+            <FormRow>
+              <div className="inline-grid grid-cols-2">
+                <div>Id</div>
+                <div>{user.id}</div>
+                <div>Created at</div>
+                <div>
+                  <Time time={user.createdAt} />
+                </div>
+                <div>Updated at</div>
+                <div>
+                  {user.createdAt !== user.updatedAt && (
+                    <Time time={user.updatedAt} />
+                  )}
+                </div>
+                <div>Superuser</div>
+                <div>
+                  <InputCheckbox name="isSuperUser" />
+                </div>
+              </div>
+            </FormRow>
 
-          <div>Created at: {user.createdAt}</div>
+            <FormRow label="Name">
+              <InputText
+                name="name"
+                validate={(v) => isName(v) || messages.Name}
+              />
+            </FormRow>
 
-          {user.createdAt !== user.updatedAt && (
-            <div>Updated at: {user.updatedAt}</div>
-          )}
+            <FormRow label="Email">
+              <InputText
+                name="email"
+                validate={(v) => isEmail(v) || messages.Email}
+              />
+            </FormRow>
 
-          <FormRow>
-            <InputEmail />
-          </FormRow>
+            <FormRow>
+              <div className="flex justify-between">
+                <Button type="submit" variant="primary">
+                  Update user
+                </Button>
 
-          <FormRow>
-            <InputText
-              name="name"
-              validate={(v) => isName(v) || messages.Name}
-            />
-          </FormRow>
-
-          <FormRow>
-            Superuser? <InputCheckbox name="isSuperUser" />
-          </FormRow>
-
-          <FormRow>
-            <button type="submit">Update user</button>
-          </FormRow>
+                <Link href="/admin">
+                  <Button as="a" className="text-gray-500" variant="text">
+                    cancel
+                  </Button>
+                </Link>
+              </div>
+            </FormRow>
+          </Stack>
         </form>
       </FormProvider>
     </>

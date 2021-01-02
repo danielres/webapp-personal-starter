@@ -8,18 +8,13 @@ type InputTextProps = {
   validate?: (value: string) => boolean | string
 }
 
-export function InputText({
-  id,
-  name,
-  placeholder,
-  required = false,
-  validate,
-}: InputTextProps) {
+export function InputText({ id, name, placeholder, validate }: InputTextProps) {
   const { register, errors } = useFormContext()
 
   return (
     <>
       <input
+        className="w-full border-gray-300 rounded"
         id={id}
         name={name}
         placeholder={placeholder || name}

@@ -1,7 +1,10 @@
-import React from "react"
 import Link from "next/link"
+import React from "react"
 import { sdk } from "../../../sdk"
 import { User as TUser } from "../../generated/operations"
+import { Button } from "../ui/Button"
+import { TableOuter } from "../ui/TableOuter"
+import { Time } from "../ui/Time"
 
 export function UsersTable() {
   const { data, error } = sdk.useUsers()
@@ -10,33 +13,42 @@ export function UsersTable() {
 
   if (!data?.users) return <div>Loading...</div>
 
+  const headers = [
+    "id",
+    "name",
+    "email",
+    "Superuser",
+    "created at",
+    "updated at",
+    "actions",
+  ]
+
   return (
-    <table width="100%">
-      <thead>
-        <th>id</th>
-        <th>name</th>
-        <th>email</th>
-        <th>isSuperUser</th>
-        <th>created at</th>
-        <th>updated at</th>
-        <th>actions</th>
-      </thead>
-      <tbody>{data.users.map((user) => user && <UserRow user={user} />)}</tbody>
-    </table>
+    <TableOuter headers={headers}>
+      {data.users.map((user) => user && <RowUser key={user.id} user={user} />)}
+    </TableOuter>
   )
 }
 
-function UserRow({ user }: { user: TUser }) {
+function RowUser({ user }: { user: TUser }) {
   return (
     <tr>
       <td>{user.id}</td>
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>{user.isSuperUser.toString()}</td>
-      <td>{user.createdAt}</td>
-      <td>{user.updatedAt}</td>
       <td>
-        <Link href={`/admin/user/${user.id}`}>edit</Link>
+        <Time time={user.createdAt} />
+      </td>
+      <td>
+        {user.createdAt !== user.updatedAt && <Time time={user.updatedAt} />}
+      </td>
+      <td>
+        <Link href={`/admin/user/${user.id}`} passHref>
+          <Button as="a" variant="action">
+            edit
+          </Button>
+        </Link>
       </td>
     </tr>
   )
