@@ -10,7 +10,7 @@ export function InputPassword() {
   return (
     <>
       <input
-        className={ui.InputText}
+        className="w-full border-gray-300 rounded"
         name="password"
         placeholder="password"
         ref={register({ validate: (v) => isPassword(v) || messages.Password })}

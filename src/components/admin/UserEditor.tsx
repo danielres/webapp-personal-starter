@@ -1,16 +1,18 @@
 import type { ApolloError } from "apollo-server-micro"
+import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
+import { isEmail } from "src/validators/isEmail"
 import { isName } from "src/validators/isName"
 import { messages } from "src/validators/messages"
 import { sdk } from "../../../sdk"
+import type { User } from "../../generated/operations"
+import { Button } from "../ui/Button"
 import { ApolloErrors } from "../ui/forms/ApolloErrors"
 import { FormRow } from "../ui/forms/FormRow"
 import { InputCheckbox } from "../ui/forms/InputCheckbox"
-import { InputEmail } from "../ui/forms/InputEmail"
 import { InputText } from "../ui/forms/InputText"
-import type { User } from "../../generated/operations"
-import { useRouter } from "next/router"
+import { Stack } from "../ui/Stack"
 
 export function UserEditor({ id }: { id: number }) {
   const { data } = sdk.useUser({ id })
@@ -45,32 +47,41 @@ function UserEditorForm({ user }: UserEditorFormProps) {
 
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <div>ID: {user.id}</div>
+          <Stack>
+            <div>ID: {user.id}</div>
 
-          <div>Created at: {user.createdAt}</div>
+            <div>
+              <div>Created at: {user.createdAt}</div>
 
-          {user.createdAt !== user.updatedAt && (
-            <div>Updated at: {user.updatedAt}</div>
-          )}
+              {user.createdAt !== user.updatedAt && (
+                <div>Updated at: {user.updatedAt}</div>
+              )}
+            </div>
 
-          <FormRow>
-            <InputEmail />
-          </FormRow>
+            <FormRow label="Email">
+              <InputText
+                name="email"
+                validate={(v) => isEmail(v) || messages.Email}
+              />
+            </FormRow>
 
-          <FormRow>
-            <InputText
-              name="name"
-              validate={(v) => isName(v) || messages.Name}
-            />
-          </FormRow>
+            <FormRow label="Name">
+              <InputText
+                name="name"
+                validate={(v) => isName(v) || messages.Name}
+              />
+            </FormRow>
 
-          <FormRow>
-            Superuser? <InputCheckbox name="isSuperUser" />
-          </FormRow>
+            <FormRow>
+              Superuser? <InputCheckbox name="isSuperUser" />
+            </FormRow>
 
-          <FormRow>
-            <button type="submit">Update user</button>
-          </FormRow>
+            <FormRow>
+              <Button type="submit" variant="primary">
+                Update user
+              </Button>
+            </FormRow>
+          </Stack>
         </form>
       </FormProvider>
     </>

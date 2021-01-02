@@ -2,13 +2,15 @@ import { ApolloError } from "apollo-server-micro"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SigninMutationVariables } from "src/generated/operations"
+import { isEmail } from "src/validators/isEmail"
+import { messages } from "src/validators/messages"
 import { sdk } from "../../../sdk"
 import { Button } from "../ui/Button"
 import { Card } from "../ui/Card"
 import { ApolloErrors } from "../ui/forms/ApolloErrors"
 import { FormRow } from "../ui/forms/FormRow"
-import { InputEmail } from "../ui/forms/InputEmail"
 import { InputPassword } from "../ui/forms/InputPassword"
+import { InputText } from "../ui/forms/InputText"
 import { Stack } from "../ui/Stack"
 
 type FormSigninProps = {
@@ -37,7 +39,10 @@ export const FormSignin = ({ onSuccess }: FormSigninProps) => {
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <Stack>
             <FormRow label="Email">
-              <InputEmail />
+              <InputText
+                name="email"
+                validate={(v) => isEmail(v) || messages.Email}
+              />
             </FormRow>
 
             <FormRow label="Password">
