@@ -1,12 +1,9 @@
 /** @usePrisma */
 import { TestSdk } from "../../../test/TestSdk"
-import { sendEmail } from "../mutations/sendEmail"
 
 const name = "test-user"
 const email = "test-user@example.com"
 const password = "12345678"
-
-;(sendEmail as any) = jest.fn()
 
 describe("Query me", () => {
   describe("When not signed in", () => {
@@ -28,7 +25,7 @@ describe("Query me", () => {
       await sdk.Signin({ email, password })
     })
 
-    test("returns my data", async () => {
+    it("returns my data", async () => {
       const response: any = await sdk.Me()
       const expected = { name, email }
 
