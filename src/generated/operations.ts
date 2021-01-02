@@ -25,7 +25,7 @@ export type Scalars = {
 
 export type User = {
   __typename?: "User"
-  id: Scalars["ID"]
+  id: Scalars["Int"]
   name: Scalars["String"]
   email: Scalars["String"]
   isSuperUser: Scalars["Boolean"]

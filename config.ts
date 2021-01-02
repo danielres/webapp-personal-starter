@@ -15,6 +15,11 @@ export const cookieSession = {
   maxAge: 24 * 60 * 60 * 1000,
 }
 
+export const emails = {
+  from: "noreply@example.com",
+  provider: isDev ? "console" : undefined,
+}
+
 export const graphql = {
   endpoint: "/api/graphql",
 }
