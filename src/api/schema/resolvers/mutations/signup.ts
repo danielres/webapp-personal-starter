@@ -5,6 +5,8 @@ import { Context } from "../../../context"
 import * as emails from "../../../emails"
 import * as codes from "../../../errors/codes"
 import { ServerError } from "../../../errors/ServerError"
+import { SignupInput, validate } from "../../../../validators/structs"
+import { ValidationErrors } from "../../../errors/InputValidationError"
 
 export type SignupOnFailureArgs = { email: string; reason: "EMAIL_EXISTS" }
 export const onFailure = async ({ email, reason }: SignupOnFailureArgs) => {
@@ -22,7 +24,10 @@ export const signup = async (
   _: unused,
   args: SignupMutationVariables,
   { prisma }: Context
-): Promise<true> => {
+): Promise<true | ValidationErrors> => {
+  const [error] = validate(args, SignupInput)
+  if (error) return new ValidationErrors(error.failures())
+
   const { password, ...rest } = args
   const { email, name } = rest
 
@@ -44,6 +49,7 @@ export const signup = async (
       return true
     }
 
+    // Unknown error (gets reported)
     throw new ServerError({
       message: "Could not signup, please try again later.",
       report: true,

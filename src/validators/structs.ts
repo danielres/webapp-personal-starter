@@ -26,6 +26,12 @@ export const SigninInput = object({
   password: Password,
 })
 
+export const SignupInput = object({
+  email: Email,
+  name: Name,
+  password: Password,
+})
+
 export const UpdateUserInput = object({
   id: number(),
   email: optional(Email),
