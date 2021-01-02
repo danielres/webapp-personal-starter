@@ -10,14 +10,19 @@
   @apply inline-block px-3 py-2 rounded cursor-pointer;
 }
 
+.btn_action {
+  @apply btn;
+  @apply font-semibold text-gray-500 bg-gray-200 hover:bg-gray-300;
+}
+
 .btn_primary {
   @apply btn;
   @apply font-semibold text-white bg-blue-400;
 }
 
-.btn_action {
+.btn_text {
   @apply btn;
-  @apply font-semibold text-gray-500 bg-gray-200 hover:bg-gray-300;
+  @apply text-gray-500 hover:underline;
 }
 
 /* --------------- */
