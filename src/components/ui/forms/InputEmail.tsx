@@ -12,6 +12,7 @@ export function InputEmail() {
         name="email"
         ref={register({ validate: (v) => isEmail(v) || messages.Email })}
         placeholder="email"
+        type="text"
       />
       {errors?.email && <div>{errors.email.message}</div>}
     </>
