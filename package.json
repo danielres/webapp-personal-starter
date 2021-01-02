@@ -43,6 +43,7 @@
     "bcrypt": "^5.0.0",
     "classnames": "^2.2.6",
     "cookie-session": "^1.4.0",
+    "date-fns": "^2.16.1",
     "graphql-middleware": "^6.0.0",
     "graphql-request": "^3.4.0",
     "graphql-shield": "^7.4.4",
