@@ -1,16 +1,13 @@
 import React from "react"
-import { SuperUserOnly } from "../../components/SuperUserOnly"
 import { UsersTable } from "../../components/admin/UsersTable"
+import { SuperUserOnly } from "../../components/SuperUserOnly"
+import { H2 } from "../../components/ui/H2"
 
 export default function Admin() {
   return (
     <SuperUserOnly silent={false}>
-      <div>
-        <h2>Admin</h2>
-
-        <h2>Users</h2>
-        <UsersTable />
-      </div>
+      <H2>Users</H2>
+      <UsersTable />
     </SuperUserOnly>
   )
 }
