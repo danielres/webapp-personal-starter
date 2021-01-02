@@ -4,15 +4,17 @@ import ui from "./ui.module.css"
 type ButtonProps = {
   as?: "button" | "a"
   children: React.ReactNode
+  className?: string
   href?: string
   onClick?: () => void
   type?: "button" | "submit"
-  variant?: "primary" | "secondary" | "action"
+  variant?: "primary" | "secondary" | "action" | "text"
 }
 
 export function Button({
   as = "button",
   children,
+  className,
   href,
   type,
   variant,
@@ -22,10 +24,14 @@ export function Button({
 
   return (
     <Component
-      className={classnames({
-        [ui.btn_primary]: variant === "primary",
-        [ui.btn_action]: variant === "action",
-      })}
+      className={classnames(
+        {
+          [ui.btn_primary]: variant === "primary",
+          [ui.btn_action]: variant === "action",
+          [ui.btn_text]: variant === "text",
+        },
+        className
+      )}
       href={href}
       onClick={onClick}
       type={type ?? (as === "button" ? "button" : undefined)}
