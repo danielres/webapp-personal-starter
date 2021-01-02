@@ -8,10 +8,44 @@ const sdk = TestSdk()
 jest.spyOn(signup, "onSuccess")
 jest.spyOn(signup, "onFailure")
 
-describe("Mutation Signup", () => {
-  const creds1 = { name: "u1", email: "u1@example.com", password: "12345678" }
-  const creds2 = { name: "u2", email: "u2@example.com", password: "12345678" }
-  const signinPick = pick(["email", "password"])
+const creds1 = { name: "user1", email: "u1@example.com", password: "12345678" }
+const creds2 = { name: "user2", email: "u2@example.com", password: "12345678" }
+const signinPick = pick(["email", "password"])
+
+describe("Mutation signup", () => {
+  describe("Validations", () => {
+    it("requires valid email + name + password", async () => {
+      const res: any = await sdk.Signup({
+        email: "X",
+        name: "X",
+        password: "X",
+      })
+
+      expect(res.data).toEqual(null)
+      expect(res.errors[0].extensions.exception.message).toMatch(
+        "Validation errors"
+      )
+      expect(res.errors[0].extensions.exception.messages).toMatchObject([
+        "email: should be a valid email",
+        "name: should be between 3 and 64 characters",
+        "password: should be between 8 and 64 characters",
+      ])
+    })
+  })
+
+  describe("When email already exists", () => {
+    beforeEach(async () => {
+      await sdk.Signup(creds1)
+    })
+
+    it("calls signup.onFailure() with email + reason", async () => {
+      await sdk.Signup(creds1)
+
+      const email = creds1.email
+      const reason = "EMAIL_EXISTS"
+      expect(signup.onFailure).toHaveBeenCalledWith({ email, reason })
+    })
+  })
 
   describe("On success", () => {
     it("makes first user superUser", async () => {
@@ -30,20 +64,6 @@ describe("Mutation Signup", () => {
       const email = creds1.email
       const name = creds1.name
       expect(signup.onSuccess).toHaveBeenCalledWith({ email, name })
-    })
-  })
-
-  describe("When email already exists", () => {
-    beforeEach(async () => {
-      await sdk.Signup(creds1)
-    })
-
-    it("calls signup.onFailure() with email + reason", async () => {
-      await sdk.Signup(creds1)
-
-      const email = creds1.email
-      const reason = "EMAIL_EXISTS"
-      expect(signup.onFailure).toHaveBeenCalledWith({ email, reason })
     })
   })
 })
