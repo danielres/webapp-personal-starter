@@ -1,4 +1,5 @@
 import type { ApolloError } from "apollo-server-micro"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -13,6 +14,7 @@ import { FormRow } from "../ui/forms/FormRow"
 import { InputCheckbox } from "../ui/forms/InputCheckbox"
 import { InputText } from "../ui/forms/InputText"
 import { Stack } from "../ui/Stack"
+import { Time } from "../ui/Time"
 
 export function UserEditor({ id }: { id: number }) {
   const { data } = sdk.useUser({ id })
@@ -48,21 +50,25 @@ function UserEditorForm({ user }: UserEditorFormProps) {
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <Stack>
-            <div>ID: {user.id}</div>
-
-            <div>
-              <div>Created at: {user.createdAt}</div>
-
-              {user.createdAt !== user.updatedAt && (
-                <div>Updated at: {user.updatedAt}</div>
-              )}
-            </div>
-
-            <FormRow label="Email">
-              <InputText
-                name="email"
-                validate={(v) => isEmail(v) || messages.Email}
-              />
+            <FormRow>
+              <div className="inline-grid grid-cols-2">
+                <div>Id</div>
+                <div>{user.id}</div>
+                <div>Created at</div>
+                <div>
+                  <Time time={user.createdAt} />
+                </div>
+                <div>Updated at</div>
+                <div>
+                  {user.createdAt !== user.updatedAt && (
+                    <Time time={user.updatedAt} />
+                  )}
+                </div>
+                <div>Superuser</div>
+                <div>
+                  <InputCheckbox name="isSuperUser" />
+                </div>
+              </div>
             </FormRow>
 
             <FormRow label="Name">
@@ -72,14 +78,25 @@ function UserEditorForm({ user }: UserEditorFormProps) {
               />
             </FormRow>
 
-            <FormRow>
-              Superuser? <InputCheckbox name="isSuperUser" />
+            <FormRow label="Email">
+              <InputText
+                name="email"
+                validate={(v) => isEmail(v) || messages.Email}
+              />
             </FormRow>
 
             <FormRow>
-              <Button type="submit" variant="primary">
-                Update user
-              </Button>
+              <div className="flex justify-between">
+                <Button type="submit" variant="primary">
+                  Update user
+                </Button>
+
+                <Link href="/admin">
+                  <Button as="a" className="text-gray-500" variant="text">
+                    cancel
+                  </Button>
+                </Link>
+              </div>
             </FormRow>
           </Stack>
         </form>
