@@ -11,5 +11,5 @@ module.exports = {
   testEnvironment: "./jest/CustomEnvironment",
   verbose: true,
   collectCoverage: true,
-  coverageReporters: ["html"],
+  coverageReporters: ["html", "lcov", "clover"],
 }
