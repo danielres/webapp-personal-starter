@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ["./src/**/*.[jt]sx?"],
+  purge: ["./src/**/*.tsx"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -8,4 +8,8 @@ module.exports = {
     extend: {},
   },
   plugins: [require("@tailwindcss/forms")],
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+  },
 }
