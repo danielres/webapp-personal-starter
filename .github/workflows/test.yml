@@ -32,3 +32,6 @@ jobs:
           PG_URL: postgresql://ci:ci@postgres:5432/ci?schema=public
           COOKIE_SESSION_KEY1: SECRET_SECRET_SECRET_SECRET
           COOKIE_SESSION_KEY2: SECRET_SECRET_SECRET_SECRET
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_UPLOAD_SECRET }}
