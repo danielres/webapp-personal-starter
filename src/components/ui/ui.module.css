@@ -1,3 +1,7 @@
+.InputText {
+  @apply block w-full rounded border-gray-300;
+}
+
 .Stack > * + * {
   @apply mt-4;
 }

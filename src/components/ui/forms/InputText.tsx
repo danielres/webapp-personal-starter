@@ -1,4 +1,5 @@
 import { useFormContext } from "react-hook-form"
+import ui from "../ui.module.css"
 
 type InputTextProps = {
   id?: string
@@ -20,6 +21,7 @@ export function InputText({
   return (
     <>
       <input
+        className={ui.InputText}
         id={id}
         name={name}
         placeholder={placeholder || name}
