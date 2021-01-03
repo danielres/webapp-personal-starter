@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SigninMutationVariables } from "src/generated/operations"
 import { isEmail } from "src/validators/isEmail"
+import { isPassword } from "src/validators/isPassword"
 import { messages } from "src/validators/messages"
 import { sdk } from "../../../sdk"
 import { Button } from "../ui/Button"
@@ -46,7 +47,11 @@ export const FormSignin = ({ onSuccess }: FormSigninProps) => {
             </FormRow>
 
             <FormRow label="Password">
-              <InputPassword />
+              <InputText
+                name="password"
+                validate={(v) => isPassword(v) || messages.Password}
+                type="password"
+              />
             </FormRow>
 
             <FormRow>
