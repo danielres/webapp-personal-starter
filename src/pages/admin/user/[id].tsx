@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import React from "react"
+import { Card } from "src/components/ui/Card"
 import { UserEditor } from "../../../components/admin/UserEditor"
 import { SuperUserOnly } from "../../../components/SuperUserOnly"
 
@@ -11,8 +12,10 @@ export default function UserEditAsAdminById() {
   const id = Number(query.id)
 
   return (
-    <SuperUserOnly>
-      <UserEditor id={id} />
+    <SuperUserOnly silent={false}>
+      <Card>
+        <UserEditor id={id} />
+      </Card>
     </SuperUserOnly>
   )
 }
