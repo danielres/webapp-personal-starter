@@ -19,7 +19,7 @@ export default function MenuPrimary() {
 
   return (
     <>
-      <div className="bg-white shadow ">
+      <div className="mb-6 bg-white shadow-md">
         <div className="container flex justify-between mx-auto">
           <nav>
             <ul className="flex list-none">
@@ -79,7 +79,10 @@ type AProps = {
 function A({ children, href, ...rest }: AProps) {
   const router = useRouter()
 
-  const isActive = router.pathname === href
+  const isActive =
+    router.pathname === href ||
+    (href !== "/" && href && router.pathname.includes(href))
+
   return (
     <a
       className={classnames(
