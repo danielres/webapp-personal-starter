@@ -19,7 +19,7 @@ export default function MenuPrimary() {
 
   return (
     <>
-      <div className="bg-white shadow ">
+      <div className="bg-white shadow-md">
         <div className="container flex justify-between mx-auto">
           <nav>
             <ul className="flex list-none">
