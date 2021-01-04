@@ -79,7 +79,10 @@ type AProps = {
 function A({ children, href, ...rest }: AProps) {
   const router = useRouter()
 
-  const isActive = router.pathname === href
+  const isActive =
+    router.pathname === href ||
+    (href !== "/" && href && router.pathname.includes(href))
+
   return (
     <a
       className={classnames(
