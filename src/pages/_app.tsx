@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Protected>
         <MenuPrimary />
 
-        <div className="container mx-auto mt-4">
+        <div className="container mx-auto">
           <Card>
             <Component {...pageProps} />
           </Card>
