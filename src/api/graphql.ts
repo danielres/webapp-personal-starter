@@ -37,7 +37,9 @@ export const makeHandler = ({ prisma = new PrismaClient() }) => (
   return handler(req, res)
 }
 
-export default makeHandler({ prisma: new PrismaClient() })
+export default makeHandler({
+  prisma: new PrismaClient({ log: config.prisma.log as any }),
+})
 
 const nextConfig = { api: { bodyParser: false } }
 export { nextConfig as config }

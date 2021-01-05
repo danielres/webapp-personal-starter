@@ -24,6 +24,10 @@ export const graphql = {
   endpoint: "/api/graphql",
 }
 
+export const prisma = {
+  log: isDev ? ["query", "info", "warn", "error"] : [],
+}
+
 export const sentry = {
   dsn: process.env.SENTRY_DSN,
   isEnabled: !(isDev || isTest),
