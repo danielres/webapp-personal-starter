@@ -10,7 +10,8 @@ export const SuperUserOnly = ({
   children,
   silent = true,
 }: SuperUserOnlyProps) => {
-  const { data } = sdk.useMe()
+  const fromCacheOnly = { revalidateOnMount: false }
+  const { data } = sdk.useMe(undefined, fromCacheOnly)
 
   if (!data?.me?.isSuperUser && silent) return null
 
