@@ -33,7 +33,7 @@ export function InputText({
         )}
         id={id}
         name={name}
-        placeholder={hasError ? undefined : placeholder || name}
+        placeholder={hasError ? undefined : placeholder}
         ref={register({ validate })}
         type={type}
       />
