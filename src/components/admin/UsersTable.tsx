@@ -13,15 +13,7 @@ export function UsersTable() {
 
   if (!data?.users) return <div>Loading...</div>
 
-  const headers = [
-    "id",
-    "name",
-    "email",
-    "Superuser",
-    "created at",
-    "updated at",
-    "actions",
-  ]
+  const headers = ["id", "name", "email", "superuser", "created", "updated", ""]
 
   return (
     <TableOuter headers={headers}>
@@ -45,7 +37,7 @@ function RowUser({ user }: { user: TUser }) {
       </td>
       <td>
         <Link href={`/admin/user/${user.id}`} passHref>
-          <Button as="a" variant="action">
+          <Button as="a" variant="text" padding="none">
             edit
           </Button>
         </Link>

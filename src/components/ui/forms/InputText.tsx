@@ -26,12 +26,14 @@ export function InputText({
     <>
       <input
         className={classnames(
-          "w-full border-gray-300 rounded",
-          hasError ? "border-red-400" : "border-gray-300 placeholder-gray-400"
+          "w-full rounded focus:ring-2 placeholder-gray-400",
+          hasError
+            ? "border-red-400  focus:border-red-400  focus:ring-red-200"
+            : "border-gray-400 focus:border-blue-400 focus:ring-blue-200"
         )}
         id={id}
         name={name}
-        placeholder={hasError ? undefined : placeholder || name}
+        placeholder={hasError ? undefined : placeholder}
         ref={register({ validate })}
         type={type}
       />

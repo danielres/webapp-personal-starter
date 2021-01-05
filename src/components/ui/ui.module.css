@@ -7,12 +7,11 @@
 /* --------------- */
 
 .btn {
-  @apply inline-block px-3 py-2 rounded cursor-pointer;
+  @apply inline-block rounded cursor-pointer;
 }
 
-.btn_action {
-  @apply btn;
-  @apply font-semibold text-gray-500 bg-gray-200 hover:bg-gray-300;
+.btn_md {
+  @apply px-3 py-2;
 }
 
 .btn_primary {
@@ -37,7 +36,7 @@
 }
 
 .TableOuter th {
-  @apply text-gray-600;
+  @apply text-gray-400;
 }
 
 .TableOuter > thead + tbody {
