@@ -32,35 +32,37 @@ export const FormSignin = ({ onSuccess }: FormSigninProps) => {
   }
 
   return (
-    <Card>
-      <ApolloErrors errors={apolloErrors} />
+    <div className="animate-fadein-slow">
+      <Card>
+        <ApolloErrors errors={apolloErrors} />
 
-      <FormProvider {...formMethods}>
-        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <Stack>
-            <FormRow label="Email">
-              <InputText
-                name="email"
-                validate={(v) => isEmail(v) || messages.Email}
-              />
-            </FormRow>
+        <FormProvider {...formMethods}>
+          <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+            <Stack>
+              <FormRow label="Email">
+                <InputText
+                  name="email"
+                  validate={(v) => isEmail(v) || messages.Email}
+                />
+              </FormRow>
 
-            <FormRow label="Password">
-              <InputText
-                name="password"
-                validate={(v) => isPassword(v) || messages.Password}
-                type="password"
-              />
-            </FormRow>
+              <FormRow label="Password">
+                <InputText
+                  name="password"
+                  validate={(v) => isPassword(v) || messages.Password}
+                  type="password"
+                />
+              </FormRow>
 
-            <FormRow>
-              <Button type="submit" variant="primary">
-                Sign in
-              </Button>
-            </FormRow>
-          </Stack>
-        </form>
-      </FormProvider>
-    </Card>
+              <FormRow>
+                <Button type="submit" variant="primary">
+                  Sign in
+                </Button>
+              </FormRow>
+            </Stack>
+          </form>
+        </FormProvider>
+      </Card>
+    </div>
   )
 }
