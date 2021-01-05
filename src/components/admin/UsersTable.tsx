@@ -45,7 +45,7 @@ function RowUser({ user }: { user: TUser }) {
       </td>
       <td>
         <Link href={`/admin/user/${user.id}`} passHref>
-          <Button as="a" variant="action">
+          <Button as="a" variant="text" padding="none">
             edit
           </Button>
         </Link>
