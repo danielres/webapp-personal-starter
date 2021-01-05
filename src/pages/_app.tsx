@@ -11,9 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <MenuPrimary />
 
         <div className="container mx-auto">
-          <Card>
-            <Component {...pageProps} />
-          </Card>
+          <Component {...pageProps} />
         </div>
       </Protected>
     </div>
