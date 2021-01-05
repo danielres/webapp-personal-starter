@@ -5,3 +5,12 @@
 body {
   @apply bg-gray-200;
 }
+
+@keyframes animation-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
