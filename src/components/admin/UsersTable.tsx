@@ -13,15 +13,7 @@ export function UsersTable() {
 
   if (!data?.users) return <div>Loading...</div>
 
-  const headers = [
-    "id",
-    "name",
-    "email",
-    "superuser",
-    "created",
-    "updated",
-    "actions",
-  ]
+  const headers = ["id", "name", "email", "superuser", "created", "updated", ""]
 
   return (
     <TableOuter headers={headers}>
