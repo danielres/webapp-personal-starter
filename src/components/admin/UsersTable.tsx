@@ -17,9 +17,9 @@ export function UsersTable() {
     "id",
     "name",
     "email",
-    "Superuser",
-    "created at",
-    "updated at",
+    "superuser",
+    "created",
+    "updated",
     "actions",
   ]
 
