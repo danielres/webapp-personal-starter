@@ -8,10 +8,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div>
       <Protected>
-        <MenuPrimary />
+        <div className="animate-fadein-slow">
+          <MenuPrimary />
 
-        <div className="container mx-auto">
-          <Component {...pageProps} />
+          <div className="container mx-auto">
+            <Component {...pageProps} />
+          </div>
         </div>
       </Protected>
     </div>
