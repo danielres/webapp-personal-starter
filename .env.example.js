@@ -7,7 +7,7 @@ const PG_DB = `starter-${NODE_ENV}`
 const PG_PASSWORD = "starter"
 const PG_PORT = "5433"
 const PG_USER = "starter"
-const PG_URL = `postgresql://${PG_USER}:${PG_PASSWORD}@localhost:${PG_PORT}/${PG_DB}?schema=public`
+const PG_URL = `postgresql://${PG_USER}:${PG_PASSWORD}@localhost:${PG_PORT}/${PG_DB}?schema=public&connection_limit=1`
 
 module.exports = {
   ADMINER_PORT: "8080",
