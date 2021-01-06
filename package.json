@@ -75,7 +75,6 @@
     "lint-staged": ">=10",
     "postcss": "^8.2.2",
     "prettier": "2.2.1",
-    "styled-jsx-plugin-postcss": "^4.0.0",
     "supertest": "^6.0.1",
     "tailwindcss": "^2.0.2",
     "ts-jest": "^26.4.4",
