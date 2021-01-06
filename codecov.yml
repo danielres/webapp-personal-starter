@@ -1,5 +1,6 @@
 ignore:
   - src/generated
+  - config.ts
 
 coverage:
   parsers:
