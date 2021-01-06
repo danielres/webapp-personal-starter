@@ -1,3 +1,6 @@
+ignore:
+  - src/generated
+
 coverage:
   parsers:
     javascript:
