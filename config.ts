@@ -28,6 +28,10 @@ export const graphql = {
   endpoint: "/api/graphql",
 }
 
+export const pages = {
+  public: ["^/register$", "^/register/.+$"],
+}
+
 export const prisma = {
   log: isDev ? ["query", "info", "warn", "error"] : [],
 }
