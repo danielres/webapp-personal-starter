@@ -18,6 +18,7 @@ export const permissions = shield({
 
   Mutation: {
     "*": deny,
+    verifyEmail: allow,
     signup: allow,
     signin: allow,
     signout: allow,
