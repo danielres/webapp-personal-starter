@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server-micro"
+import Link from "next/link"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SigninMutationVariables } from "src/generated/operations"
@@ -13,11 +14,19 @@ import { InputText } from "../ui/forms/InputText"
 import { Stack } from "../ui/Stack"
 
 type FormSigninProps = {
+  defaultValues?: {
+    email: string | null | undefined
+  }
+  hasRegisterButton?: boolean
   onSuccess: () => void
 }
 
-export const FormSignin = ({ onSuccess }: FormSigninProps) => {
-  const formMethods = useForm()
+export const FormSignin = ({
+  defaultValues,
+  hasRegisterButton = true,
+  onSuccess,
+}: FormSigninProps) => {
+  const formMethods = useForm({ defaultValues })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>([])
 
   const onSubmit = async (vars: SigninMutationVariables) => {
@@ -53,9 +62,19 @@ export const FormSignin = ({ onSuccess }: FormSigninProps) => {
             </FormRow>
 
             <FormRow>
-              <Button type="submit" variant="primary">
-                Sign in
-              </Button>
+              <div className="flex justify-between">
+                <Button type="submit" variant="primary">
+                  Sign in
+                </Button>
+
+                {hasRegisterButton && (
+                  <Link href="/register">
+                    <Button as="a" variant="text">
+                      Register
+                    </Button>
+                  </Link>
+                )}
+              </div>
             </FormRow>
           </Stack>
         </form>
