@@ -1,6 +1,7 @@
 import React from "react"
 import { sdk } from "../../sdk"
 import { FormSignin } from "./forms/FormSignin"
+import { Card } from "./ui/Card"
 
 type ProtectedProps = {
   children: React.ReactNode
@@ -16,7 +17,9 @@ export default function Protected({ children }: ProtectedProps) {
 
   return (
     <div className="max-w-lg mx-auto mt-8">
-      <FormSignin onSuccess={revalidate} />
+      <Card className="animate-fadein-slow">
+        <FormSignin onSuccess={revalidate} />
+      </Card>
     </div>
   )
 }

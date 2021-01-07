@@ -11,16 +11,21 @@ export function ApolloErrors({ errors }: ApolloErrorsProps) {
     error.extensions?.exception?.messages ?? []
 
   return (
-    <div className="p-4 mb-4 text-red-700 border-2 border-red-100 rounded bg-red-50">
+    <div className="p-4 text-red-700 border-2 border-red-100 rounded bg-red-50">
       {errors.map((error, i) => (
-        <dl key={i} className="">
-          <dt className="mb-2 opacity-75">{error.message}</dt>
-          {getMessages(error)?.map((message) => (
-            <dd className="text-sm opacity-75" key={message}>
-              {message}
-            </dd>
-          ))}
-        </dl>
+        <div key={i}>
+          <div className="opacity-75">{error.message}</div>
+
+          {getMessages(error)?.length > 0 && (
+            <ul className="mt-2">
+              {getMessages(error)?.map((message) => (
+                <li className="text-sm opacity-75" key={message}>
+                  {message}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       ))}
     </div>
   )
