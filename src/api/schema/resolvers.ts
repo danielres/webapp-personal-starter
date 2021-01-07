@@ -5,6 +5,7 @@ import { updateUser } from "./resolvers/mutations/updateUser"
 import { me } from "./resolvers/queries/me"
 import { user } from "./resolvers/queries/user"
 import { users } from "./resolvers/queries/users"
+import { verifyEmail } from "./resolvers/mutations/verifyEmail"
 
 export const resolvers = {
   Query: {
@@ -18,5 +19,6 @@ export const resolvers = {
     signup,
     signout,
     updateUser,
+    verifyEmail,
   },
 }
