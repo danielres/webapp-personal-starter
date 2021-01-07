@@ -38,12 +38,16 @@ describe("Mutation signup", () => {
       await sdk.Signup(creds1)
     })
 
-    it("calls signup.onFailure() with email + reason", async () => {
+    it("calls signup.onFailure() with email + reason + origin", async () => {
       await sdk.Signup(creds1)
 
       const email = creds1.email
       const reason = "EMAIL_EXISTS"
-      expect(signup.onFailure).toHaveBeenCalledWith({ email, reason })
+      expect(signup.onFailure).toHaveBeenCalledWith({
+        email,
+        reason,
+        origin: expect.anything(),
+      })
     })
   })
 
@@ -59,11 +63,15 @@ describe("Mutation signup", () => {
       expect(res2.data.signin.isSuperUser).toEqual(false)
     })
 
-    it("calls signup.onSucces() with email + name", async () => {
+    it("calls signup.onSucces() with email + name + origin", async () => {
       await sdk.Signup(creds1)
       const email = creds1.email
       const name = creds1.name
-      expect(signup.onSuccess).toHaveBeenCalledWith({ email, name })
+      expect(signup.onSuccess).toHaveBeenCalledWith({
+        email,
+        name,
+        origin: expect.anything(),
+      })
     })
   })
 })

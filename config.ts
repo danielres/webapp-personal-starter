@@ -22,6 +22,9 @@ export const crypto = {
 export const emails = {
   from: "noreply@example.com",
   provider: isDev ? "console" : undefined,
+  test: {
+    origin: "http://localhost:3000",
+  },
 }
 
 export const graphql = {
