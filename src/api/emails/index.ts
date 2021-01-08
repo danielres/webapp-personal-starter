@@ -1,7 +1,3 @@
-import type {
-  SignupOnFailureArgs,
-  SignupOnSuccessArgs,
-} from "../schema/resolvers/mutations/signup"
 import * as crypto from "../utils/crypto"
 import { sendEmail } from "./sendEmail"
 
@@ -10,8 +6,35 @@ const getEmailVerificationLink = (email: string, origin: string) => {
   return `${origin}/register/${encryptedObject}`
 }
 
+type SendEmailSignupFailureArgs = {
+  email: string
+  reason: "EMAIL_EXISTS"
+  origin: string
+}
+
+type SendVerificationEmailArgs = {
+  email: string
+  name: string
+  origin: string
+}
+
+const sendVerificationEmail = async ({
+  email,
+  name,
+  origin,
+}: SendVerificationEmailArgs) => {
+  sendEmail({
+    to: email,
+    subject: `Welcome ${name}`,
+    body: `
+Welcome ${name}! 
+Please follow this link to verify your email: 
+${getEmailVerificationLink(email, origin)}`,
+  })
+}
+
 export const signup = {
-  failure: async ({ email, reason, origin }: SignupOnFailureArgs) => {
+  failure: async ({ email, reason, origin }: SendEmailSignupFailureArgs) => {
     if (reason === "EMAIL_EXISTS")
       sendEmail({
         to: email,
@@ -22,14 +45,6 @@ Please follow this link to verify your email:
 ${getEmailVerificationLink(email, origin)}`,
       })
   },
-  success: async ({ email, name, origin }: SignupOnSuccessArgs) => {
-    sendEmail({
-      to: email,
-      subject: `Welcome ${name}`,
-      body: `
-Welcome ${name}! 
-Please follow this link to verify your email: 
-${getEmailVerificationLink(email, origin)}`,
-    })
-  },
+
+  success: sendVerificationEmail,
 }

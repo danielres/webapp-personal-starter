@@ -8,34 +8,12 @@ import { ServerError } from "../../../errors/ServerError"
 import { SignupInput, validate } from "../../../../validators/structs"
 import { ValidationErrors } from "../../../errors/InputValidationError"
 
-export type SignupOnFailureArgs = {
-  email: string
-  reason: "EMAIL_EXISTS"
-  origin: string
-}
-export const onFailure = async ({
-  email,
-  reason,
-  origin,
-}: SignupOnFailureArgs) => {
-  await emails.signup.failure({ email, reason, origin })
-}
-
-export type SignupOnSuccessArgs = {
-  email: string
-  name: string
-  origin: string
-}
-export const onSuccess = async ({
-  email,
-  name,
-  origin,
-}: SignupOnSuccessArgs) => {
-  await emails.signup.success({ email, name, origin })
-}
+// Exported so they can be mocked in tests:
+export const onFailure = emails.signup.failure
+export const onSuccess = emails.signup.success
 
 // Always returns true to avoid leaking info about account existence,
-// any info is only sent by email:
+// any account info is only sent by email:
 export const signup = async (
   _: unused,
   args: SignupMutationVariables,
@@ -52,9 +30,15 @@ export const signup = async (
   try {
     const usersCount = await prisma.user.count()
     const isSuperUser = usersCount === 0
+    const emailVerifiedAt = usersCount === 0 ? new Date() : null
     const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRounts)
 
-    const data = { ...rest, isSuperUser, password: hashedPassword }
+    const data = {
+      ...rest,
+      emailVerifiedAt,
+      isSuperUser,
+      password: hashedPassword,
+    }
     await prisma.user.create({ data })
     await onSuccess({ email, name, origin })
   } catch (error) {
