@@ -8,12 +8,16 @@ const isSuperUser = rule({
   cache: "contextual",
 })((_: unused, __: unused, { me }) => Boolean(me?.isSuperUser))
 
+const isVerifiedEmail = rule({
+  cache: "contextual",
+})((_: unused, __: unused, { me }) => Boolean(me?.emailVerifiedAt))
+
 export const permissions = shield({
   Query: {
     "*": deny,
     me: isAuthenticated,
-    user: isSuperUser,
-    users: isSuperUser,
+    user: and(isSuperUser, isVerifiedEmail),
+    users: and(isSuperUser, isVerifiedEmail),
   },
 
   Mutation: {
@@ -22,6 +26,7 @@ export const permissions = shield({
     signup: allow,
     signin: allow,
     signout: allow,
-    updateUser: isSuperUser,
+    updateUser: and(isSuperUser, isVerifiedEmail),
+    verifyEmail: allow,
   },
 })
