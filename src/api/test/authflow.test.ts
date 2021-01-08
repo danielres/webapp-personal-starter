@@ -29,6 +29,7 @@ describe("auth flow", () => {
     expect(signup.onSuccess).toHaveBeenCalledWith({
       email,
       name,
+      origin: expect.anything(),
     })
   })
 })

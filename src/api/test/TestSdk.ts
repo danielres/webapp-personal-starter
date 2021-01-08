@@ -10,16 +10,18 @@ const { prisma: globalPrisma } = (global as unknown) as JestGlobal
 // Warning: TestSdk agent is stateful regarding cookies
 // Therefore, tests using cookies need new TestSdk() instances to achieve isolation
 
+const ORIGIN = config.emails.test.origin
+
 export const TestSdk = ({ prisma = globalPrisma } = {}) => {
   const handler = makeHandler({ prisma })
   const agent = request.agent(handler)
 
   const testClient = {
     request: (query: any, variables: any) =>
-      agent.post(config.graphql.endpoint).send({
-        query: query,
-        variables,
-      }),
+      agent
+        .post(config.graphql.endpoint)
+        .send({ query, variables })
+        .set("origin", ORIGIN),
   }
 
   const wrapper = async (sdkFunction: () => Promise<any>) => {

@@ -13,6 +13,7 @@ module.exports = {
   ADMINER_PORT: "8080",
   COOKIE_SESSION_KEY1: "CHANGEME", // Some very long secret
   COOKIE_SESSION_KEY2: "CHANGEME", // Some very long secret
+  CRYPTO_SECRET: "CHANGEME", // Some very long secret
   PG_DB,
   PG_PASSWORD,
   PG_PORT,

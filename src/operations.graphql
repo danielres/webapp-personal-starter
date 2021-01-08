@@ -3,6 +3,7 @@ fragment UserFields on User {
   name
   email
   isSuperUser
+  emailVerifiedAt
   createdAt
   updatedAt
 }
@@ -25,6 +26,10 @@ query Users {
   }
 }
 
+mutation resendVerificationEmail {
+  resendVerificationEmail
+}
+
 mutation Signup($email: String!, $name: String!, $password: String!) {
   signup(email: $email, name: $name, password: $password)
 }
@@ -42,5 +47,12 @@ mutation Signout {
 mutation UpdateUser($id: Int!, $email: String, $name: String) {
   updateUser(id: $id, email: $email, name: $name) {
     ...UserFields
+  }
+}
+
+mutation VerifyEmail($emailVerificationSecret: String!) {
+  verifyEmail(emailVerificationSecret: $emailVerificationSecret) {
+    email
+    name
   }
 }

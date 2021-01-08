@@ -6,6 +6,7 @@ export const typeDefs = /* GraphQL */ `
     name: String!
     email: String!
     isSuperUser: Boolean!
+    emailVerifiedAt: Date
     createdAt: Date!
     updatedAt: Date!
   }
@@ -16,10 +17,17 @@ export const typeDefs = /* GraphQL */ `
     users: [User]!
   }
 
+  type VerifyEmailResponse {
+    email: String
+    name: String
+  }
+
   type Mutation {
+    resendVerificationEmail: Boolean!
     signup(email: String!, password: String!, name: String!): Boolean!
     signin(email: String!, password: String!): User
     signout: Boolean!
     updateUser(id: Int!, email: String, name: String): User
+    verifyEmail(emailVerificationSecret: String!): VerifyEmailResponse!
   }
 `

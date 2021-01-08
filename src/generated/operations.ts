@@ -29,6 +29,7 @@ export type User = {
   name: Scalars["String"]
   email: Scalars["String"]
   isSuperUser: Scalars["Boolean"]
+  emailVerifiedAt?: Maybe<Scalars["Date"]>
   createdAt: Scalars["Date"]
   updatedAt: Scalars["Date"]
 }
@@ -44,12 +45,26 @@ export type QueryUserArgs = {
   id: Scalars["Int"]
 }
 
+export type VerifyEmailResponse = {
+  __typename?: "VerifyEmailResponse"
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+}
+
+export type ResendVerificationEmailResponse = {
+  __typename?: "ResendVerificationEmailResponse"
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+}
+
 export type Mutation = {
   __typename?: "Mutation"
+  resendVerificationEmail: Scalars["Boolean"]
   signup: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
   updateUser?: Maybe<User>
+  verifyEmail: VerifyEmailResponse
 }
 
 export type MutationSignupArgs = {
@@ -69,9 +84,19 @@ export type MutationUpdateUserArgs = {
   name?: Maybe<Scalars["String"]>
 }
 
+export type MutationVerifyEmailArgs = {
+  emailVerificationSecret: Scalars["String"]
+}
+
 export type UserFieldsFragment = { __typename?: "User" } & Pick<
   User,
-  "id" | "name" | "email" | "isSuperUser" | "createdAt" | "updatedAt"
+  | "id"
+  | "name"
+  | "email"
+  | "isSuperUser"
+  | "emailVerifiedAt"
+  | "createdAt"
+  | "updatedAt"
 >
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
@@ -93,6 +118,14 @@ export type UsersQueryVariables = Exact<{ [key: string]: never }>
 export type UsersQuery = { __typename?: "Query" } & {
   users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>>
 }
+
+export type ResendVerificationEmailMutationVariables = Exact<{
+  [key: string]: never
+}>
+
+export type ResendVerificationEmailMutation = {
+  __typename?: "Mutation"
+} & Pick<Mutation, "resendVerificationEmail">
 
 export type SignupMutationVariables = Exact<{
   email: Scalars["String"]
@@ -131,12 +164,24 @@ export type UpdateUserMutation = { __typename?: "Mutation" } & {
   updateUser?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
+export type VerifyEmailMutationVariables = Exact<{
+  emailVerificationSecret: Scalars["String"]
+}>
+
+export type VerifyEmailMutation = { __typename?: "Mutation" } & {
+  verifyEmail: { __typename?: "VerifyEmailResponse" } & Pick<
+    VerifyEmailResponse,
+    "email" | "name"
+  >
+}
+
 export const UserFieldsFragmentDoc = gql`
   fragment UserFields on User {
     id
     name
     email
     isSuperUser
+    emailVerifiedAt
     createdAt
     updatedAt
   }
@@ -165,6 +210,11 @@ export const UsersDocument = gql`
   }
   ${UserFieldsFragmentDoc}
 `
+export const ResendVerificationEmailDocument = gql`
+  mutation resendVerificationEmail {
+    resendVerificationEmail
+  }
+`
 export const SignupDocument = gql`
   mutation Signup($email: String!, $name: String!, $password: String!) {
     signup(email: $email, name: $name, password: $password)
@@ -190,6 +240,14 @@ export const UpdateUserDocument = gql`
     }
   }
   ${UserFieldsFragmentDoc}
+`
+export const VerifyEmailDocument = gql`
+  mutation VerifyEmail($emailVerificationSecret: String!) {
+    verifyEmail(emailVerificationSecret: $emailVerificationSecret) {
+      email
+      name
+    }
+  }
 `
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
@@ -227,6 +285,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<UsersQuery>(
           print(UsersDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    resendVerificationEmail(
+      variables?: ResendVerificationEmailMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<ResendVerificationEmailMutation> {
+      return withWrapper(() =>
+        client.request<ResendVerificationEmailMutation>(
+          print(ResendVerificationEmailDocument),
           variables,
           requestHeaders
         )
@@ -275,6 +345,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<UpdateUserMutation>(
           print(UpdateUserDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    VerifyEmail(
+      variables: VerifyEmailMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<VerifyEmailMutation> {
+      return withWrapper(() =>
+        client.request<VerifyEmailMutation>(
+          print(VerifyEmailDocument),
           variables,
           requestHeaders
         )

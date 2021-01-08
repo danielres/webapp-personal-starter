@@ -44,7 +44,7 @@ function UserEditorForm({ user }: UserEditorFormProps) {
   }
 
   return (
-    <>
+    <Stack>
       <ApolloErrors errors={apolloErrors} />
 
       <FormProvider {...formMethods}>
@@ -101,6 +101,6 @@ function UserEditorForm({ user }: UserEditorFormProps) {
           </Stack>
         </form>
       </FormProvider>
-    </>
+    </Stack>
   )
 }

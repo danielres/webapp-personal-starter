@@ -1,8 +1,8 @@
-import React from "react"
-
 type H2Props = {
   children: React.ReactNode
+  className?: string
 }
-export function H2({ children }: H2Props) {
-  return <h2 className="mb-4 text-xl">{children}</h2>
+
+export function H2({ children, className }: H2Props) {
+  return <h2 className={`mb-4 text-xl ${className}`}>{children}</h2>
 }

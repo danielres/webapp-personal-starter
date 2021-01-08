@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server-micro"
+import Link from "next/link"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SigninMutationVariables } from "src/generated/operations"
@@ -7,18 +8,25 @@ import { isPassword } from "src/validators/isPassword"
 import { messages } from "src/validators/messages"
 import { sdk } from "../../../sdk"
 import { Button } from "../ui/Button"
-import { Card } from "../ui/Card"
 import { ApolloErrors } from "../ui/forms/ApolloErrors"
 import { FormRow } from "../ui/forms/FormRow"
 import { InputText } from "../ui/forms/InputText"
 import { Stack } from "../ui/Stack"
 
 type FormSigninProps = {
+  defaultValues?: {
+    email: string | null | undefined
+  }
+  hasRegisterButton?: boolean
   onSuccess: () => void
 }
 
-export const FormSignin = ({ onSuccess }: FormSigninProps) => {
-  const formMethods = useForm()
+export const FormSignin = ({
+  defaultValues,
+  hasRegisterButton = true,
+  onSuccess,
+}: FormSigninProps) => {
+  const formMethods = useForm({ defaultValues })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>([])
 
   const onSubmit = async (vars: SigninMutationVariables) => {
@@ -32,37 +40,45 @@ export const FormSignin = ({ onSuccess }: FormSigninProps) => {
   }
 
   return (
-    <div className="animate-fadein-slow">
-      <Card>
-        <ApolloErrors errors={apolloErrors} />
+    <Stack>
+      <ApolloErrors errors={apolloErrors} />
 
-        <FormProvider {...formMethods}>
-          <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-            <Stack>
-              <FormRow label="Email">
-                <InputText
-                  name="email"
-                  validate={(v) => isEmail(v) || messages.Email}
-                />
-              </FormRow>
+      <FormProvider {...formMethods}>
+        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <Stack>
+            <FormRow label="Email">
+              <InputText
+                name="email"
+                validate={(v) => isEmail(v) || messages.Email}
+              />
+            </FormRow>
 
-              <FormRow label="Password">
-                <InputText
-                  name="password"
-                  validate={(v) => isPassword(v) || messages.Password}
-                  type="password"
-                />
-              </FormRow>
+            <FormRow label="Password">
+              <InputText
+                name="password"
+                validate={(v) => isPassword(v) || messages.Password}
+                type="password"
+              />
+            </FormRow>
 
-              <FormRow>
+            <FormRow>
+              <div className="flex justify-between">
                 <Button type="submit" variant="primary">
                   Sign in
                 </Button>
-              </FormRow>
-            </Stack>
-          </form>
-        </FormProvider>
-      </Card>
-    </div>
+
+                {hasRegisterButton && (
+                  <Link href="/register">
+                    <Button as="a" variant="text">
+                      Register
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </FormRow>
+          </Stack>
+        </form>
+      </FormProvider>
+    </Stack>
   )
 }

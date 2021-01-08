@@ -1,13 +1,13 @@
-const isDev = process.env.NODE_ENV === "development"
-const isProd = process.env.NODE_ENV === "production"
-const isTest = process.env.NODE_ENV === "test"
+export const isDev = process.env.NODE_ENV === "development"
+export const isProd = process.env.NODE_ENV === "production"
+export const isTest = process.env.NODE_ENV === "test"
 
 export const bcrypt = {
   saltRounts: isProd ? 10 : 1,
 }
 
-const KEY1 = process.env.COOKIE_SESSION_KEY1
-const KEY2 = process.env.COOKIE_SESSION_KEY2
+const KEY1 = isDev || isTest ? "secret" : process.env.COOKIE_SESSION_KEY1
+const KEY2 = isDev || isTest ? "secret" : process.env.COOKIE_SESSION_KEY2
 
 export const cookieSession = {
   name: "session",
@@ -15,13 +15,24 @@ export const cookieSession = {
   maxAge: 24 * 60 * 60 * 1000,
 }
 
+export const crypto = {
+  secret: isDev || isTest ? "secret" : process.env.CRYPTO_SECRET,
+}
+
 export const emails = {
   from: "noreply@example.com",
   provider: isDev ? "console" : undefined,
+  test: {
+    origin: "http://localhost:3000",
+  },
 }
 
 export const graphql = {
   endpoint: "/api/graphql",
+}
+
+export const pages = {
+  public: ["^/register$", "^/register/.+$"],
 }
 
 export const prisma = {
