@@ -11,18 +11,32 @@ type SendEmailSignupFailureArgs = {
   reason: "EMAIL_EXISTS"
   origin: string
 }
+const sendEmailSignupFailure = async ({
+  email,
+  reason,
+  origin,
+}: SendEmailSignupFailureArgs) => {
+  if (reason === "EMAIL_EXISTS")
+    sendEmail({
+      to: email,
+      subject: `Signup failed`,
+      body: `
+Signup failed because your email already exists in our db. 
+Please follow this link to verify your email: 
+${getEmailVerificationLink(email, origin)}`,
+    })
+}
 
-type SendVerificationEmailArgs = {
+type SendEmailVerificationArgs = {
   email: string
   name: string
   origin: string
 }
-
-const sendVerificationEmail = async ({
+const sendEmailVerification = async ({
   email,
   name,
   origin,
-}: SendVerificationEmailArgs) => {
+}: SendEmailVerificationArgs) => {
   sendEmail({
     to: email,
     subject: `Welcome ${name}`,
@@ -33,18 +47,11 @@ ${getEmailVerificationLink(email, origin)}`,
   })
 }
 
-export const signup = {
-  failure: async ({ email, reason, origin }: SendEmailSignupFailureArgs) => {
-    if (reason === "EMAIL_EXISTS")
-      sendEmail({
-        to: email,
-        subject: `Signup failed`,
-        body: `
-Signup failed because your email already exists in our db. 
-Please follow this link to verify your email: 
-${getEmailVerificationLink(email, origin)}`,
-      })
-  },
+export const resendVerificationEmail = {
+  success: sendEmailVerification,
+}
 
-  success: sendVerificationEmail,
+export const signup = {
+  failure: sendEmailSignupFailure,
+  success: sendEmailVerification,
 }

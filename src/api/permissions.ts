@@ -1,4 +1,4 @@
-import { allow, deny, rule, shield } from "graphql-shield"
+import { allow, and, deny, rule, shield } from "graphql-shield"
 
 const isAuthenticated = rule({
   cache: "contextual",
@@ -22,7 +22,7 @@ export const permissions = shield({
 
   Mutation: {
     "*": deny,
-    verifyEmail: allow,
+    resendVerificationEmail: allow,
     signup: allow,
     signin: allow,
     signout: allow,

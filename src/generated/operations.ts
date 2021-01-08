@@ -51,8 +51,15 @@ export type VerifyEmailResponse = {
   name?: Maybe<Scalars["String"]>
 }
 
+export type ResendVerificationEmailResponse = {
+  __typename?: "ResendVerificationEmailResponse"
+  email?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+}
+
 export type Mutation = {
   __typename?: "Mutation"
+  resendVerificationEmail: Scalars["Boolean"]
   signup: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
@@ -112,16 +119,13 @@ export type UsersQuery = { __typename?: "Query" } & {
   users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>>
 }
 
-export type VerifyEmailMutationVariables = Exact<{
-  emailVerificationSecret: Scalars["String"]
+export type ResendVerificationEmailMutationVariables = Exact<{
+  [key: string]: never
 }>
 
-export type VerifyEmailMutation = { __typename?: "Mutation" } & {
-  verifyEmail: { __typename?: "VerifyEmailResponse" } & Pick<
-    VerifyEmailResponse,
-    "email" | "name"
-  >
-}
+export type ResendVerificationEmailMutation = {
+  __typename?: "Mutation"
+} & Pick<Mutation, "resendVerificationEmail">
 
 export type SignupMutationVariables = Exact<{
   email: Scalars["String"]
@@ -160,6 +164,17 @@ export type UpdateUserMutation = { __typename?: "Mutation" } & {
   updateUser?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
+export type VerifyEmailMutationVariables = Exact<{
+  emailVerificationSecret: Scalars["String"]
+}>
+
+export type VerifyEmailMutation = { __typename?: "Mutation" } & {
+  verifyEmail: { __typename?: "VerifyEmailResponse" } & Pick<
+    VerifyEmailResponse,
+    "email" | "name"
+  >
+}
+
 export const UserFieldsFragmentDoc = gql`
   fragment UserFields on User {
     id
@@ -195,12 +210,9 @@ export const UsersDocument = gql`
   }
   ${UserFieldsFragmentDoc}
 `
-export const VerifyEmailDocument = gql`
-  mutation VerifyEmail($emailVerificationSecret: String!) {
-    verifyEmail(emailVerificationSecret: $emailVerificationSecret) {
-      email
-      name
-    }
+export const ResendVerificationEmailDocument = gql`
+  mutation resendVerificationEmail {
+    resendVerificationEmail
   }
 `
 export const SignupDocument = gql`
@@ -228,6 +240,14 @@ export const UpdateUserDocument = gql`
     }
   }
   ${UserFieldsFragmentDoc}
+`
+export const VerifyEmailDocument = gql`
+  mutation VerifyEmail($emailVerificationSecret: String!) {
+    verifyEmail(emailVerificationSecret: $emailVerificationSecret) {
+      email
+      name
+    }
+  }
 `
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
@@ -270,13 +290,13 @@ export function getSdk(
         )
       )
     },
-    VerifyEmail(
-      variables: VerifyEmailMutationVariables,
+    resendVerificationEmail(
+      variables?: ResendVerificationEmailMutationVariables,
       requestHeaders?: Headers
-    ): Promise<VerifyEmailMutation> {
+    ): Promise<ResendVerificationEmailMutation> {
       return withWrapper(() =>
-        client.request<VerifyEmailMutation>(
-          print(VerifyEmailDocument),
+        client.request<ResendVerificationEmailMutation>(
+          print(ResendVerificationEmailDocument),
           variables,
           requestHeaders
         )
@@ -325,6 +345,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<UpdateUserMutation>(
           print(UpdateUserDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    VerifyEmail(
+      variables: VerifyEmailMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<VerifyEmailMutation> {
+      return withWrapper(() =>
+        client.request<VerifyEmailMutation>(
+          print(VerifyEmailDocument),
           variables,
           requestHeaders
         )

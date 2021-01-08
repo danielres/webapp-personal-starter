@@ -26,6 +26,10 @@ query Users {
   }
 }
 
+mutation resendVerificationEmail {
+  resendVerificationEmail
+}
+
 mutation Signup($email: String!, $name: String!, $password: String!) {
   signup(email: $email, name: $name, password: $password)
 }
