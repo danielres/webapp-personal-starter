@@ -6,8 +6,8 @@ export const bcrypt = {
   saltRounts: isProd ? 10 : 1,
 }
 
-const KEY1 = process.env.COOKIE_SESSION_KEY1
-const KEY2 = process.env.COOKIE_SESSION_KEY2
+const KEY1 = isDev || isTest ? "secret" : process.env.COOKIE_SESSION_KEY1
+const KEY2 = isDev || isTest ? "secret" : process.env.COOKIE_SESSION_KEY2
 
 export const cookieSession = {
   name: "session",
@@ -16,7 +16,7 @@ export const cookieSession = {
 }
 
 export const crypto = {
-  secret: process.env.CRYPTO_SECRET,
+  secret: isDev || isTest ? "secret" : process.env.CRYPTO_SECRET,
 }
 
 export const emails = {
