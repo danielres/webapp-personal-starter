@@ -1,43 +1,34 @@
-import type { ApolloError } from "apollo-server-micro"
+import { ApolloError } from "apollo-server-micro"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
-import { isEmail } from "src/validators/isEmail"
-import { isName } from "src/validators/isName"
-import { messages } from "src/validators/messages"
-import { sdk } from "../../../sdk"
-import type { User } from "../../generated/operations"
-import { Button } from "../ui/Button"
-import { ApolloErrors } from "../ui/forms/ApolloErrors"
-import { FormRow } from "../ui/forms/FormRow"
-import { InputCheckbox } from "../ui/forms/InputCheckbox"
-import { InputText } from "../ui/forms/InputText"
-import { Stack } from "../ui/Stack"
-import { Time } from "../ui/Time"
+import { sdk } from "../../../../sdk"
+import { User } from "../../../generated/operations"
+import { isEmail } from "../../../validators/isEmail"
+import { isName } from "../../../validators/isName"
+import { messages } from "../../../validators/messages"
+import { Button } from "../../ui/Button"
+import { ApolloErrors } from "../../ui/forms/ApolloErrors"
+import { FormRow } from "../../ui/forms/FormRow"
+import { InputCheckbox } from "../../ui/forms/InputCheckbox"
+import { InputText } from "../../ui/forms/InputText"
+import { Stack } from "../../ui/Stack"
+import { Time } from "../../ui/Time"
 
-export function UserEditor({ id }: { id: number }) {
-  const { data } = sdk.useUser({ id })
-
-  if (!data?.user) return <div>Loading...</div>
-
-  return <UserEditorForm user={data.user} />
-}
-
-type UserEditorFormProps = {
+type FormUserProps = {
+  onSuccess?: () => void
   user: User
 }
 
-function UserEditorForm({ user }: UserEditorFormProps) {
+export function FormUser({ onSuccess, user }: FormUserProps) {
   const formMethods = useForm({ defaultValues: user })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>()
-  const router = useRouter()
 
   const onSubmit = async (vars: any) => {
     try {
       await sdk.UpdateUser({ ...vars, id: Number(user.id) })
       setApolloErrors(undefined)
-      router.push("/admin")
+      onSuccess && onSuccess()
     } catch ({ response }) {
       setApolloErrors(response.errors)
     }

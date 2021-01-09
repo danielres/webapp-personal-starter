@@ -11,13 +11,11 @@ export function UsersTable() {
 
   if (error) return <div>{error.message}</div>
 
-  if (!data?.users) return <div>Loading...</div>
-
   const headers = ["id", "name", "email", "superuser", "created", "updated", ""]
 
   return (
     <TableOuter headers={headers}>
-      {data.users.map((user) => user && <RowUser key={user.id} user={user} />)}
+      {data?.users.map((user) => user && <RowUser key={user.id} user={user} />)}
     </TableOuter>
   )
 }
