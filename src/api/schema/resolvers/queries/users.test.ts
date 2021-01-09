@@ -1,5 +1,5 @@
 /** @usePrisma */
-import { JestGlobal } from "jest/types"
+import { JestGlobal } from "../../../../../jest/types"
 import { pick } from "../../../../utils/object"
 import { TestSdk } from "../../../test/TestSdk"
 

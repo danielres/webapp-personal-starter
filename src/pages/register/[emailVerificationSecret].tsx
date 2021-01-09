@@ -1,14 +1,14 @@
 import { ApolloError } from "apollo-server-micro"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { FormSignin } from "src/components/forms/FormSignin"
-import { Card } from "src/components/ui/Card"
-import { H1 } from "src/components/ui/H1"
-import { Spinner } from "src/components/ui/Spinner"
-import { Stack } from "src/components/ui/Stack"
-import { VerifyEmailResponse } from "src/generated/operations"
 import { sdk } from "../../../sdk"
+import { FormSignin } from "../../components/forms/FormSignin"
+import { Card } from "../../components/ui/Card"
 import { ApolloErrors } from "../../components/ui/forms/ApolloErrors"
+import { H1 } from "../../components/ui/H1"
+import { Spinner } from "../../components/ui/Spinner"
+import { Stack } from "../../components/ui/Stack"
+import { VerifyEmailResponse } from "../../generated/operations"
 
 export default function EmailConfirmationPage() {
   const { query } = useRouter()

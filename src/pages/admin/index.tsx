@@ -1,7 +1,7 @@
 import React from "react"
-import { Card } from "src/components/ui/Card"
 import { UsersTable } from "../../components/admin/UsersTable"
 import { SuperUserOnly } from "../../components/SuperUserOnly"
+import { Card } from "../../components/ui/Card"
 
 export default function Admin() {
   return (

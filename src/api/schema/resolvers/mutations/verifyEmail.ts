@@ -1,7 +1,7 @@
-import type { VerifyEmailMutationVariables } from "src/generated/operations"
+import { VerifyEmailMutationVariables } from "../../../../generated/operations"
 import type { Context } from "../../../context"
-import * as crypto from "../../../utils/crypto"
 import { VerifyEmailError } from "../../../errors/VerifyEmailError"
+import * as crypto from "../../../utils/crypto"
 
 export const verifyEmail = async (
   _: unused,

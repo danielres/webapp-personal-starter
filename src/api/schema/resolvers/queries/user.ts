@@ -1,5 +1,5 @@
-import { Context } from "src/api/context"
-import { UserQueryVariables } from "src/generated/operations"
+import { UserQueryVariables } from "../../../../generated/operations"
+import { Context } from "../../../context"
 
 export const user = async (
   _: unused,

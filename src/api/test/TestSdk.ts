@@ -1,7 +1,7 @@
 import { GraphQLClient } from "graphql-request"
-import { JestGlobal } from "jest/types"
 import request from "supertest"
 import * as config from "../../../config"
+import type { JestGlobal } from "../../../jest/types"
 import { getSdk, SdkFunctionWrapper } from "../../generated/operations"
 import { makeHandler } from "../graphql"
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { Card } from "src/components/ui/Card"
 import { FormSignup } from "../components/forms/FormSignup"
 import { FormSignupSuccess } from "../components/forms/FormSignupSuccess"
+import { Card } from "../components/ui/Card"
 
 export default function Register() {
   const [isSignupSuccess, setIsSignupSuccess] = useState(false)
