@@ -1,4 +1,5 @@
 import type { ApolloError } from "apollo-server-micro"
+import { Alert } from "../Alert"
 
 type ApolloErrorsProps = {
   errors?: ApolloError[]
@@ -11,7 +12,7 @@ export function ApolloErrors({ errors }: ApolloErrorsProps) {
     error.extensions?.exception?.messages ?? []
 
   return (
-    <div className="p-4 text-red-700 border-2 border-red-100 rounded bg-red-50">
+    <Alert variant="danger">
       {errors.map((error, i) => (
         <div key={i}>
           <div className="opacity-75">{error.message}</div>
@@ -27,6 +28,6 @@ export function ApolloErrors({ errors }: ApolloErrorsProps) {
           )}
         </div>
       ))}
-    </div>
+    </Alert>
   )
 }
