@@ -2,12 +2,13 @@ import React, { useState } from "react"
 import { FormSignup } from "../components/forms/FormSignup"
 import { FormSignupSuccess } from "../components/forms/FormSignupSuccess"
 import { Card } from "../components/ui/Card"
+import { Container } from "../components/ui/Container"
 
 export default function Register() {
   const [isSignupSuccess, setIsSignupSuccess] = useState(false)
 
   return (
-    <div className="max-w-lg mx-auto mt-8">
+    <Container variant="dialog">
       <Card className="animate-fadein-slow">
         {isSignupSuccess ? (
           <FormSignupSuccess />
@@ -15,6 +16,6 @@ export default function Register() {
           <FormSignup onSuccess={() => setIsSignupSuccess(true)} />
         )}
       </Card>
-    </div>
+    </Container>
   )
 }

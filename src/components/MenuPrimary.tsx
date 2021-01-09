@@ -6,6 +6,7 @@ import { sdk } from "../../sdk"
 import { House } from "./Icons/House"
 import { InlineIcon } from "./Icons/InlineIcon"
 import { SuperUserOnly } from "./SuperUserOnly"
+import { Container } from "./ui/Container"
 
 export default function MenuPrimary() {
   const { data, mutate } = sdk.useMe()
@@ -20,9 +21,9 @@ export default function MenuPrimary() {
   const { me } = data
 
   return (
-    <>
-      <div className="bg-white shadow-md ">
-        <div className="container flex flex-col justify-between mx-auto md:flex-row">
+    <div className="sm:pb-12">
+      <div className="bg-white shadow-md sm:fixed sm:w-full">
+        <Container className="flex flex-col justify-between sm:flex-row">
           <nav>
             <ul className="flex list-none">
               <li>
@@ -38,7 +39,7 @@ export default function MenuPrimary() {
           </nav>
 
           <nav>
-            <ul className="flex flex-col list-none md:flex-row">
+            <ul className="flex flex-col list-none sm:flex-row">
               <li>
                 <Link href="/" passHref>
                   <T>{me.email}</T>
@@ -58,9 +59,9 @@ export default function MenuPrimary() {
               </li>
             </ul>
           </nav>
-        </div>
+        </Container>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -91,11 +92,14 @@ function A({ children, href, title, ...rest }: AProps) {
     (href !== "/" && href && router.pathname.includes(href))
 
   return (
-    <span className="block text-gray-500 transition-colors md:inline-block hover:text-gray-900">
+    <span className="block text-gray-500 transition-colors sm:inline-block hover:text-gray-900">
       <a
-        className={classnames("block px-3 py-3 border-b-2 border-transparent", {
-          "border-gray-400 text-gray-900": isActive,
-        })}
+        className={classnames(
+          "block px-3 py-1 sm:py-3 border-b-2 border-transparent",
+          {
+            "sm:border-gray-400 text-gray-900": isActive,
+          }
+        )}
         href={href}
         title={title}
         {...rest}
