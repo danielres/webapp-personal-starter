@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import { FormSignin } from "src/components/forms/FormSignin"
 import { Card } from "src/components/ui/Card"
 import { H1 } from "src/components/ui/H1"
+import { Spinner } from "src/components/ui/Spinner"
 import { Stack } from "src/components/ui/Stack"
 import { VerifyEmailResponse } from "src/generated/operations"
 import { sdk } from "../../../sdk"
@@ -14,8 +15,8 @@ export default function EmailConfirmationPage() {
   const secret = query?.emailVerificationSecret as string | undefined
 
   return (
-    <Card className="max-w-lg mx-auto mt-8">
-      {secret ? <EmailConfirmation secret={secret} /> : <div>Loading...</div>}
+    <Card className="max-w-lg mx-auto mt-8 animate-fadein-slow">
+      {secret && <EmailConfirmation secret={secret} />}
     </Card>
   )
 }
@@ -38,22 +39,18 @@ function EmailConfirmation({ secret }: EmailConfirmationProps) {
 
   if (apolloErrors) return <ApolloErrors errors={apolloErrors} />
 
-  if (!data) return <div>"Loading..."</div>
+  if (!data) return <Spinner />
 
   return (
     <Stack>
-      <div className="mb-12 text-center">
+      <div className="mb-12 text-center text-gray-700">
         <H1 className="text-gray-600">
           Welcome{data.name ? ` ${data.name}` : ""}!
         </H1>
 
-        <p className="text-gray-700">
-          Your email has been successfully verified.
-        </p>
+        <p>Your email has been successfully verified.</p>
 
-        <p className="text-gray-700">
-          You can now sign in using your email + password.
-        </p>
+        <p>You can now sign in using your email + password.</p>
       </div>
 
       <FormSignin

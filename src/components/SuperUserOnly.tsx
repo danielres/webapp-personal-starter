@@ -1,5 +1,6 @@
 import React from "react"
 import { sdk } from "../../sdk"
+import { Spinner } from "./ui/Spinner"
 
 type SuperUserOnlyProps = {
   children: React.ReactNode
@@ -17,7 +18,7 @@ export const SuperUserOnly = ({
 
   if (!data?.me?.isSuperUser) return <>Access forbidden</>
 
-  if (!data?.me) return <>Loading...</>
+  if (!data?.me) return <Spinner />
 
   return <>{children}</>
 }
