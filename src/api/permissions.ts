@@ -15,7 +15,7 @@ const isVerifiedEmail = rule({
 export const permissions = shield({
   Query: {
     "*": deny,
-    me: isAuthenticated,
+    me: allow,
     user: and(isSuperUser, isVerifiedEmail),
     users: and(isSuperUser, isVerifiedEmail),
   },

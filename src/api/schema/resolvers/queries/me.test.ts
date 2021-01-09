@@ -9,11 +9,10 @@ describe("Query me", () => {
   describe("When not signed in", () => {
     const sdk = TestSdk()
 
-    it(`returns no data but error "Not Authorised!"`, async () => {
+    it(`returns null"`, async () => {
       const response: any = await sdk.Me()
 
       expect(response.data.me).toEqual(null)
-      expect(response.errors[0].message).toMatch("Not Authorised!")
     })
   })
 

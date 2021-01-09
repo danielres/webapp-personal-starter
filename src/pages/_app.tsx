@@ -1,9 +1,14 @@
 import type { AppProps } from "next/app"
 import { useRouter } from "next/router"
+import React, { Suspense } from "react"
+import { SWRConfig } from "swr"
+import * as config from "../../config"
 import MenuPrimary from "../components/MenuPrimary"
 import Protected from "../components/Protected"
-import * as config from "../../config"
+import { Spinner } from "../components/ui/Spinner"
 import "../styles/globals.css"
+
+const isServer = () => typeof window === "undefined"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -12,23 +17,35 @@ export default function App({ Component, pageProps }: AppProps) {
     RegExp(regexp).test(router.asPath)
   )
 
+  // Disable NextJS SSR so we can use Suspense,
+  // as ReactDOMServer does not yet support Suspense.
+  if (isServer()) return null
+
   return (
     <>
-      <div className="mb-6">
-        {isPagePublic ? (
-          <Component {...pageProps} />
-        ) : (
-          <Protected>
-            <div className="animate-fadein-slow">
-              <MenuPrimary />
+      <SWRConfig value={{ suspense: true }}>
+        <div className="mb-6">
+          {isPagePublic ? (
+            <Component {...pageProps} />
+          ) : (
+            <Suspense fallback={<Spinner />}>
+              <Protected>
+                <div className="animate-fadein-fast">
+                  <Suspense fallback={<Spinner />}>
+                    <MenuPrimary />
+                  </Suspense>
 
-              <div className="container mx-auto">
-                <Component {...pageProps} />
-              </div>
-            </div>
-          </Protected>
-        )}
-      </div>
+                  <Suspense fallback={<Spinner />}>
+                    <div className="container mx-auto">
+                      <Component {...pageProps} />
+                    </div>
+                  </Suspense>
+                </div>
+              </Protected>
+            </Suspense>
+          )}
+        </div>
+      </SWRConfig>
 
       <style jsx global>
         {`

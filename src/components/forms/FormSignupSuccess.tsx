@@ -1,8 +1,8 @@
 import Link from "next/link"
 import React from "react"
-import { Button } from "src/components/ui/Button"
-import { Stack } from "src/components/ui/Stack"
+import { Button } from "../ui/Button"
 import { H1 } from "../ui/H1"
+import { Stack } from "../ui/Stack"
 
 export function FormSignupSuccess() {
   return (
