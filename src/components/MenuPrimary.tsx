@@ -21,8 +21,8 @@ export default function MenuPrimary() {
 
   return (
     <>
-      <div className="mb-6 bg-white shadow-md">
-        <div className="container flex justify-between mx-auto">
+      <div className="bg-white shadow-md ">
+        <div className="container flex flex-col justify-between mx-auto md:flex-row">
           <nav>
             <ul className="flex list-none">
               <li>
@@ -38,7 +38,7 @@ export default function MenuPrimary() {
           </nav>
 
           <nav>
-            <ul className="flex list-none">
+            <ul className="flex flex-col list-none md:flex-row">
               <li>
                 <Link href="/" passHref>
                   <T>{me.email}</T>
@@ -91,12 +91,11 @@ function A({ children, href, title, ...rest }: AProps) {
     (href !== "/" && href && router.pathname.includes(href))
 
   return (
-    <span className="inline-block text-gray-500 transition-colors hover:text-gray-900">
+    <span className="block text-gray-500 transition-colors md:inline-block hover:text-gray-900">
       <a
-        className={classnames(
-          "inline-block px-3 py-3 border-b-2 border-transparent",
-          { "border-gray-400 text-gray-900": isActive }
-        )}
+        className={classnames("block px-3 py-3 border-b-2 border-transparent", {
+          "border-gray-400 text-gray-900": isActive,
+        })}
         href={href}
         title={title}
         {...rest}
