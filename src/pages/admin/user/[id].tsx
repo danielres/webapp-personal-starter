@@ -1,16 +1,12 @@
 import { useRouter } from "next/router"
-import React from "react"
 import { sdk } from "../../../../sdk"
 import { FormUser } from "../../../components/admin/forms/FormUser"
-import { SuperUserOnly } from "../../../components/SuperUserOnly"
 import { Card } from "../../../components/ui/Card"
 
 export default function UserEditAsAdminById() {
   return (
     <Card className="animate-fadein-fast">
-      <SuperUserOnly silent={false}>
-        <UserEditor />
-      </SuperUserOnly>
+      <UserEditor />
     </Card>
   )
 }
