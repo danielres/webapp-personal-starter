@@ -6,7 +6,7 @@ import { SuperUserOnly } from "../../components/SuperUserOnly"
 export default function Admin() {
   return (
     <SuperUserOnly silent={false}>
-      <Card>
+      <Card className="animate-fadein-fast">
         <UsersTable />
       </Card>
     </SuperUserOnly>
