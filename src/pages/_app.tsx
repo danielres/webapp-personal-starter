@@ -3,8 +3,10 @@ import { useRouter } from "next/router"
 import React, { Suspense } from "react"
 import { SWRConfig } from "swr"
 import * as config from "../../config"
+import { MenuAdmin } from "../components/admin/MenuAdmin"
 import MenuPrimary from "../components/MenuPrimary"
 import Protected from "../components/Protected"
+import { SuperUserOnly } from "../components/SuperUserOnly"
 import { Container } from "../components/ui/Container"
 import { Spinner } from "../components/ui/Spinner"
 import { Stack } from "../components/ui/Stack"
@@ -14,7 +16,7 @@ const isServer = () => typeof window === "undefined"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  const isPageAdmin = router.pathname.includes("admin")
+  const isPageAdmin = router.pathname.includes("/admin")
   const isPagePublic = config.pages.public.some((regexp) =>
     RegExp(regexp).test(router.asPath)
   )
@@ -40,7 +42,16 @@ export default function App({ Component, pageProps }: AppProps) {
 
                     <Suspense fallback={<Spinner />}>
                       <Container>
-                        <Component {...pageProps} />
+                        {isPageAdmin ? (
+                          <SuperUserOnly silent={false}>
+                            <MenuAdmin />
+                            <div className="relative z-10">
+                              <Component {...pageProps} />
+                            </div>
+                          </SuperUserOnly>
+                        ) : (
+                          <Component {...pageProps} />
+                        )}
                       </Container>
                     </Suspense>
                   </Stack>
