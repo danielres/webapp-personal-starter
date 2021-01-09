@@ -5,6 +5,7 @@ import { FormSignin } from "./forms/FormSignin"
 import { Alert } from "./ui/Alert"
 import { Button } from "./ui/Button"
 import { Card } from "./ui/Card"
+import { Container } from "./ui/Container"
 import { ApolloErrors } from "./ui/forms/ApolloErrors"
 import { H2 } from "./ui/H2"
 import { Stack } from "./ui/Stack"
@@ -18,20 +19,20 @@ export default function Protected({ children }: ProtectedProps) {
 
   if (!data?.me)
     return (
-      <div className="max-w-lg mx-auto mt-8">
+      <Container variant="dialog">
         <Card className="animate-fadein-slow">
           <FormSignin onSuccess={revalidate} />
         </Card>
-      </div>
+      </Container>
     )
 
   if (!data.me.emailVerifiedAt)
     return (
-      <div className="max-w-lg mx-auto mt-8">
+      <Container variant="dialog">
         <Card className="animate-fadein-fast">
           <DialogEmailVerificationNeeded email={data.me.email} />
         </Card>
-      </div>
+      </Container>
     )
 
   return <>{children}</>

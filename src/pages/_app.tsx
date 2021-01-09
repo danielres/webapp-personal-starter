@@ -5,6 +5,7 @@ import { SWRConfig } from "swr"
 import * as config from "../../config"
 import MenuPrimary from "../components/MenuPrimary"
 import Protected from "../components/Protected"
+import { Container } from "../components/ui/Container"
 import { Spinner } from "../components/ui/Spinner"
 import { Stack } from "../components/ui/Stack"
 import "../styles/globals.css"
@@ -38,9 +39,9 @@ export default function App({ Component, pageProps }: AppProps) {
                     </Suspense>
 
                     <Suspense fallback={<Spinner />}>
-                      <div className="container mx-auto">
+                      <Container>
                         <Component {...pageProps} />
-                      </div>
+                      </Container>
                     </Suspense>
                   </Stack>
                 </div>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import { sdk } from "../../../sdk"
 import { FormSignin } from "../../components/forms/FormSignin"
 import { Card } from "../../components/ui/Card"
+import { Container } from "../../components/ui/Container"
 import { ApolloErrors } from "../../components/ui/forms/ApolloErrors"
 import { H1 } from "../../components/ui/H1"
 import { Spinner } from "../../components/ui/Spinner"
@@ -15,9 +16,11 @@ export default function EmailConfirmationPage() {
   const secret = query?.emailVerificationSecret as string | undefined
 
   return (
-    <Card className="max-w-lg mx-auto mt-8 animate-fadein-slow">
-      {secret && <EmailConfirmation secret={secret} />}
-    </Card>
+    <Container variant="dialog">
+      <Card className="animate-fadein-slow">
+        {secret && <EmailConfirmation secret={secret} />}
+      </Card>
+    </Container>
   )
 }
 
