@@ -14,30 +14,27 @@ type ProtectedProps = {
 }
 
 export default function Protected({ children }: ProtectedProps) {
-  const { data, error, revalidate } = sdk.useMe()
+  const { data, revalidate } = sdk.useMe()
 
-  const isLoading = !data && !error
-
-  if (isLoading) return <div>Loading...</div>
-
-  if (data?.me && !data.me.emailVerifiedAt)
+  if (!data?.me)
     return (
       <div className="max-w-lg mx-auto mt-8">
         <Card className="animate-fadein-slow">
+          <FormSignin onSuccess={revalidate} />
+        </Card>
+      </div>
+    )
+
+  if (!data.me.emailVerifiedAt)
+    return (
+      <div className="max-w-lg mx-auto mt-8">
+        <Card className="animate-fadein-fast">
           <DialogEmailVerificationNeeded email={data.me.email} />
         </Card>
       </div>
     )
 
-  if (data?.me) return <>{children}</>
-
-  return (
-    <div className="max-w-lg mx-auto mt-8">
-      <Card className="animate-fadein-slow">
-        <FormSignin onSuccess={revalidate} />
-      </Card>
-    </div>
-  )
+  return <>{children}</>
 }
 
 function DialogEmailVerificationNeeded({ email }: { email: string }) {
@@ -67,6 +64,7 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
               <b>{email}</b>
             </p>
           </Alert>
+
           <p>Please check your mailbox for instructions.</p>
         </>
       ) : (
@@ -76,6 +74,7 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
             <br />
             Please check your mailbox for instructions.
           </p>
+
           <Button variant="primary" onClick={onClick}>
             Resend instructions
           </Button>
