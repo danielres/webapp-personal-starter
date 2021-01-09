@@ -6,6 +6,7 @@ import * as config from "../../config"
 import MenuPrimary from "../components/MenuPrimary"
 import Protected from "../components/Protected"
 import { Spinner } from "../components/ui/Spinner"
+import { Stack } from "../components/ui/Stack"
 import "../styles/globals.css"
 
 const isServer = () => typeof window === "undefined"
@@ -31,15 +32,17 @@ export default function App({ Component, pageProps }: AppProps) {
             <Suspense fallback={<Spinner />}>
               <Protected>
                 <div className="animate-fadein-fast">
-                  <Suspense fallback={<Spinner />}>
-                    <MenuPrimary />
-                  </Suspense>
+                  <Stack>
+                    <Suspense fallback={<Spinner />}>
+                      <MenuPrimary />
+                    </Suspense>
 
-                  <Suspense fallback={<Spinner />}>
-                    <div className="container mx-auto">
-                      <Component {...pageProps} />
-                    </div>
-                  </Suspense>
+                    <Suspense fallback={<Spinner />}>
+                      <div className="container mx-auto">
+                        <Component {...pageProps} />
+                      </div>
+                    </Suspense>
+                  </Stack>
                 </div>
               </Protected>
             </Suspense>
