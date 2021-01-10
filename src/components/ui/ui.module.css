@@ -1,7 +1,7 @@
 /* --------------- */
 
 .btn {
-  @apply inline-block rounded cursor-pointer;
+  @apply inline-block transition-colors rounded cursor-pointer;
 }
 
 .btn_md {
@@ -13,9 +13,14 @@
   @apply font-semibold text-white bg-blue-400;
 }
 
+.btn_secondary {
+  @apply btn;
+  @apply bg-gray-200;
+}
+
 .btn_text {
   @apply btn;
-  @apply text-gray-500 hover:underline;
+  @apply text-gray-500 hover:underline hover:text-gray-700;
 }
 
 /* --------------- */
