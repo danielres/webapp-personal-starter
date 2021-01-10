@@ -53,7 +53,7 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
   }
 
   return (
-    <Stack className="text-center text-gray-700">
+    <Stack className="text-center">
       <ApolloErrors errors={apolloErrors} />
 
       <H2 className="text-gray-600">Email verification needed</H2>

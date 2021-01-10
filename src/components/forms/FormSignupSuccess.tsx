@@ -9,9 +9,7 @@ export function FormSignupSuccess() {
     <Stack className="text-center">
       <H1 className="text-gray-600">Thank you for registering!</H1>
 
-      <p className="text-gray-700">
-        Please check your mailbox for further instructions.
-      </p>
+      <p>Please check your mailbox for further instructions.</p>
 
       <Link href="/">
         <Button variant="primary" as="a">
