@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <div className="animate-fadein-fast">
                   <Stack>
                     <Suspense fallback={<Spinner />}>
-                      <MenuPrimary />
+                      <MenuPrimary className="relative z-20" />
                     </Suspense>
 
                     <Suspense fallback={<Spinner />}>

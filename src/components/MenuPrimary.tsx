@@ -8,7 +8,11 @@ import { InlineIcon } from "./Icons/InlineIcon"
 import { SuperUserOnly } from "./SuperUserOnly"
 import { Container } from "./ui/Container"
 
-export default function MenuPrimary() {
+type MenuPrimaryProps = {
+  className?: string
+}
+
+export default function MenuPrimary({ className }: MenuPrimaryProps) {
   const { data, mutate } = sdk.useMe()
 
   const signout = async () => {
@@ -21,7 +25,7 @@ export default function MenuPrimary() {
   const { me } = data
 
   return (
-    <div className="sm:pb-12">
+    <div className={classnames("sm:pb-12", className)}>
       <div className="bg-white shadow-md sm:fixed sm:w-full">
         <Container className="flex flex-col justify-between sm:flex-row">
           <nav>
