@@ -27,6 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <div id="modal-root"></div>
+
       <SWRConfig value={{ suspense: true }}>
         <div className="mb-6">
           {isPagePublic ? (
