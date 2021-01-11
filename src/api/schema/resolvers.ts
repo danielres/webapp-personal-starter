@@ -8,6 +8,17 @@ import { me } from "./resolvers/queries/me"
 import { user } from "./resolvers/queries/user"
 import { users } from "./resolvers/queries/users"
 
+// Error handling in resolvers:
+//
+//   1) Thrown errors:
+//        - are blocked by graphql-shield and result in an "Non authorized" message.
+//
+//   2) Returned errors:
+//        - are NOT blocked by graphql-shield and are handled by formatError.
+//
+//   Please refer to comments within formatError for more details.
+//
+
 export const resolvers = {
   Query: {
     me,
