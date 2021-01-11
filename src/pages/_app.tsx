@@ -32,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <SWRConfig value={{ suspense: true }}>
         <div className="mb-6">
           {isPagePublic ? (
-            <Component {...pageProps} />
+            <Suspense fallback={<Spinner />}>
+              <Component {...pageProps} />
+            </Suspense>
           ) : (
             <Suspense fallback={<Spinner />}>
               <Protected>
