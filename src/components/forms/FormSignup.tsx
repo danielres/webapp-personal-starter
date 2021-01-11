@@ -57,11 +57,10 @@ export const FormSignup = ({ onSuccess }: FormSignupProps) => {
   return (
     <Stack>
       <ApolloErrors errors={apolloErrors} />
-
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <Stack>
-            <FormRow label="Name">
+            <FormRow label="Full name">
               <InputText
                 name="name"
                 validate={(v) => isName(v) || messages.Name}
