@@ -25,6 +25,7 @@ export const permissions = shield({
     inviteByEmail: and(isSuperUser, isVerifiedEmail),
     resendVerificationEmail: allow,
     signup: allow,
+    signupWithInvitation: allow,
     signin: allow,
     signout: allow,
     updateUser: and(isSuperUser, isVerifiedEmail),
