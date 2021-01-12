@@ -51,26 +51,33 @@ export type VerifyEmailResponse = {
   name?: Maybe<Scalars["String"]>
 }
 
-export type ResendVerificationEmailResponse = {
-  __typename?: "ResendVerificationEmailResponse"
-  email?: Maybe<Scalars["String"]>
-  name?: Maybe<Scalars["String"]>
-}
-
 export type Mutation = {
   __typename?: "Mutation"
+  inviteByEmail: Scalars["Boolean"]
   resendVerificationEmail: Scalars["Boolean"]
   signup: Scalars["Boolean"]
+  signupWithInvitation: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
   updateUser?: Maybe<User>
   verifyEmail: VerifyEmailResponse
 }
 
+export type MutationInviteByEmailArgs = {
+  email: Scalars["String"]
+  isSuperUser?: Maybe<Scalars["Boolean"]>
+}
+
 export type MutationSignupArgs = {
   email: Scalars["String"]
   password: Scalars["String"]
   name: Scalars["String"]
+}
+
+export type MutationSignupWithInvitationArgs = {
+  password: Scalars["String"]
+  name: Scalars["String"]
+  secret: Scalars["String"]
 }
 
 export type MutationSigninArgs = {
@@ -119,6 +126,16 @@ export type UsersQuery = { __typename?: "Query" } & {
   users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>>
 }
 
+export type InviteByEmailMutationVariables = Exact<{
+  email: Scalars["String"]
+  isSuperUser?: Maybe<Scalars["Boolean"]>
+}>
+
+export type InviteByEmailMutation = { __typename?: "Mutation" } & Pick<
+  Mutation,
+  "inviteByEmail"
+>
+
 export type ResendVerificationEmailMutationVariables = Exact<{
   [key: string]: never
 }>
@@ -136,6 +153,17 @@ export type SignupMutationVariables = Exact<{
 export type SignupMutation = { __typename?: "Mutation" } & Pick<
   Mutation,
   "signup"
+>
+
+export type SignupWithInvitationMutationVariables = Exact<{
+  name: Scalars["String"]
+  password: Scalars["String"]
+  secret: Scalars["String"]
+}>
+
+export type SignupWithInvitationMutation = { __typename?: "Mutation" } & Pick<
+  Mutation,
+  "signupWithInvitation"
 >
 
 export type SigninMutationVariables = Exact<{
@@ -210,6 +238,11 @@ export const UsersDocument = gql`
   }
   ${UserFieldsFragmentDoc}
 `
+export const InviteByEmailDocument = gql`
+  mutation InviteByEmail($email: String!, $isSuperUser: Boolean) {
+    inviteByEmail(email: $email, isSuperUser: $isSuperUser)
+  }
+`
 export const ResendVerificationEmailDocument = gql`
   mutation resendVerificationEmail {
     resendVerificationEmail
@@ -218,6 +251,15 @@ export const ResendVerificationEmailDocument = gql`
 export const SignupDocument = gql`
   mutation Signup($email: String!, $name: String!, $password: String!) {
     signup(email: $email, name: $name, password: $password)
+  }
+`
+export const SignupWithInvitationDocument = gql`
+  mutation SignupWithInvitation(
+    $name: String!
+    $password: String!
+    $secret: String!
+  ) {
+    signupWithInvitation(name: $name, password: $password, secret: $secret)
   }
 `
 export const SigninDocument = gql`
@@ -290,6 +332,18 @@ export function getSdk(
         )
       )
     },
+    InviteByEmail(
+      variables: InviteByEmailMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<InviteByEmailMutation> {
+      return withWrapper(() =>
+        client.request<InviteByEmailMutation>(
+          print(InviteByEmailDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
     resendVerificationEmail(
       variables?: ResendVerificationEmailMutationVariables,
       requestHeaders?: Headers
@@ -309,6 +363,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<SignupMutation>(
           print(SignupDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    SignupWithInvitation(
+      variables: SignupWithInvitationMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<SignupWithInvitationMutation> {
+      return withWrapper(() =>
+        client.request<SignupWithInvitationMutation>(
+          print(SignupWithInvitationDocument),
           variables,
           requestHeaders
         )

@@ -26,12 +26,24 @@ query Users {
   }
 }
 
+mutation InviteByEmail($email: String!, $isSuperUser: Boolean) {
+  inviteByEmail(email: $email, isSuperUser: $isSuperUser)
+}
+
 mutation resendVerificationEmail {
   resendVerificationEmail
 }
 
 mutation Signup($email: String!, $name: String!, $password: String!) {
   signup(email: $email, name: $name, password: $password)
+}
+
+mutation SignupWithInvitation(
+  $name: String!
+  $password: String!
+  $secret: String!
+) {
+  signupWithInvitation(name: $name, password: $password, secret: $secret)
 }
 
 mutation Signin($email: String!, $password: String!) {

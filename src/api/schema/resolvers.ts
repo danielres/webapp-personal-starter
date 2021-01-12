@@ -1,7 +1,9 @@
+import { inviteByEmail } from "./resolvers/mutations/inviteByEmail"
 import { resendVerificationEmail } from "./resolvers/mutations/resendVerificationEmail"
 import { signin } from "./resolvers/mutations/signin"
 import { signout } from "./resolvers/mutations/signout"
 import { signup } from "./resolvers/mutations/signup"
+import { signupWithInvitation } from "./resolvers/mutations/signupWithInvitation"
 import { updateUser } from "./resolvers/mutations/updateUser"
 import { verifyEmail } from "./resolvers/mutations/verifyEmail"
 import { me } from "./resolvers/queries/me"
@@ -27,9 +29,11 @@ export const resolvers = {
   },
 
   Mutation: {
+    inviteByEmail,
     resendVerificationEmail,
     signin,
     signup,
+    signupWithInvitation,
     signout,
     updateUser,
     verifyEmail,

@@ -5,7 +5,7 @@ export class SigninError extends SafeError {
 
   constructor() {
     super()
-    this.message = "Could not sign in: invalid credentials"
+    this.message = "Could not signin: invalid credentials"
     this.report = false
   }
 }
