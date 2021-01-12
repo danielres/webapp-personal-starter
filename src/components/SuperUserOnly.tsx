@@ -1,7 +1,7 @@
 import Link from "next/link"
 import React from "react"
 import { sdk } from "../../sdk"
-import { getPath } from "../api/getPath"
+import { getPath } from "../getPath"
 import { Alert } from "./ui/Alert"
 import { Button } from "./ui/Button"
 import { Card } from "./ui/Card"

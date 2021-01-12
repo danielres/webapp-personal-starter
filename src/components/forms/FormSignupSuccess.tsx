@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { getPath } from "../../api/getPath"
+import { getPath } from "../../getPath"
 import { Button } from "../ui/Button"
 import { H1 } from "../ui/H1"
 import { Stack } from "../ui/Stack"
