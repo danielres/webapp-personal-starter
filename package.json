@@ -36,7 +36,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
-    "@prisma/client": "2.13.1",
+    "@prisma/client": "2.14.0",
     "@sentry/node": "^5.29.2",
     "@sentry/tracing": "^5.29.2",
     "apollo-server-micro": "^2.19.0",
@@ -48,7 +48,7 @@
     "graphql-middleware": "^6.0.0",
     "graphql-request": "^3.4.0",
     "graphql-shield": "^7.4.4",
-    "next": "10.0.4",
+    "next": "10.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^6.14.0",
