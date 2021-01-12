@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import zxcvbn from "zxcvbn"
 import * as config from "../../../config"
 import { sdk } from "../../../sdk"
+import { getPath } from "../../api/getPath"
 import { SignupMutationVariables } from "../../generated/operations"
 import { isEmail } from "../../validators/isEmail"
 import { isName } from "../../validators/isName"
@@ -106,7 +107,7 @@ export const FormSignup = ({ onSuccess }: FormSignupProps) => {
                   Register
                 </Button>
 
-                <Link href="/">
+                <Link href={getPath.signin()} passHref>
                   <Button as="a" variant="text">
                     Sign in
                   </Button>

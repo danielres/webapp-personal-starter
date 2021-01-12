@@ -1,17 +1,18 @@
 import { useRouter } from "next/router"
 import React from "react"
 import { sdk } from "../../../../sdk"
+import { getPath } from "../../../api/getPath"
 import { FormUser } from "../../../components/admin/forms/FormUser"
 import { Card } from "../../../components/ui/Card"
+import { CardLinkBack } from "../../../components/ui/CardLinkBack"
 import { Spinner } from "../../../components/ui/Spinner"
 import { Stack } from "../../../components/ui/Stack"
-import { CardLinkBack } from "../../../components/ui/CardLinkBack"
 
 export default function UserEditAsAdminById() {
   return (
     <Card className="animate-fadein-fast">
       <Stack>
-        <CardLinkBack href={"/admin"} />
+        <CardLinkBack href={getPath.admin.users.home()} />
         <UserEditor />
       </Stack>
     </Card>

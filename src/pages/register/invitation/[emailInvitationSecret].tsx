@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { sdk } from "../../../../sdk"
+import { getPath } from "../../../api/getPath"
 import { FormSignupWithInvitation } from "../../../components/forms/FormSignupWithInvitation"
 import { Check } from "../../../components/Icons/Check"
 import { InlineIcon } from "../../../components/Icons/InlineIcon"
@@ -55,7 +56,7 @@ function SuccessMessage() {
 
       <p>You can now sign in using your email + password</p>
 
-      <Link href="/" passHref>
+      <Link href={getPath.home()} passHref>
         <Button as="a" variant="primary">
           Sign in
         </Button>

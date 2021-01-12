@@ -1,6 +1,7 @@
 import Link from "next/link"
 import React from "react"
 import { sdk } from "../../sdk"
+import { getPath } from "../api/getPath"
 import { Alert } from "./ui/Alert"
 import { Button } from "./ui/Button"
 import { Card } from "./ui/Card"
@@ -28,7 +29,7 @@ export const SuperUserOnly = ({
         <Card>
           <Stack>
             <Alert variant="danger">Access forbidden</Alert>
-            <Link href="/" passHref>
+            <Link href={getPath.home()} passHref>
               <Button variant="text" as="a">
                 Return to the homepage
               </Button>

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import React from "react"
+import { getPath } from "../../api/getPath"
 import { Button } from "../ui/Button"
 import { H1 } from "../ui/H1"
 import { Stack } from "../ui/Stack"
@@ -11,7 +12,7 @@ export function FormSignupSuccess() {
 
       <p>Please check your mailbox for further instructions.</p>
 
-      <Link href="/">
+      <Link href={getPath.home()} passHref>
         <Button variant="primary" as="a">
           Ok
         </Button>

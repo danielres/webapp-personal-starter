@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { sdk } from "../../sdk"
+import { getPath } from "../api/getPath"
 import { House } from "./Icons/House"
 import { InlineIcon } from "./Icons/InlineIcon"
 import { SuperUserOnly } from "./SuperUserOnly"
@@ -31,7 +32,7 @@ export default function MenuPrimary({ className }: MenuPrimaryProps) {
           <nav>
             <ul className="flex list-none">
               <li>
-                <Link href="/" passHref>
+                <Link href={getPath.home()} passHref>
                   <A title="Home">
                     <InlineIcon size={30}>
                       <House />
@@ -45,14 +46,12 @@ export default function MenuPrimary({ className }: MenuPrimaryProps) {
           <nav>
             <ul className="flex flex-col list-none sm:flex-row">
               <li>
-                <Link href="/" passHref>
-                  <T>{me.email}</T>
-                </Link>
+                <T>{me.email}</T>
               </li>
 
               <SuperUserOnly>
                 <li>
-                  <Link href="/admin" passHref>
+                  <Link href={getPath.admin.home()} passHref>
                     <A>Admin</A>
                   </Link>
                 </li>

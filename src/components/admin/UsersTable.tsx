@@ -1,6 +1,7 @@
 import Link from "next/link"
 import React from "react"
 import { sdk } from "../../../sdk"
+import { getPath } from "../../api/getPath"
 import { User as TUser } from "../../generated/operations"
 import { Button } from "../ui/Button"
 import { TableOuter } from "../ui/TableOuter"
@@ -34,7 +35,8 @@ function RowUser({ user }: { user: TUser }) {
         {user.createdAt !== user.updatedAt && <Time time={user.updatedAt} />}
       </td>
       <td>
-        <Link href={`/admin/user/${user.id}`} passHref>
+        {/* <Link href={`/admin/user/${user.id}`} passHref> */}
+        <Link href={getPath.admin.users.edit(user.id)} passHref>
           <Button as="a" variant="text" padding="none">
             edit
           </Button>
