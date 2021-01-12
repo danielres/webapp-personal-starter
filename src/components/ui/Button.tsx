@@ -9,7 +9,7 @@ type ButtonProps = {
   onClick?: () => void
   padding?: "md" | "none"
   type?: "button" | "submit"
-  variant?: "primary" | "secondary" | "action" | "text"
+  variant?: "primary" | "secondary" | "action" | "text" | "custom"
 }
 
 export function Button({
