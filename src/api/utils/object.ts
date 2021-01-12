@@ -9,7 +9,7 @@ type Object = {
   [key: string]: string | number | boolean | null | undefined | Object
 }
 
-export const encrypt = (obj: Object | string) => {
+export const encrypt = (obj: Object) => {
   const stringified = JSON.stringify(obj)
   const b64 = CryptoJS.AES.encrypt(stringified, SECRET).toString()
   const e64 = CryptoJS.enc.Base64.parse(b64)

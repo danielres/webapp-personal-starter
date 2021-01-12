@@ -1,7 +1,7 @@
 /** @usePrisma */
 import { pick } from "../../../../utils/object"
 import { TestSdk } from "../../../test/TestSdk"
-import * as crypto from "../../../utils/crypto"
+import * as object from "../../../utils/object"
 
 const sdk = TestSdk()
 
@@ -21,7 +21,7 @@ describe("Mutation verifyEmail", () => {
       expect(res1.data.signin.emailVerifiedAt).toBe(null)
 
       const { email, name } = res1.data.signin
-      const emailVerificationSecret = crypto.encrypt({ email })
+      const emailVerificationSecret = object.encrypt({ email })
 
       const res2: any = await sdk.VerifyEmail({ emailVerificationSecret })
       expect(res2.data.verifyEmail).toMatchObject({ email, name })

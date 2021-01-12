@@ -36,7 +36,7 @@ export const graphql = {
 }
 
 export const pages = {
-  public: ["^/register$", "^/register/.+$", "^/account/setup$"],
+  public: ["^/auth/signup$", "^/auth/verify/.+$", "^/auth/invitation/.+$"],
 }
 
 export const prisma = {

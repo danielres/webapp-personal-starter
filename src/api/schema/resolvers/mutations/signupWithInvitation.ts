@@ -8,8 +8,7 @@ import {
 import { Context } from "../../../context"
 import * as codes from "../../../errors/codes"
 import { ValidationErrors } from "../../../errors/InputValidationError"
-import { ServerError } from "../../../errors/ServerError"
-import * as crypto from "../../../utils/crypto"
+import * as object from "../../../utils/object"
 
 // Exported so they can be mocked in tests:
 export const onFailure = (args: any) => {}
@@ -29,7 +28,7 @@ export const signupWithInvitation = async (
 
   const { name, password, secret } = args
 
-  const { email, isSuperUser } = crypto.decrypt(secret)
+  const { email, isSuperUser } = object.decrypt(secret)
   const emailVerifiedAt = new Date()
 
   try {

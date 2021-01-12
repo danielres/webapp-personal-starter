@@ -1,6 +1,6 @@
 import * as config from "../../../config"
 import { getPath } from "../getPath"
-import * as crypto from "../utils/crypto"
+import * as object from "../utils/object"
 import { sendEmail } from "./sendEmail"
 
 const getEmailInvitationLink = (
@@ -8,13 +8,13 @@ const getEmailInvitationLink = (
   isSuperUser: boolean,
   origin: string
 ) => {
-  const secret = crypto.encrypt({ email, isSuperUser })
+  const secret = object.encrypt({ email, isSuperUser })
   const path = getPath.signup.withInvitation(secret)
   return `${origin}${path}`
 }
 
 const getEmailVerificationLink = (email: string, origin: string) => {
-  const secret = crypto.encrypt({ email })
+  const secret = object.encrypt({ email })
   const path = getPath.signup.verifyEmail(secret)
   return `${origin}${path}`
 }

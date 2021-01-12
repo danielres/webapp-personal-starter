@@ -1,6 +1,6 @@
 /** @usePrisma */
 import { TestSdk } from "../../../test/TestSdk"
-import * as crypto from "../../../utils/crypto"
+import * as object from "../../../utils/object"
 import * as signupWithInvitation from ".//signupWithInvitation"
 
 jest.spyOn(signupWithInvitation, "onSuccess")
@@ -33,7 +33,7 @@ describe("Mutation signupWithInvitation", () => {
 
   describe("Completed with a valid invitation secret", () => {
     it("gives acces to signin", async () => {
-      const emailInvitationSecret = crypto.encrypt({
+      const emailInvitationSecret = object.encrypt({
         email: email2,
         isSuperUser: false,
       })
@@ -52,7 +52,7 @@ describe("Mutation signupWithInvitation", () => {
     })
 
     it("allows inviting as superUser", async () => {
-      const emailInvitationSecret = crypto.encrypt({
+      const emailInvitationSecret = object.encrypt({
         email: email3,
         isSuperUser: true,
       })

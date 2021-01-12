@@ -1,7 +1,7 @@
 import { VerifyEmailMutationVariables } from "../../../../generated/operations"
 import type { Context } from "../../../context"
 import { VerifyEmailError } from "../../../errors/VerifyEmailError"
-import * as crypto from "../../../utils/crypto"
+import * as object from "../../../utils/object"
 
 export const verifyEmail = async (
   _: unused,
@@ -10,7 +10,7 @@ export const verifyEmail = async (
 ) => {
   try {
     const { emailVerificationSecret } = args
-    const { email } = crypto.decrypt(emailVerificationSecret)
+    const { email } = object.decrypt(emailVerificationSecret)
 
     const user = await prisma.user.findUnique({ where: { email } })
 
