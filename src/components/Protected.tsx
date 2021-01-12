@@ -44,7 +44,7 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
 
   const onClick = async () => {
     try {
-      await sdk.resendVerificationEmail()
+      await sdk.ResendVerificationEmail()
       setApolloErrors(undefined)
       setIsSuccess(true)
     } catch ({ response }) {

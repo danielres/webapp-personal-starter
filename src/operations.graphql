@@ -30,7 +30,7 @@ mutation InviteByEmail($email: String!, $isSuperUser: Boolean) {
   inviteByEmail(email: $email, isSuperUser: $isSuperUser)
 }
 
-mutation resendVerificationEmail {
+mutation ResendVerificationEmail {
   resendVerificationEmail
 }
 

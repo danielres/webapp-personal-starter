@@ -244,7 +244,7 @@ export const InviteByEmailDocument = gql`
   }
 `
 export const ResendVerificationEmailDocument = gql`
-  mutation resendVerificationEmail {
+  mutation ResendVerificationEmail {
     resendVerificationEmail
   }
 `
@@ -344,7 +344,7 @@ export function getSdk(
         )
       )
     },
-    resendVerificationEmail(
+    ResendVerificationEmail(
       variables?: ResendVerificationEmailMutationVariables,
       requestHeaders?: Headers
     ): Promise<ResendVerificationEmailMutation> {
