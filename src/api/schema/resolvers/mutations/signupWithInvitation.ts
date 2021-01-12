@@ -55,10 +55,6 @@ export const signupWithInvitation = async (
       return true
     }
 
-    // Unknown error (gets reported) // FIXME--------------------------------
-    return new ServerError({
-      message: "Could not signup with invitation, please try again later.",
-      report: true,
-    })
+    return error // forwards to formatError
   }
 }
