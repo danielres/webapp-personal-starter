@@ -2,9 +2,9 @@ export const getPath = {
   home: () => `/`,
   signin: () => `/`,
   signup: {
-    regular: () => `/register`,
-    verifyEmail: (secret: string) => `/register/${secret}`,
-    withInvitation: (secret: string) => `/register/invitation/${secret}`,
+    regular: () => `/auth/signup`,
+    verifyEmail: (secret: string) => `/auth/verify/${secret}`,
+    withInvitation: (secret: string) => `/auth/invitation/${secret}`,
   },
 
   admin: {
