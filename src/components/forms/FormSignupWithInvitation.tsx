@@ -1,13 +1,10 @@
 import { ApolloError } from "apollo-server-micro"
-import Link from "next/link"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import zxcvbn from "zxcvbn"
 import * as config from "../../../config"
 import { sdk } from "../../../sdk"
-import { getPath } from "../../api/getPath"
 import { SignupMutationVariables } from "../../generated/operations"
-import { isEmail } from "../../validators/isEmail"
 import { isName } from "../../validators/isName"
 import { isPassword } from "../../validators/isPassword"
 import { messages } from "../../validators/messages"
@@ -19,8 +16,9 @@ import { PasswordStrengthLabel } from "../ui/forms/PasswordStrengthLabel"
 import { PasswordStrengthMeter } from "../ui/forms/PasswordStrengthMeter"
 import { Stack } from "../ui/Stack"
 
-type FormSignupProps = {
+type FormSignupWithInvitationProps = {
   onSuccess: () => void
+  secret: string
 }
 
 const getDefaultValues = () => {
@@ -35,7 +33,10 @@ const getDefaultValues = () => {
   }
 }
 
-export const FormSignup = ({ onSuccess }: FormSignupProps) => {
+export const FormSignupWithInvitation = ({
+  onSuccess,
+  secret,
+}: FormSignupWithInvitationProps) => {
   const formMethods = useForm({ defaultValues: getDefaultValues() })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>([])
 
@@ -44,7 +45,7 @@ export const FormSignup = ({ onSuccess }: FormSignupProps) => {
   ) => {
     const { password2, ...rest } = vars
     try {
-      await sdk.Signup(rest)
+      await sdk.SignupWithInvitation({ ...rest, secret })
       onSuccess()
       setApolloErrors([])
     } catch ({ response }) {
@@ -58,6 +59,7 @@ export const FormSignup = ({ onSuccess }: FormSignupProps) => {
   return (
     <Stack>
       <ApolloErrors errors={apolloErrors} />
+
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <Stack>
@@ -65,13 +67,6 @@ export const FormSignup = ({ onSuccess }: FormSignupProps) => {
               <InputText
                 name="name"
                 validate={(v) => isName(v) || messages.Name}
-              />
-            </FormRow>
-
-            <FormRow label="Email">
-              <InputText
-                name="email"
-                validate={(v) => isEmail(v) || messages.Email}
               />
             </FormRow>
 
@@ -104,14 +99,8 @@ export const FormSignup = ({ onSuccess }: FormSignupProps) => {
             <FormRow>
               <div className="flex justify-between">
                 <Button type="submit" variant="primary">
-                  Register
+                  Create my account
                 </Button>
-
-                <Link href={getPath.signin()} passHref>
-                  <Button as="a" variant="text">
-                    Sign in
-                  </Button>
-                </Link>
               </div>
             </FormRow>
           </Stack>

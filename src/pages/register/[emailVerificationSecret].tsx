@@ -46,7 +46,7 @@ function EmailConfirmation({ secret }: EmailConfirmationProps) {
 
   return (
     <Stack>
-      <div className="mb-12 text-center text-gray-700">
+      <div className="mb-12 text-center">
         <H1 className="text-gray-600">
           Welcome{data.name ? ` ${data.name}` : ""}!
         </H1>

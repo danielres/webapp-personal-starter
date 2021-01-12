@@ -62,7 +62,7 @@ export function FormUser({ onSuccess, user }: FormUserProps) {
               </div>
             </FormRow>
 
-            <FormRow label="Name">
+            <FormRow label="Full name">
               <InputText
                 name="name"
                 validate={(v) => isName(v) || messages.Name}
@@ -81,12 +81,6 @@ export function FormUser({ onSuccess, user }: FormUserProps) {
                 <Button type="submit" variant="primary">
                   Update user
                 </Button>
-
-                <Link href="/admin">
-                  <Button as="a" className="text-gray-500" variant="text">
-                    cancel
-                  </Button>
-                </Link>
               </div>
             </FormRow>
           </Stack>

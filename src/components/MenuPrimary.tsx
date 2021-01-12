@@ -3,12 +3,17 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { sdk } from "../../sdk"
+import { getPath } from "../api/getPath"
 import { House } from "./Icons/House"
 import { InlineIcon } from "./Icons/InlineIcon"
 import { SuperUserOnly } from "./SuperUserOnly"
 import { Container } from "./ui/Container"
 
-export default function MenuPrimary() {
+type MenuPrimaryProps = {
+  className?: string
+}
+
+export default function MenuPrimary({ className }: MenuPrimaryProps) {
   const { data, mutate } = sdk.useMe()
 
   const signout = async () => {
@@ -21,13 +26,13 @@ export default function MenuPrimary() {
   const { me } = data
 
   return (
-    <div className="sm:pb-12">
+    <div className={classnames("sm:pb-12", className)}>
       <div className="bg-white shadow-md sm:fixed sm:w-full">
         <Container className="flex flex-col justify-between sm:flex-row">
           <nav>
             <ul className="flex list-none">
               <li>
-                <Link href="/" passHref>
+                <Link href={getPath.home()} passHref>
                   <A title="Home">
                     <InlineIcon size={30}>
                       <House />
@@ -41,14 +46,12 @@ export default function MenuPrimary() {
           <nav>
             <ul className="flex flex-col list-none sm:flex-row">
               <li>
-                <Link href="/" passHref>
-                  <T>{me.email}</T>
-                </Link>
+                <T>{me.email}</T>
               </li>
 
               <SuperUserOnly>
                 <li>
-                  <Link href="/admin" passHref>
+                  <Link href={getPath.admin.home()} passHref>
                     <A>Admin</A>
                   </Link>
                 </li>
@@ -95,7 +98,7 @@ function A({ children, href, title, ...rest }: AProps) {
     <span className="block text-gray-500 transition-colors sm:inline-block hover:text-gray-900">
       <a
         className={classnames(
-          "block px-3 py-1 sm:py-3 border-b-2 border-transparent",
+          "block px-3 py-1 sm:py-3 border-b-2 border-transparent focus:outline-none",
           {
             "sm:border-gray-400 text-gray-900": isActive,
           }
@@ -118,7 +121,7 @@ type BProps = {
 function B({ children, onClick }: BProps) {
   return (
     <button
-      className="px-3 py-3 text-gray-500 transition-colors hover:text-gray-900"
+      className="px-3 py-3 text-gray-500 transition-colors hover:text-gray-900 focus:outline-none"
       onClick={onClick}
     >
       {children}

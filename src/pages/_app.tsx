@@ -27,17 +27,21 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <div id="modal-root"></div>
+
       <SWRConfig value={{ suspense: true }}>
         <div className="mb-6">
           {isPagePublic ? (
-            <Component {...pageProps} />
+            <Suspense fallback={<Spinner />}>
+              <Component {...pageProps} />
+            </Suspense>
           ) : (
             <Suspense fallback={<Spinner />}>
               <Protected>
                 <div className="animate-fadein-fast">
                   <Stack>
                     <Suspense fallback={<Spinner />}>
-                      <MenuPrimary />
+                      <MenuPrimary className="relative z-20" />
                     </Suspense>
 
                     <Suspense fallback={<Spinner />}>

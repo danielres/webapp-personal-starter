@@ -3,6 +3,7 @@ import Link from "next/link"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { sdk } from "../../../sdk"
+import { getPath } from "../../api/getPath"
 import { SigninMutationVariables } from "../../generated/operations"
 import { isEmail } from "../../validators/isEmail"
 import { isPassword } from "../../validators/isPassword"
@@ -68,7 +69,7 @@ export const FormSignin = ({
                 </Button>
 
                 {hasRegisterButton && (
-                  <Link href="/register">
+                  <Link href={getPath.signup.regular()} passHref>
                     <Button as="a" variant="text">
                       Register
                     </Button>

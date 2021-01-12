@@ -9,7 +9,7 @@ type ButtonProps = {
   onClick?: () => void
   padding?: "md" | "none"
   type?: "button" | "submit"
-  variant?: "primary" | "secondary" | "action" | "text"
+  variant?: "primary" | "secondary" | "action" | "text" | "custom"
 }
 
 export function Button({
@@ -29,6 +29,7 @@ export function Button({
       className={classnames(
         {
           [ui.btn_primary]: variant === "primary",
+          [ui.btn_secondary]: variant === "secondary",
           [ui.btn_text]: variant === "text",
           [ui.btn_md]: padding === "md",
         },

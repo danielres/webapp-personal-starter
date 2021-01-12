@@ -1,4 +1,4 @@
-import { define, number, object, optional } from "superstruct"
+import { define, number, object, optional, boolean, string } from "superstruct"
 import { isEmail } from "./isEmail"
 import { isName } from "./isName"
 import { isPassword } from "./isPassword"
@@ -21,6 +21,11 @@ export const Email = define("Email", (value) => {
   return messages.Email
 })
 
+export const InviteByEmailInput = object({
+  email: Email,
+  isSuperUser: optional(boolean()),
+})
+
 export const SigninInput = object({
   email: Email,
   password: Password,
@@ -30,6 +35,12 @@ export const SignupInput = object({
   email: Email,
   name: Name,
   password: Password,
+})
+
+export const SignupWithInvitationInput = object({
+  name: Name,
+  password: Password,
+  secret: string(),
 })
 
 export const UpdateUserInput = object({

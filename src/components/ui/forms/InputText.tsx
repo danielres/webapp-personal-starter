@@ -23,7 +23,7 @@ export function InputText({
   const hasError = errors?.[name]
 
   return (
-    <>
+    <div>
       <input
         className={classnames(
           "w-full rounded focus:ring-2 placeholder-gray-400",
@@ -38,6 +38,6 @@ export function InputText({
         type={type}
       />
       <InputError error={errors[name]} />
-    </>
+    </div>
   )
 }

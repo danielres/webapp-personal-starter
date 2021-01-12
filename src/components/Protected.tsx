@@ -44,7 +44,7 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
 
   const onClick = async () => {
     try {
-      await sdk.resendVerificationEmail()
+      await sdk.ResendVerificationEmail()
       setApolloErrors(undefined)
       setIsSuccess(true)
     } catch ({ response }) {
@@ -53,7 +53,7 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
   }
 
   return (
-    <Stack className="text-center text-gray-700">
+    <Stack className="text-center">
       <ApolloErrors errors={apolloErrors} />
 
       <H2 className="text-gray-600">Email verification needed</H2>

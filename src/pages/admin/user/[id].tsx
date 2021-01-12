@@ -1,12 +1,20 @@
 import { useRouter } from "next/router"
+import React from "react"
 import { sdk } from "../../../../sdk"
+import { getPath } from "../../../api/getPath"
 import { FormUser } from "../../../components/admin/forms/FormUser"
 import { Card } from "../../../components/ui/Card"
+import { CardLinkBack } from "../../../components/ui/CardLinkBack"
+import { Spinner } from "../../../components/ui/Spinner"
+import { Stack } from "../../../components/ui/Stack"
 
 export default function UserEditAsAdminById() {
   return (
     <Card className="animate-fadein-fast">
-      <UserEditor />
+      <Stack>
+        <CardLinkBack href={getPath.admin.users.home()} />
+        <UserEditor />
+      </Stack>
     </Card>
   )
 }
@@ -17,7 +25,7 @@ function UserEditor() {
   const id = Number(router.query.id)
   const { data } = sdk.useUser({ id })
 
-  if (!data?.user) return null
+  if (!data?.user) return <Spinner />
 
   const onSuccess = () => router.push("/admin")
 

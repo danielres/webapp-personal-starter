@@ -17,7 +17,7 @@ describe("Mutation resendVerificationEmail", () => {
 
   describe("When user hasn't signed in", () => {
     it(`returns error "User not found"`, async () => {
-      const actual = await sdk.resendVerificationEmail()
+      const actual = await sdk.ResendVerificationEmail()
 
       const expected = {
         data: null,
@@ -34,7 +34,7 @@ describe("Mutation resendVerificationEmail", () => {
     })
 
     it(`calls resendVerificationEmail.onSuccess with email + name + origin`, async () => {
-      await sdk.resendVerificationEmail()
+      await sdk.ResendVerificationEmail()
 
       expect(resendVerificationEmail.onSuccess).toHaveBeenCalledWith({
         email: creds.email,

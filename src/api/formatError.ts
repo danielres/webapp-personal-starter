@@ -18,7 +18,7 @@ import { UnknownServerError } from "./errors/UnknownServerError"
 
 export const formatError = (
   error: GraphQLError
-): GraphQLError | UnknownServerError => {
+): GraphQLError | UnknownServerError | Error => {
   if (error.message === "Not Authorised!") return error // graphql-shield error
 
   const report = error.extensions?.exception?.report ?? true
