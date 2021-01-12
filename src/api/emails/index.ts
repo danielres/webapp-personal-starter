@@ -1,19 +1,22 @@
+import * as config from "../../../config"
+import { getPath } from "../getPath"
 import * as crypto from "../utils/crypto"
 import { sendEmail } from "./sendEmail"
-import * as config from "../../../config"
 
 const getEmailInvitationLink = (
   email: string,
   isSuperUser: boolean,
   origin: string
 ) => {
-  const encryptedObject = crypto.encrypt({ email, isSuperUser })
-  return `${origin}/register/invitation/${encryptedObject}`
+  const secret = crypto.encrypt({ email, isSuperUser })
+  const path = getPath.signup.withInvitation(secret)
+  return `${origin}${path}`
 }
 
 const getEmailVerificationLink = (email: string, origin: string) => {
-  const encryptedObject = crypto.encrypt({ email })
-  return `${origin}/register/${encryptedObject}`
+  const secret = crypto.encrypt({ email })
+  const path = getPath.signup.verifyEmail(secret)
+  return `${origin}${path}`
 }
 
 type SendEmailSignupFailureArgs = {

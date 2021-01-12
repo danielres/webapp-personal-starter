@@ -3,6 +3,7 @@ export const getPath = {
   signin: () => `/`,
   signup: {
     regular: () => `/register`,
+    verifyEmail: (secret: string) => `/register/${secret}`,
     withInvitation: (secret: string) => `/register/invitation/${secret}`,
   },
 
