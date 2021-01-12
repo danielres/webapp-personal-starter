@@ -1,7 +1,7 @@
 /* --------------- */
 
 .btn {
-  @apply inline-block transition-colors rounded cursor-pointer;
+  @apply inline-block transition-colors rounded cursor-pointer focus:outline-none;
 }
 
 .btn_md {
