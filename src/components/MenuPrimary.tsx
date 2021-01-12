@@ -98,7 +98,7 @@ function A({ children, href, title, ...rest }: AProps) {
     <span className="block text-gray-500 transition-colors sm:inline-block hover:text-gray-900">
       <a
         className={classnames(
-          "block px-3 py-1 sm:py-3 border-b-2 border-transparent",
+          "block px-3 py-1 sm:py-3 border-b-2 border-transparent focus:outline-none",
           {
             "sm:border-gray-400 text-gray-900": isActive,
           }
@@ -121,7 +121,7 @@ type BProps = {
 function B({ children, onClick }: BProps) {
   return (
     <button
-      className="px-3 py-3 text-gray-500 transition-colors hover:text-gray-900"
+      className="px-3 py-3 text-gray-500 transition-colors hover:text-gray-900 focus:outline-none"
       onClick={onClick}
     >
       {children}
