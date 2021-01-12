@@ -1,3 +1,8 @@
+import * as config from "../config"
+
+// Please make sure to declare non-protected (public) page paths here:
+config.pages.public
+
 export const getPath = {
   home: () => `/`,
   signin: () => `/`,

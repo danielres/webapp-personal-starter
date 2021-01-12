@@ -1,5 +1,5 @@
 import * as config from "../../../config"
-import { getPath } from "../getPath"
+import { getPath } from "../../getPath"
 import * as object from "../utils/object"
 import { sendEmail } from "./sendEmail"
 

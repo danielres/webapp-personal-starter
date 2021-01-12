@@ -1,4 +1,4 @@
-import { getPath } from "../../api/getPath"
+import { getPath } from "../../getPath"
 import { Tab, Tabs } from "../ui/Tabs"
 
 export function MenuAdmin() {
