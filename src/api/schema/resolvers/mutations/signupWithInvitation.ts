@@ -46,8 +46,6 @@ export const signupWithInvitation = async (
     await onSuccess({ email, name, origin })
     return true
   } catch (error) {
-    console.log(error)
-
     const emailExists =
       error.code === codes.prisma.UNIQUE_VALIDATION_FAILURE &&
       error.meta?.target?.includes("email")
