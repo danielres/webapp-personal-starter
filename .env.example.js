@@ -13,6 +13,9 @@ module.exports = {
   ADMINER_PORT: "8080",
   COOKIE_SESSION_KEY1: "CHANGEME", // Some very long secret
   COOKIE_SESSION_KEY2: "CHANGEME", // Some very long secret
+  // EMAIL_PROVIDER: "console" // optional: override the value set by config.email.provider
+  EMAIL_PROVIDERS_MAILTRAP_AUTH_USER: "CHANGEME",
+  EMAIL_PROVIDERS_MAILTRAP_AUTH_PASS: "CHANGEME",
   CRYPTO_SECRET: "CHANGEME", // Some very long secret
   PG_DB,
   PG_PASSWORD,

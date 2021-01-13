@@ -1,6 +1,8 @@
-export const isDev = process.env.NODE_ENV === "development"
-export const isProd = process.env.NODE_ENV === "production"
-export const isTest = process.env.NODE_ENV === "test"
+const ENV = process.env.NODE_ENV as string
+export const isDev = ENV === "development"
+export const isProd = ENV === "production"
+export const isStaging = ENV === "staging"
+export const isTest = ENV === "test"
 
 export const app = {
   name: process.env.APP_NAME || "Webapp Starter",
@@ -23,9 +25,30 @@ export const crypto = {
   secret: isDev || isTest ? "secret" : process.env.CRYPTO_SECRET,
 }
 
-export const emails = {
+type EmailProvider = "mailtrap" | "noop" | "console"
+const getEmailProvider = (): EmailProvider => {
+  const { EMAIL_PROVIDER } = process.env
+  if (EMAIL_PROVIDER) return EMAIL_PROVIDER as EmailProvider
+
+  if (isStaging || isProd) return "mailtrap"
+  if (isTest) return "noop"
+  if (isDev) return "console"
+  return "console"
+}
+
+export const email = {
   from: "noreply@example.com",
-  provider: isDev ? "console" : undefined,
+  provider: getEmailProvider(),
+  providers: {
+    mailtrap: {
+      host: "smtp.mailtrap.io",
+      port: 2525,
+      auth: {
+        user: process.env.EMAIL_PROVIDERS_MAILTRAP_AUTH_USER,
+        pass: process.env.EMAIL_PROVIDERS_MAILTRAP_AUTH_PASS,
+      },
+    },
+  },
   test: {
     origin: "http://localhost:3000",
   },

@@ -1,15 +1,30 @@
+import nodemailer from "nodemailer"
+import type Mail from "nodemailer/lib/mailer"
 import * as config from "../../../config"
 
-const { from, provider } = config.emails
+const { from, provider } = config.email
 
-type SendEmailArgs = {
-  to: string
-  subject: string
-  body: string
-}
+export const sendEmail = (receivedOptions: Mail.Options) => {
+  const options = { from, ...receivedOptions }
 
-export const sendEmail = ({ to, subject, body }: SendEmailArgs) => {
   if (provider === "console") {
-    console.log("[sendEmail]", { from, to, subject, body })
+    console.log("[sendEmail]", options)
+    return
+  }
+
+  if (provider === "noop") {
+    return
+  }
+
+  if (provider === "mailtrap") {
+    const transport = nodemailer.createTransport(
+      config.email.providers.mailtrap
+    )
+
+    return new Promise((resolve, reject) =>
+      transport.sendMail(options, (error, info) =>
+        error ? reject(error) : resolve(info)
+      )
+    )
   }
 }
