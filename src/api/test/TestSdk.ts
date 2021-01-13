@@ -10,7 +10,7 @@ const { prisma: globalPrisma } = (global as unknown) as JestGlobal
 // Warning: TestSdk agent is stateful regarding cookies
 // Therefore, tests using cookies need new TestSdk() instances to achieve isolation
 
-const ORIGIN = config.emails.test.origin
+const ORIGIN = config.email.test.origin
 
 export const TestSdk = ({ prisma = globalPrisma } = {}) => {
   const handler = makeHandler({ prisma })
