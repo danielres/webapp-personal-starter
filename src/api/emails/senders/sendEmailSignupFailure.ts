@@ -1,6 +1,46 @@
+import mjml2html from "mjml"
 import * as config from "../../../../config"
+import { getPath } from "../../../getPath"
+import { Button } from "../components/Button"
+import { Layout } from "../components/Layout"
+import { Section } from "../components/Section"
+import { Title } from "../components/Title"
 import { sendEmail } from "../sendEmail"
-import { getEmailVerificationLink } from "./getEmailVerificationLink"
+
+type GetMessageArgs = {
+  resetPasswordLink: string
+  signInLink: string
+}
+
+// For syntax highlighting, please use the VScode extension "tobermory.es6-string-html"
+const getMessageEmailExists = ({
+  resetPasswordLink,
+  signInLink,
+}: GetMessageArgs) =>
+  Layout(/* html */ `
+    ${Title(`Account creation failed`)}
+
+    ${Section(/* html */ `  
+      <p>
+        Your email is already associated with an account.
+      </p> 
+      <p>
+        Please sign in using your existing email + password.
+      </p> 
+
+    `)}
+
+    ${Button(`Sign in`, `${signInLink}`)}
+    
+    ${Section(/* html */ `  
+      <p>
+        Forgot your password?
+      </p> 
+    `)}
+    
+    ${Button(`Reset my password`, resetPasswordLink)}
+
+  `)
 
 type SendEmailSignupFailureArgs = {
   email: string
@@ -15,19 +55,12 @@ export const sendEmailSignupFailure = async (
 
   if (reason === "EMAIL_EXISTS") {
     const subject = `${config.app.name}: Signup failed`
-    const secretLink = getEmailVerificationLink(email, origin)
+    const resetPasswordLink = `${origin}${getPath.resetPassword()}`
+    const signInLink = `${origin}${getPath.signin()}`
 
-    const html = `
-      <p>
-        Signup failed because your email already exists in our db.
-      </p> 
-      <p>
-        Please follow this link to verify your email: 
-      </p>
-      <p>
-        <b><a href="${secretLink}">Verify my email</a></b>
-      </p>
-    `
+    const { html } = mjml2html(
+      getMessageEmailExists({ resetPasswordLink, signInLink })
+    )
 
     sendEmail({ to: email, subject, html })
   }
