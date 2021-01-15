@@ -1,10 +1,11 @@
 import nodemailer from "nodemailer"
 import type Mail from "nodemailer/lib/mailer"
 import * as config from "../../../config"
+import { SendEmailError } from "../errors/SendEmailError"
 
 const { from, provider } = config.email
 
-export const sendEmail = (receivedOptions: Mail.Options) => {
+export const sendEmail = async (receivedOptions: Mail.Options) => {
   const options = { from, ...receivedOptions }
 
   if (provider === "console") {
@@ -21,10 +22,17 @@ export const sendEmail = (receivedOptions: Mail.Options) => {
       config.email.providers.mailtrap
     )
 
-    return new Promise((resolve, reject) =>
+    const {
+      accepted,
+      messageId,
+      rejected,
+    } = await new Promise((resolve, reject) =>
       transport.sendMail(options, (error, info) =>
         error ? reject(error) : resolve(info)
       )
     )
+
+    if (accepted.length > 0) return
+    throw new SendEmailError({ messageId, rejected })
   }
 }

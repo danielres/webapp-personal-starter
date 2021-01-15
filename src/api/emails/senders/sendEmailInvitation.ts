@@ -1,6 +1,33 @@
+import mjml2html from "mjml"
 import * as config from "../../../../config"
+import { Button } from "../components/Button"
+import { Layout } from "../components/Layout"
+import { Section } from "../components/Section"
+import { Title } from "../components/Title"
 import { sendEmail } from "../sendEmail"
 import { getEmailInvitationLink } from "./getEmailInvitationLink"
+
+type GetMessageArgs = {
+  by: string
+  secretLink: string
+}
+
+// For syntax highlighting, please use the VScode extension "tobermory.es6-string-html"
+const getMessage = ({ by, secretLink }: GetMessageArgs) =>
+  Layout(/* html */ `
+    ${Title(`Welcome to ${config.app.name}!`)}
+
+    ${Section(/* html */ `  
+      <p>
+        You have been invited by ${by} to join ${config.app.name}. 
+      </p> 
+      <p>
+        Please follow this link to continue: 
+      </p> 
+    `)}
+
+    ${Button(`Create my account`, secretLink)}
+  `)
 
 type SendEmailInvitationArgs = {
   by: string
@@ -8,24 +35,12 @@ type SendEmailInvitationArgs = {
   isSuperUser: boolean
   origin: string
 }
+
 export const sendEmailInvitation = async (params: SendEmailInvitationArgs) => {
   const { by, email, isSuperUser, origin } = params
-
   const subject = `Welcome to ${config.app.name}!`
   const secretLink = getEmailInvitationLink(email, isSuperUser, origin)
+  const { html } = mjml2html(getMessage({ by, secretLink }))
 
-  const html = `
-  <p>
-    You have been invited by ${by} to join ${config.app.name}. 
-  </p>
-  <p>
-    Please follow this link to continue: 
-  </p>
-  <p>
-    <b>
-      <a href="${secretLink}">Signup using the invitation</a>
-    </b>
-  </p>`
-
-  sendEmail({ to: email, subject, html })
+  return sendEmail({ to: email, subject, html })
 }
