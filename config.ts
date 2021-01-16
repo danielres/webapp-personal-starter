@@ -67,7 +67,12 @@ export const graphql = {
 }
 
 export const pages = {
-  public: ["^/auth/signup$", "^/auth/verify/.+$", "^/auth/invitation/.+$"],
+  public: [
+    "^/auth/signup$",
+    "^/auth/verify/.+$",
+    "^/auth/invitation/.+$",
+    "^/auth/password/reset.*$",
+  ],
 }
 
 export const prisma = {
