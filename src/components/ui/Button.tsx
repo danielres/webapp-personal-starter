@@ -1,5 +1,4 @@
 import classnames from "classnames"
-import ui from "./ui.module.css"
 
 type ButtonProps = {
   as?: "button" | "a"
@@ -27,11 +26,13 @@ export function Button({
   return (
     <Component
       className={classnames(
+        "inline-block transition-colors rounded cursor-pointer focus:outline-none",
         {
-          [ui.btn_primary]: variant === "primary",
-          [ui.btn_secondary]: variant === "secondary",
-          [ui.btn_text]: variant === "text",
-          [ui.btn_md]: padding === "md",
+          "font-semibold text-white bg-blue-400": variant === "primary",
+          "bg-gray-200": variant === "secondary",
+          "text-gray-500 hover:underline hover:text-gray-700":
+            variant === "text",
+          "px-3 py-2": padding === "md",
         },
         className
       )}
