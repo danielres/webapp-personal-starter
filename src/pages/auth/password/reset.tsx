@@ -23,15 +23,10 @@ export default function PageResetPassword() {
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>([])
 
   useEffect(() => {
-    console.log(1, { secret })
-
     if (secret) {
       sdk
         .ResetPasswordFinish({ secret })
-        .then(() => {
-          console.log(2)
-          setIsFinishSuccess(true)
-        })
+        .then(() => setIsFinishSuccess(true))
         .catch(({ response }) => setApolloErrors(response.errors))
     }
   }, [secret])
