@@ -35,6 +35,11 @@
     "**/*": "prettier --write --ignore-unknown",
     "*.{js,css,md}": "prettier --write"
   },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {}
+    }
+  },
   "dependencies": {
     "@prisma/client": "2.14.0",
     "@sentry/node": "^5.29.2",
