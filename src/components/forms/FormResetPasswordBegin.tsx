@@ -29,7 +29,6 @@ export const FormResetPasswordBegin = ({ onSuccess }: FormSignupProps) => {
     vars: ResetPasswordBeginMutationVariables & { password2: string }
   ) => {
     const { password2, ...rest } = vars
-    console.log({ vars })
 
     try {
       await sdk.ResetPasswordBegin(rest)
