@@ -8,13 +8,13 @@ import { Title } from "../components/Title"
 import { sendEmail } from "../sendEmail"
 
 type GetMessageArgs = {
-  resetPasswordLink: string
+  beginResetPasswordLink: string
   signInLink: string
 }
 
 // For syntax highlighting, please use the VScode extension "tobermory.es6-string-html"
 const getMessageEmailExists = ({
-  resetPasswordLink,
+  beginResetPasswordLink,
   signInLink,
 }: GetMessageArgs) =>
   Layout(/* html */ `
@@ -38,7 +38,7 @@ const getMessageEmailExists = ({
       </p> 
     `)}
     
-    ${Button(`Reset my password`, resetPasswordLink)}
+    ${Button(`Reset my password`, beginResetPasswordLink)}
 
   `)
 
@@ -55,11 +55,11 @@ export const sendEmailSignupFailure = async (
 
   if (reason === "EMAIL_EXISTS") {
     const subject = `${config.app.name}: Signup failed`
-    const resetPasswordLink = `${origin}${getPath.resetPassword()}`
+    const beginResetPasswordLink = `${origin}${getPath.password.reset.begin()}`
     const signInLink = `${origin}${getPath.signin()}`
 
     const { html } = mjml2html(
-      getMessageEmailExists({ resetPasswordLink, signInLink })
+      getMessageEmailExists({ beginResetPasswordLink, signInLink })
     )
 
     sendEmail({ to: email, subject, html })

@@ -8,6 +8,14 @@ export const app = {
   name: process.env.APP_NAME || "Webapp Starter",
 }
 
+export const auth = {
+  password: {
+    reset: {
+      ttl: 1000 * 60 * 5, // 5 minutes (please use only whole minutes)
+    },
+  },
+}
+
 export const bcrypt = {
   saltRounts: isProd ? 10 : 1,
 }
@@ -59,7 +67,12 @@ export const graphql = {
 }
 
 export const pages = {
-  public: ["^/auth/signup$", "^/auth/verify/.+$", "^/auth/invitation/.+$"],
+  public: [
+    "^/auth/signup$",
+    "^/auth/verify/.+$",
+    "^/auth/invitation/.+$",
+    "^/auth/password/reset.*$",
+  ],
 }
 
 export const prisma = {

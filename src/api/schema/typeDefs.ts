@@ -25,6 +25,8 @@ export const typeDefs = /* GraphQL */ `
   type Mutation {
     inviteByEmail(email: String!, isSuperUser: Boolean): Boolean!
     resendVerificationEmail: Boolean!
+    resetPasswordBegin(email: String!, password: String!): Boolean!
+    resetPasswordFinish(secret: String!): Boolean!
     signup(email: String!, password: String!, name: String!): Boolean!
     signupWithInvitation(
       password: String!

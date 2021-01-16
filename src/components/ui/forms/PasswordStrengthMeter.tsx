@@ -19,7 +19,7 @@ export const PasswordStrengthMeter = ({
     <div className={classnames("flex h-1 rounded bg-gray-200")}>
       <div
         style={{ width: `${(100 / 4) * value}%` }}
-        className={colors[value]}
+        className={classnames(colors[value], "transition-all")}
       ></div>
     </div>
   )

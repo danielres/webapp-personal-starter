@@ -28,7 +28,7 @@ describe("Mutation signup", () => {
       expect(res.errors[0].extensions.exception.messages).toMatchObject([
         "email: should be a valid email",
         "name: should be between 3 and 64 characters",
-        "password: should be between 8 and 64 characters",
+        "password: should be between 8 and 256 characters",
       ])
     })
   })

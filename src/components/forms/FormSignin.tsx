@@ -63,18 +63,29 @@ export const FormSignin = ({
             </FormRow>
 
             <FormRow>
-              <div className="flex justify-between">
-                <Button type="submit" variant="primary">
-                  Sign in
-                </Button>
+              {/* <div className="flex justify-between"> */}
+              <div className="flex flex-col justify-between gap-4 text-center md:flex-row md:text-left">
+                <div>
+                  <Button type="submit" variant="primary">
+                    Sign in
+                  </Button>
 
-                {hasRegisterButton && (
-                  <Link href={getPath.signup.regular()} passHref>
-                    <Button as="a" variant="text">
-                      Register
-                    </Button>
-                  </Link>
-                )}
+                  {hasRegisterButton && (
+                    <span className="inline-block ml-4 text-gray-400 border-l border-gray-300">
+                      <Link href={getPath.signup.regular()} passHref>
+                        <Button as="a" variant="text">
+                          Register
+                        </Button>
+                      </Link>
+                    </span>
+                  )}
+                </div>
+
+                <Link href={getPath.password.reset.begin()} passHref>
+                  <Button className="text-gray-400" variant="text" as="a">
+                    Forgot password?
+                  </Button>
+                </Link>
               </div>
             </FormRow>
           </Stack>

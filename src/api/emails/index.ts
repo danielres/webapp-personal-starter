@@ -1,4 +1,5 @@
 import { sendEmailInvitation } from "./senders/sendEmailInvitation"
+import { sendEmailResetPasswordBegin } from "./senders/sendEmailResetPasswordBegin"
 import { sendEmailSignupFailure } from "./senders/sendEmailSignupFailure"
 import { sendEmailVerification } from "./senders/sendEmailVerification"
 
@@ -8,6 +9,10 @@ export const inviteByEmail = {
 
 export const resendVerificationEmail = {
   success: sendEmailVerification,
+}
+
+export const resetPasswordEmail = {
+  begin: sendEmailResetPasswordBegin,
 }
 
 export const signup = {

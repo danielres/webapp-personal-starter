@@ -26,6 +26,15 @@ export const InviteByEmailInput = object({
   isSuperUser: optional(boolean()),
 })
 
+export const ResetPasswordBeginInput = object({
+  email: Email,
+  password: Password,
+})
+
+export const ResetPasswordFinishInput = object({
+  secret: string(),
+})
+
 export const SigninInput = object({
   email: Email,
   password: Password,
