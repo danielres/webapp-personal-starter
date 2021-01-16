@@ -25,7 +25,7 @@ export const getPath = {
     },
     users: {
       home: () => `/admin`,
-      edit: (id: number) => `/admin/${id}`,
+      edit: (id: number) => `/admin/user/${id}`,
     },
   },
 }
