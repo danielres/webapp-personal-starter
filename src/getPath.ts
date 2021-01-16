@@ -5,7 +5,12 @@ config.pages.public
 
 export const getPath = {
   home: () => `/`,
-  resetPassword: () => `/`, // TODO
+  password: {
+    reset: {
+      begin: () => `/auth/password/reset`,
+      finish: (secret: string) => `/auth/password/reset?secret=${secret}`,
+    },
+  },
   signin: () => `/`,
   signup: {
     regular: () => `/auth/signup`,
