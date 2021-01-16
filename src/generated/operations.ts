@@ -55,6 +55,8 @@ export type Mutation = {
   __typename?: "Mutation"
   inviteByEmail: Scalars["Boolean"]
   resendVerificationEmail: Scalars["Boolean"]
+  resetPasswordBegin: Scalars["Boolean"]
+  resetPasswordFinish: Scalars["Boolean"]
   signup: Scalars["Boolean"]
   signupWithInvitation: Scalars["Boolean"]
   signin?: Maybe<User>
@@ -66,6 +68,15 @@ export type Mutation = {
 export type MutationInviteByEmailArgs = {
   email: Scalars["String"]
   isSuperUser?: Maybe<Scalars["Boolean"]>
+}
+
+export type MutationResetPasswordBeginArgs = {
+  email: Scalars["String"]
+  password: Scalars["String"]
+}
+
+export type MutationResetPasswordFinishArgs = {
+  secret: Scalars["String"]
 }
 
 export type MutationSignupArgs = {
@@ -143,6 +154,25 @@ export type ResendVerificationEmailMutationVariables = Exact<{
 export type ResendVerificationEmailMutation = {
   __typename?: "Mutation"
 } & Pick<Mutation, "resendVerificationEmail">
+
+export type ResetPasswordBeginMutationVariables = Exact<{
+  email: Scalars["String"]
+  password: Scalars["String"]
+}>
+
+export type ResetPasswordBeginMutation = { __typename?: "Mutation" } & Pick<
+  Mutation,
+  "resetPasswordBegin"
+>
+
+export type ResetPasswordFinishMutationVariables = Exact<{
+  secret: Scalars["String"]
+}>
+
+export type ResetPasswordFinishMutation = { __typename?: "Mutation" } & Pick<
+  Mutation,
+  "resetPasswordFinish"
+>
 
 export type SignupMutationVariables = Exact<{
   email: Scalars["String"]
@@ -248,6 +278,16 @@ export const ResendVerificationEmailDocument = gql`
     resendVerificationEmail
   }
 `
+export const ResetPasswordBeginDocument = gql`
+  mutation ResetPasswordBegin($email: String!, $password: String!) {
+    resetPasswordBegin(email: $email, password: $password)
+  }
+`
+export const ResetPasswordFinishDocument = gql`
+  mutation ResetPasswordFinish($secret: String!) {
+    resetPasswordFinish(secret: $secret)
+  }
+`
 export const SignupDocument = gql`
   mutation Signup($email: String!, $name: String!, $password: String!) {
     signup(email: $email, name: $name, password: $password)
@@ -351,6 +391,30 @@ export function getSdk(
       return withWrapper(() =>
         client.request<ResendVerificationEmailMutation>(
           print(ResendVerificationEmailDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    ResetPasswordBegin(
+      variables: ResetPasswordBeginMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<ResetPasswordBeginMutation> {
+      return withWrapper(() =>
+        client.request<ResetPasswordBeginMutation>(
+          print(ResetPasswordBeginDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    ResetPasswordFinish(
+      variables: ResetPasswordFinishMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<ResetPasswordFinishMutation> {
+      return withWrapper(() =>
+        client.request<ResetPasswordFinishMutation>(
+          print(ResetPasswordFinishDocument),
           variables,
           requestHeaders
         )

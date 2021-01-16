@@ -34,6 +34,14 @@ mutation ResendVerificationEmail {
   resendVerificationEmail
 }
 
+mutation ResetPasswordBegin($email: String!, $password: String!) {
+  resetPasswordBegin(email: $email, password: $password)
+}
+
+mutation ResetPasswordFinish($secret: String!) {
+  resetPasswordFinish(secret: $secret)
+}
+
 mutation Signup($email: String!, $name: String!, $password: String!) {
   signup(email: $email, name: $name, password: $password)
 }

@@ -1,5 +1,7 @@
 import { inviteByEmail } from "./resolvers/mutations/inviteByEmail"
 import { resendVerificationEmail } from "./resolvers/mutations/resendVerificationEmail"
+import { resetPasswordBegin } from "./resolvers/mutations/resetPassword.begin"
+import { resetPasswordFinish } from "./resolvers/mutations/resetPassword.finish"
 import { signin } from "./resolvers/mutations/signin"
 import { signout } from "./resolvers/mutations/signout"
 import { signup } from "./resolvers/mutations/signup"
@@ -31,6 +33,8 @@ export const resolvers = {
   Mutation: {
     inviteByEmail,
     resendVerificationEmail,
+    resetPasswordBegin,
+    resetPasswordFinish,
     signin,
     signup,
     signupWithInvitation,
