@@ -35,6 +35,11 @@
     "**/*": "prettier --write --ignore-unknown",
     "*.{js,css,md}": "prettier --write"
   },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {}
+    }
+  },
   "dependencies": {
     "@prisma/client": "2.14.0",
     "@sentry/node": "^5.29.2",
@@ -84,6 +89,7 @@
     "lint-staged": ">=10",
     "postcss": "^8.2.4",
     "prettier": "2.2.1",
+    "styled-jsx-plugin-postcss": "^4.0.0",
     "supertest": "^6.0.1",
     "tailwindcss": "^2.0.2",
     "ts-jest": "^26.4.4",
