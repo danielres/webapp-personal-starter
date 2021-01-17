@@ -39,7 +39,17 @@ export const signup = async (
       isSuperUser,
       password: hashedPassword,
     }
-    await prisma.user.create({ data })
+    const { id } = await prisma.user.create({ data })
+
+    if (usersCount === 0) {
+      // Every user needs to be approved by another one.
+      // First user is automatically superuser + approved by themselves.
+      await prisma.user.update({
+        where: { id },
+        data: { approvedBy: { connect: { id } } },
+      })
+    }
+
     await onSuccess({ email, name, origin })
   } catch (error) {
     const emailExists =
