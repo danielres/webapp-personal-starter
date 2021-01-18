@@ -28,6 +28,7 @@ export type User = {
   id: Scalars["Int"]
   name: Scalars["String"]
   email: Scalars["String"]
+  isApproved: Scalars["Boolean"]
   isSuperUser: Scalars["Boolean"]
   emailVerifiedAt?: Maybe<Scalars["Date"]>
   createdAt: Scalars["Date"]
@@ -100,6 +101,8 @@ export type MutationUpdateUserArgs = {
   id: Scalars["Int"]
   email?: Maybe<Scalars["String"]>
   name?: Maybe<Scalars["String"]>
+  isSuperUser?: Maybe<Scalars["Boolean"]>
+  isApproved?: Maybe<Scalars["Boolean"]>
 }
 
 export type MutationVerifyEmailArgs = {
@@ -111,6 +114,7 @@ export type UserFieldsFragment = { __typename?: "User" } & Pick<
   | "id"
   | "name"
   | "email"
+  | "isApproved"
   | "isSuperUser"
   | "emailVerifiedAt"
   | "createdAt"
@@ -216,6 +220,8 @@ export type UpdateUserMutationVariables = Exact<{
   id: Scalars["Int"]
   email?: Maybe<Scalars["String"]>
   name?: Maybe<Scalars["String"]>
+  isSuperUser?: Maybe<Scalars["Boolean"]>
+  isApproved?: Maybe<Scalars["Boolean"]>
 }>
 
 export type UpdateUserMutation = { __typename?: "Mutation" } & {
@@ -238,6 +244,7 @@ export const UserFieldsFragmentDoc = gql`
     id
     name
     email
+    isApproved
     isSuperUser
     emailVerifiedAt
     createdAt
@@ -316,8 +323,20 @@ export const SignoutDocument = gql`
   }
 `
 export const UpdateUserDocument = gql`
-  mutation UpdateUser($id: Int!, $email: String, $name: String) {
-    updateUser(id: $id, email: $email, name: $name) {
+  mutation UpdateUser(
+    $id: Int!
+    $email: String
+    $name: String
+    $isSuperUser: Boolean
+    $isApproved: Boolean
+  ) {
+    updateUser(
+      id: $id
+      email: $email
+      name: $name
+      isSuperUser: $isSuperUser
+      isApproved: $isApproved
+    ) {
       ...UserFields
     }
   }

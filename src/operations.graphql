@@ -2,6 +2,7 @@ fragment UserFields on User {
   id
   name
   email
+  isApproved
   isSuperUser
   emailVerifiedAt
   createdAt
@@ -64,8 +65,20 @@ mutation Signout {
   signout
 }
 
-mutation UpdateUser($id: Int!, $email: String, $name: String) {
-  updateUser(id: $id, email: $email, name: $name) {
+mutation UpdateUser(
+  $id: Int!
+  $email: String
+  $name: String
+  $isSuperUser: Boolean
+  $isApproved: Boolean
+) {
+  updateUser(
+    id: $id
+    email: $email
+    name: $name
+    isSuperUser: $isSuperUser
+    isApproved: $isApproved
+  ) {
     ...UserFields
   }
 }
