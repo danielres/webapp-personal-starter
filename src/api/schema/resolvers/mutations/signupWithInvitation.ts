@@ -28,7 +28,8 @@ export const signupWithInvitation = async (
 
   const { name, password, secret } = args
 
-  const { email, isSuperUser } = object.decrypt(secret)
+  const { email, isSuperUser, invitedById } = object.decrypt(secret)
+
   const emailVerifiedAt = new Date()
 
   try {
@@ -40,6 +41,7 @@ export const signupWithInvitation = async (
       isSuperUser,
       name,
       password: hashedPassword,
+      approvedBy: { connect: { id: invitedById } },
     }
     await prisma.user.create({ data })
     await onSuccess({ email, name, origin })
@@ -53,6 +55,7 @@ export const signupWithInvitation = async (
       await onFailure({ email, reason: "EMAIL_EXISTS", origin })
       return true
     }
+    console.log(error)
 
     return error // forwards to formatError
   }

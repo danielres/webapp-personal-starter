@@ -1,7 +1,12 @@
 /** @usePrisma */
+import { JestGlobal } from "../../../../../jest/types"
+import { getEmailInvitationSecret } from "../../../emails/senders/getEmailInvitationSecret"
 import { TestSdk } from "../../../test/TestSdk"
 import * as object from "../../../utils/object"
 import * as signupWithInvitation from ".//signupWithInvitation"
+
+declare const global: JestGlobal
+const { prisma } = global
 
 jest.spyOn(signupWithInvitation, "onSuccess")
 
@@ -11,9 +16,26 @@ const email3 = "invited3@example.com"
 const name = "Invited-user"
 const password = "12345678"
 
+const adminCreds = {
+  email: "admin@example.com",
+  name: "admin",
+  password: "12345678",
+}
+
 const sdk = TestSdk()
 
+let adminUserId: number
+
 describe("Mutation signupWithInvitation", () => {
+  beforeAll(async () => {
+    await sdk.Signup(adminCreds)
+    const adminUser = await prisma.user.findUnique({
+      where: { email: "admin@example.com" },
+    })
+    if (!adminUser) throw new Error("Test error: failed to create adminUser")
+    adminUserId = adminUser.id
+  })
+
   describe("Attempted with a non-valid invitation secret", () => {
     it(`returns an error "Could not signin"`, async () => {
       await sdk.SignupWithInvitation({
@@ -33,9 +55,10 @@ describe("Mutation signupWithInvitation", () => {
 
   describe("Completed with a valid invitation secret", () => {
     it("gives acces to signin", async () => {
-      const emailInvitationSecret = object.encrypt({
+      const emailInvitationSecret = getEmailInvitationSecret({
         email: email2,
         isSuperUser: false,
+        invitedById: adminUserId,
       })
 
       await sdk.SignupWithInvitation({
@@ -52,9 +75,10 @@ describe("Mutation signupWithInvitation", () => {
     })
 
     it("allows inviting as superUser", async () => {
-      const emailInvitationSecret = object.encrypt({
+      const emailInvitationSecret = getEmailInvitationSecret({
         email: email3,
         isSuperUser: true,
+        invitedById: adminUserId,
       })
 
       await sdk.SignupWithInvitation({

@@ -1,3 +1,4 @@
+import { User } from "@prisma/client"
 import { inviteByEmail } from "./resolvers/mutations/inviteByEmail"
 import { resendVerificationEmail } from "./resolvers/mutations/resendVerificationEmail"
 import { resetPasswordBegin } from "./resolvers/mutations/resetPassword.begin"
@@ -41,5 +42,9 @@ export const resolvers = {
     signout,
     updateUser,
     verifyEmail,
+  },
+
+  User: {
+    isApproved: (user: User) => Boolean(user.approvedById),
   },
 }

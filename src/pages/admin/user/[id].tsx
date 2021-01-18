@@ -23,11 +23,14 @@ function UserEditor() {
   const router = useRouter()
 
   const id = Number(router.query.id)
-  const { data } = sdk.useUser({ id })
+  const { data, revalidate } = sdk.useUser({ id })
 
   if (!data?.user) return <Spinner />
 
-  const onSuccess = () => router.push("/admin")
+  const onSuccess = () => {
+    revalidate()
+    router.push("/admin")
+  }
 
   return <FormUser user={data.user} onSuccess={onSuccess} />
 }

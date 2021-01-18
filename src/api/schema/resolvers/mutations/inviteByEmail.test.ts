@@ -37,7 +37,10 @@ describe("Mutation inviteByEmail", () => {
 
       expect(inviteByEmail.onSuccess).toHaveBeenCalledWith({
         email: variables.email,
-        by: creds.name,
+        invitedBy: expect.objectContaining({
+          email: creds.email,
+          name: creds.name,
+        }),
         origin: expect.anything(),
         isSuperUser: false,
       })

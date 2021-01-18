@@ -2,23 +2,33 @@ import type { UpdateUserMutationVariables } from "../../../../generated/operatio
 import { UpdateUserInput, validate } from "../../../../validators/structs"
 import type { Context } from "../../../context"
 import { ValidationErrors } from "../../../errors/InputValidationError"
+import { NotAuthenticatedError } from "../../../errors/NotAuthenticatedError"
+import { ServerError } from "../../../errors/ServerError"
 
 export const updateUser = async (
   _: unused,
   args: UpdateUserMutationVariables,
-  { prisma }: Context
+  { me, prisma }: Context
 ) => {
-  const coerced = {
-    email: args.email ?? undefined,
-    name: args.name ?? undefined,
-    id: args.id,
+  try {
+    if (!me) return new NotAuthenticatedError()
+
+    const coerced = {
+      id: args.id,
+      email: args.email ?? undefined,
+      name: args.name ?? undefined,
+      isSuperUser: args.isSuperUser ?? undefined,
+      approvedById: args.isApproved ? me.id : null,
+    }
+
+    const [error] = validate(coerced, UpdateUserInput)
+    if (error) return new ValidationErrors(error.failures())
+
+    const { id, ...data } = coerced
+    const updatedUser = await prisma.user.update({ where: { id }, data })
+
+    return updatedUser
+  } catch (error) {
+    return error
   }
-
-  const [error] = validate(coerced, UpdateUserInput)
-  if (error) return new ValidationErrors(error.failures())
-
-  const { id, ...data } = coerced
-  const updatedUser = await prisma.user.update({ where: { id }, data })
-
-  return updatedUser
 }
