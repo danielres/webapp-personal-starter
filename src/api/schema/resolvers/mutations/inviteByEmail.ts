@@ -1,4 +1,3 @@
-import crypto from "crypto"
 import { InviteByEmailMutationVariables } from "../../../../generated/operations"
 import { InviteByEmailInput, validate } from "../../../../validators/structs"
 import { Context } from "../../../context"
@@ -24,12 +23,12 @@ export const inviteByEmail = async (
     const [error] = validate(args, InviteByEmailInput)
     if (error) return new ValidationErrors(error.failures())
 
-    const by = me.name
+    const invitedBy = me
     const email = args.email
     const isSuperUser = args.isSuperUser ?? false
     const origin = req.headers.origin as string
 
-    await onSuccess({ email, by, origin, isSuperUser })
+    await onSuccess({ email, invitedBy, origin, isSuperUser })
 
     return true
   } catch (error) {

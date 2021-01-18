@@ -1,3 +1,4 @@
+import { User } from "@prisma/client"
 import mjml2html from "mjml"
 import * as config from "../../../../config"
 import { Button } from "../components/Button"
@@ -30,17 +31,22 @@ const getMessage = ({ by, secretLink }: GetMessageArgs) =>
   `)
 
 type SendEmailInvitationArgs = {
-  by: string
+  invitedBy: User
   email: string
   isSuperUser: boolean
   origin: string
 }
 
 export const sendEmailInvitation = async (params: SendEmailInvitationArgs) => {
-  const { by, email, isSuperUser, origin } = params
+  const { invitedBy, email, isSuperUser, origin } = params
   const subject = `Welcome to ${config.app.name}!`
-  const secretLink = getEmailInvitationLink(email, isSuperUser, origin)
-  const { html } = mjml2html(getMessage({ by, secretLink }))
+  const secretLink = getEmailInvitationLink(
+    email,
+    isSuperUser,
+    origin,
+    invitedBy.id
+  )
+  const { html } = mjml2html(getMessage({ by: invitedBy.name, secretLink }))
 
   return sendEmail({ to: email, subject, html })
 }
