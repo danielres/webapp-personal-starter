@@ -2,6 +2,8 @@ import { ApolloError } from "apollo-server-micro"
 import React, { useState } from "react"
 import { sdk } from "../../sdk"
 import { FormSignin } from "./forms/FormSignin"
+import { InlineIcon } from "./Icons/InlineIcon"
+import { LockClosed } from "./Icons/LockClosed"
 import { Alert } from "./ui/Alert"
 import { Button } from "./ui/Button"
 import { Card } from "./ui/Card"
@@ -31,6 +33,15 @@ export default function Protected({ children }: ProtectedProps) {
       <Container variant="dialog">
         <Card className="animate-fadein-fast">
           <DialogEmailVerificationNeeded email={data.me.email} />
+        </Card>
+      </Container>
+    )
+
+  if (!data.me.isApproved)
+    return (
+      <Container variant="dialog">
+        <Card className="animate-fadein-fast">
+          <DialogEmailApprovalNeeded />
         </Card>
       </Container>
     )
@@ -81,6 +92,30 @@ function DialogEmailVerificationNeeded({ email }: { email: string }) {
           </Button>
         </>
       )}
+    </Stack>
+  )
+}
+
+function DialogEmailApprovalNeeded() {
+  return (
+    <Stack className="text-center">
+      <H2 className="text-gray-600">
+        <InlineIcon>
+          <LockClosed />
+        </InlineIcon>{" "}
+        Account approval pending
+      </H2>
+      <>
+        <Alert variant="info">
+          <p>Your account is awaiting approval by an admin.</p>
+        </Alert>
+
+        <p>Please keep an eye on your mailbox!</p>
+        <p className="text-gray-500">
+          You will be notified by email as <br />
+          soon as your access is granted.
+        </p>
+      </>
     </Stack>
   )
 }
