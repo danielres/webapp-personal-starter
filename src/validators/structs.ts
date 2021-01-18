@@ -1,4 +1,12 @@
-import { define, number, object, optional, boolean, string } from "superstruct"
+import {
+  boolean,
+  define,
+  nullable,
+  number,
+  object,
+  optional,
+  string,
+} from "superstruct"
 import { isEmail } from "./isEmail"
 import { isName } from "./isName"
 import { isPassword } from "./isPassword"
@@ -56,4 +64,6 @@ export const UpdateUserInput = object({
   id: number(),
   email: optional(Email),
   name: optional(Name),
+  isSuperUser: optional(boolean()),
+  approvedById: optional(nullable(number())),
 })
