@@ -16,12 +16,12 @@ describe("Mutation resendVerificationEmail", () => {
   })
 
   describe("When user hasn't signed in", () => {
-    it(`returns error "User not found"`, async () => {
+    it(`returns error "Not authenticated"`, async () => {
       const actual = await sdk.ResendVerificationEmail()
 
       const expected = {
         data: null,
-        errors: [{ message: expect.stringContaining("User not found") }],
+        errors: [{ message: expect.stringContaining("not authenticated") }],
       }
 
       expect(actual).toMatchObject(expected)
