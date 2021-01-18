@@ -1,5 +1,4 @@
 import { ApolloError } from "apollo-server-micro"
-import Link from "next/link"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { sdk } from "../../../../sdk"
@@ -58,6 +57,10 @@ export function FormUser({ onSuccess, user }: FormUserProps) {
                 <div>Superuser</div>
                 <div>
                   <InputCheckbox name="isSuperUser" />
+                </div>
+                <div>Approved</div>
+                <div>
+                  <InputCheckbox name="isApproved" />
                 </div>
               </div>
             </FormRow>
