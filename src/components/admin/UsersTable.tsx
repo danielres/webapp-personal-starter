@@ -12,7 +12,16 @@ export function UsersTable() {
 
   if (error) return <div>{error.message}</div>
 
-  const headers = ["id", "name", "email", "superuser", "created", "updated", ""]
+  const headers = [
+    "id",
+    "name",
+    "email",
+    "superuser",
+    "approved",
+    "created",
+    "updated",
+    "",
+  ]
 
   return (
     <TableOuter headers={headers}>
@@ -28,6 +37,7 @@ function RowUser({ user }: { user: TUser }) {
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>{user.isSuperUser.toString()}</td>
+      <td>{user.isApproved.toString()}</td>
       <td>
         <Time time={user.createdAt} />
       </td>
