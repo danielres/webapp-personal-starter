@@ -14,12 +14,12 @@ const variables = { email: "invited@example.com" }
 
 describe("Mutation inviteByEmail", () => {
   describe("When user hasn't signed in", () => {
-    it(`returns error "Not authenticated"`, async () => {
+    it(`returns error "Not Authorised"`, async () => {
       const actual = await sdk.InviteByEmail(variables)
 
       const expected = {
         data: null,
-        errors: [{ message: expect.stringContaining("not authenticated") }],
+        errors: [{ message: expect.stringContaining("Not Authorised") }],
       }
 
       expect(actual).toMatchObject(expected)
@@ -37,7 +37,10 @@ describe("Mutation inviteByEmail", () => {
 
       expect(inviteByEmail.onSuccess).toHaveBeenCalledWith({
         email: variables.email,
-        by: creds.name,
+        invitedBy: expect.objectContaining({
+          email: creds.email,
+          name: creds.name,
+        }),
         origin: expect.anything(),
         isSuperUser: false,
       })

@@ -55,6 +55,7 @@ export const signupWithInvitation = async (
       await onFailure({ email, reason: "EMAIL_EXISTS", origin })
       return true
     }
+    console.log(error)
 
     return error // forwards to formatError
   }
