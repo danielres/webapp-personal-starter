@@ -20,17 +20,21 @@ model User {
   approvedBy    User?  @relation("approvals", fields: [approvedById], references: [id])
   approvedUsers User[] @relation("approvals")
 
-  projectsAsOwner Project[] @relation("projectOwnerships")
+  projectsAsOwner  Project[] @relation("projectOwnerships")
+  projectsAsMember Project[] @relation("projectMemberships")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Project {
-  id      Int    @id @default(autoincrement())
-  name    String @unique
-  owner   User   @relation("projectOwnerships", fields: [ownerId], references: [id])
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  owner   User @relation("projectOwnerships", fields: [ownerId], references: [id])
   ownerId Int
+
+  members User[] @relation("projectMemberships")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
