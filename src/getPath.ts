@@ -19,13 +19,13 @@ export const getPath = {
   },
 
   admin: {
-    home: () => `/admin`,
+    home: () => `/admin/users`,
     projects: {
       home: () => `/admin#`,
     },
     users: {
-      home: () => `/admin`,
-      edit: (id: number) => `/admin/user/${id}`,
+      home: () => `/admin/users`,
+      edit: (id: number) => `/admin/users/${id}`,
     },
   },
 }
