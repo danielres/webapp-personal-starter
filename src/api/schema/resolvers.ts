@@ -1,5 +1,7 @@
-import { User } from "@prisma/client"
+import type { Project, User } from "@prisma/client"
+import type { Context } from "../context"
 import { inviteByEmail } from "./resolvers/mutations/inviteByEmail"
+import { projectCreate } from "./resolvers/mutations/projectCreate"
 import { resendVerificationEmail } from "./resolvers/mutations/resendVerificationEmail"
 import { resetPasswordBegin } from "./resolvers/mutations/resetPassword.begin"
 import { resetPasswordFinish } from "./resolvers/mutations/resetPassword.finish"
@@ -10,6 +12,8 @@ import { signupWithInvitation } from "./resolvers/mutations/signupWithInvitation
 import { updateUser } from "./resolvers/mutations/updateUser"
 import { verifyEmail } from "./resolvers/mutations/verifyEmail"
 import { me } from "./resolvers/queries/me"
+import { project } from "./resolvers/queries/project"
+import { projects } from "./resolvers/queries/projects"
 import { user } from "./resolvers/queries/user"
 import { users } from "./resolvers/queries/users"
 
@@ -27,8 +31,12 @@ import { users } from "./resolvers/queries/users"
 export const resolvers = {
   Query: {
     me,
+
     user,
     users,
+
+    project,
+    projects,
   },
 
   Mutation: {
@@ -40,8 +48,16 @@ export const resolvers = {
     signup,
     signupWithInvitation,
     signout,
-    updateUser,
     verifyEmail,
+
+    projectCreate,
+
+    updateUser,
+  },
+
+  Project: {
+    owner: (project: Project, args: unused, { prisma }: Context) =>
+      prisma.user.findUnique({ where: { id: project.ownerId } }),
   },
 
   User: {

@@ -15,13 +15,19 @@ const isVerifiedEmail = rule({
 export const permissions = shield({
   Query: {
     "*": deny,
+
     me: allow,
+
+    project: and(isSuperUser, isVerifiedEmail),
+    projects: and(isSuperUser, isVerifiedEmail),
+
     user: and(isSuperUser, isVerifiedEmail),
     users: and(isSuperUser, isVerifiedEmail),
   },
 
   Mutation: {
     "*": deny,
+
     inviteByEmail: and(isSuperUser, isVerifiedEmail),
     resendVerificationEmail: allow,
     resetPasswordBegin: allow,
@@ -30,7 +36,10 @@ export const permissions = shield({
     signupWithInvitation: allow,
     signin: allow,
     signout: allow,
-    updateUser: and(isSuperUser, isVerifiedEmail),
     verifyEmail: allow,
+
+    projectCreate: isSuperUser,
+
+    updateUser: and(isSuperUser, isVerifiedEmail),
   },
 })

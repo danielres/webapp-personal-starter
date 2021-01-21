@@ -5,4 +5,5 @@ export const messages: { [key: string]: string } = {
   Email: `should be a valid email`,
   Password: `should be between ${PASSWORD_MIN_LENGTH} and ${PASSWORD_MAX_LENGTH} characters`,
   Name: `should be between ${NAME_MIN_LENGTH} and ${NAME_MAX_LENGTH} characters`,
+  ProjectName: `should be between ${NAME_MIN_LENGTH} and ${NAME_MAX_LENGTH} characters`,
 }

@@ -1,19 +1,12 @@
 export const typeDefs = /* GraphQL */ `
   scalar Date
 
-  type User {
-    id: Int!
-    name: String!
-    email: String!
-    isApproved: Boolean!
-    isSuperUser: Boolean!
-    emailVerifiedAt: Date
-    createdAt: Date!
-    updatedAt: Date!
-  }
-
   type Query {
     me: User
+
+    project(id: Int!): Project
+    projects: [Project]!
+
     user(id: Int!): User
     users: [User]!
   }
@@ -36,6 +29,7 @@ export const typeDefs = /* GraphQL */ `
     ): Boolean!
     signin(email: String!, password: String!): User
     signout: Boolean!
+
     updateUser(
       id: Int!
       email: String
@@ -44,5 +38,27 @@ export const typeDefs = /* GraphQL */ `
       isApproved: Boolean
     ): User
     verifyEmail(emailVerificationSecret: String!): VerifyEmailResponse!
+
+    projectCreate(name: String!): Project
+  }
+
+  type Project {
+    id: Int!
+    name: String!
+    owner: User!
+    # members: [User]!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  type User {
+    id: Int!
+    name: String!
+    email: String!
+    isApproved: Boolean!
+    isSuperUser: Boolean!
+    emailVerifiedAt: Date
+    createdAt: Date!
+    updatedAt: Date!
   }
 `

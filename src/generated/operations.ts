@@ -23,23 +23,17 @@ export type Scalars = {
   Date: any
 }
 
-export type User = {
-  __typename?: "User"
-  id: Scalars["Int"]
-  name: Scalars["String"]
-  email: Scalars["String"]
-  isApproved: Scalars["Boolean"]
-  isSuperUser: Scalars["Boolean"]
-  emailVerifiedAt?: Maybe<Scalars["Date"]>
-  createdAt: Scalars["Date"]
-  updatedAt: Scalars["Date"]
-}
-
 export type Query = {
   __typename?: "Query"
   me?: Maybe<User>
+  project?: Maybe<Project>
+  projects: Array<Maybe<Project>>
   user?: Maybe<User>
   users: Array<Maybe<User>>
+}
+
+export type QueryProjectArgs = {
+  id: Scalars["Int"]
 }
 
 export type QueryUserArgs = {
@@ -64,6 +58,7 @@ export type Mutation = {
   signout: Scalars["Boolean"]
   updateUser?: Maybe<User>
   verifyEmail: VerifyEmailResponse
+  projectCreate?: Maybe<Project>
 }
 
 export type MutationInviteByEmailArgs = {
@@ -109,6 +104,31 @@ export type MutationVerifyEmailArgs = {
   emailVerificationSecret: Scalars["String"]
 }
 
+export type MutationProjectCreateArgs = {
+  name: Scalars["String"]
+}
+
+export type Project = {
+  __typename?: "Project"
+  id: Scalars["Int"]
+  name: Scalars["String"]
+  owner: User
+  createdAt: Scalars["Date"]
+  updatedAt: Scalars["Date"]
+}
+
+export type User = {
+  __typename?: "User"
+  id: Scalars["Int"]
+  name: Scalars["String"]
+  email: Scalars["String"]
+  isApproved: Scalars["Boolean"]
+  isSuperUser: Scalars["Boolean"]
+  emailVerifiedAt?: Maybe<Scalars["Date"]>
+  createdAt: Scalars["Date"]
+  updatedAt: Scalars["Date"]
+}
+
 export type UserFieldsFragment = { __typename?: "User" } & Pick<
   User,
   | "id"
@@ -127,6 +147,32 @@ export type MeQuery = { __typename?: "Query" } & {
   me?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
+export type ProjectsQueryVariables = Exact<{ [key: string]: never }>
+
+export type ProjectsQuery = { __typename?: "Query" } & {
+  projects: Array<
+    Maybe<
+      { __typename?: "Project" } & Pick<
+        Project,
+        "id" | "name" | "createdAt" | "updatedAt"
+      > & { owner: { __typename?: "User" } & UserFieldsFragment }
+    >
+  >
+}
+
+export type ProjectQueryVariables = Exact<{
+  id: Scalars["Int"]
+}>
+
+export type ProjectQuery = { __typename?: "Query" } & {
+  project?: Maybe<
+    { __typename?: "Project" } & Pick<
+      Project,
+      "id" | "name" | "createdAt" | "updatedAt"
+    > & { owner: { __typename?: "User" } & UserFieldsFragment }
+  >
+}
+
 export type UserQueryVariables = Exact<{
   id: Scalars["Int"]
 }>
@@ -139,6 +185,19 @@ export type UsersQueryVariables = Exact<{ [key: string]: never }>
 
 export type UsersQuery = { __typename?: "Query" } & {
   users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>>
+}
+
+export type ProjectCreateMutationVariables = Exact<{
+  name: Scalars["String"]
+}>
+
+export type ProjectCreateMutation = { __typename?: "Mutation" } & {
+  projectCreate?: Maybe<
+    { __typename?: "Project" } & Pick<
+      Project,
+      "id" | "name" | "createdAt" | "updatedAt"
+    >
+  >
 }
 
 export type InviteByEmailMutationVariables = Exact<{
@@ -259,6 +318,34 @@ export const MeDocument = gql`
   }
   ${UserFieldsFragmentDoc}
 `
+export const ProjectsDocument = gql`
+  query Projects {
+    projects {
+      id
+      name
+      owner {
+        ...UserFields
+      }
+      createdAt
+      updatedAt
+    }
+  }
+  ${UserFieldsFragmentDoc}
+`
+export const ProjectDocument = gql`
+  query Project($id: Int!) {
+    project(id: $id) {
+      id
+      name
+      owner {
+        ...UserFields
+      }
+      createdAt
+      updatedAt
+    }
+  }
+  ${UserFieldsFragmentDoc}
+`
 export const UserDocument = gql`
   query User($id: Int!) {
     user(id: $id) {
@@ -274,6 +361,16 @@ export const UsersDocument = gql`
     }
   }
   ${UserFieldsFragmentDoc}
+`
+export const ProjectCreateDocument = gql`
+  mutation ProjectCreate($name: String!) {
+    projectCreate(name: $name) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
 `
 export const InviteByEmailDocument = gql`
   mutation InviteByEmail($email: String!, $isSuperUser: Boolean) {
@@ -367,6 +464,30 @@ export function getSdk(
         client.request<MeQuery>(print(MeDocument), variables, requestHeaders)
       )
     },
+    Projects(
+      variables?: ProjectsQueryVariables,
+      requestHeaders?: Headers
+    ): Promise<ProjectsQuery> {
+      return withWrapper(() =>
+        client.request<ProjectsQuery>(
+          print(ProjectsDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    Project(
+      variables: ProjectQueryVariables,
+      requestHeaders?: Headers
+    ): Promise<ProjectQuery> {
+      return withWrapper(() =>
+        client.request<ProjectQuery>(
+          print(ProjectDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
     User(
       variables: UserQueryVariables,
       requestHeaders?: Headers
@@ -386,6 +507,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<UsersQuery>(
           print(UsersDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    ProjectCreate(
+      variables: ProjectCreateMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<ProjectCreateMutation> {
+      return withWrapper(() =>
+        client.request<ProjectCreateMutation>(
+          print(ProjectCreateDocument),
           variables,
           requestHeaders
         )
@@ -535,6 +668,26 @@ export function getSdkWithHooks(
       return useSWR<MeQuery>(
         genKey<MeQueryVariables>("Me", variables),
         () => sdk.Me(variables),
+        config
+      )
+    },
+    useProjects(
+      variables?: ProjectsQueryVariables,
+      config?: SWRConfigInterface<ProjectsQuery>
+    ) {
+      return useSWR<ProjectsQuery>(
+        genKey<ProjectsQueryVariables>("Projects", variables),
+        () => sdk.Projects(variables),
+        config
+      )
+    },
+    useProject(
+      variables: ProjectQueryVariables,
+      config?: SWRConfigInterface<ProjectQuery>
+    ) {
+      return useSWR<ProjectQuery>(
+        genKey<ProjectQueryVariables>("Project", variables),
+        () => sdk.Project(variables),
         config
       )
     },

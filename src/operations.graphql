@@ -15,6 +15,34 @@ query Me {
   }
 }
 
+query Projects {
+  projects {
+    id
+    name
+    owner {
+      ...UserFields
+    }
+    # members {
+    #   id
+    #   name
+    # }
+    createdAt
+    updatedAt
+  }
+}
+
+query Project($id: Int!) {
+  project(id: $id) {
+    id
+    name
+    owner {
+      ...UserFields
+    }
+    createdAt
+    updatedAt
+  }
+}
+
 query User($id: Int!) {
   user(id: $id) {
     ...UserFields
@@ -24,6 +52,15 @@ query User($id: Int!) {
 query Users {
   users {
     ...UserFields
+  }
+}
+
+mutation ProjectCreate($name: String!) {
+  projectCreate(name: $name) {
+    id
+    name
+    createdAt
+    updatedAt
   }
 }
 

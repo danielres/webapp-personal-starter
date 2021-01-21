@@ -21,7 +21,8 @@ export const getPath = {
   admin: {
     home: () => `/admin/users`,
     projects: {
-      home: () => `/admin#`,
+      home: () => `/admin/projects`,
+      edit: (id: number) => `/admin/projects/${id}`,
     },
     users: {
       home: () => `/admin/users`,
