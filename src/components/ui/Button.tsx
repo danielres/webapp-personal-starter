@@ -7,6 +7,7 @@ type ButtonProps = {
   href?: string
   onClick?: () => void
   padding?: "md" | "none"
+  title?: string
   type?: "button" | "submit"
   variant?: "primary" | "secondary" | "action" | "text" | "custom"
 }
@@ -17,6 +18,7 @@ export function Button({
   className,
   href,
   padding = "md",
+  title,
   type,
   variant,
   onClick,
@@ -38,6 +40,7 @@ export function Button({
       )}
       href={href}
       onClick={onClick}
+      title={title}
       type={type ?? (as === "button" ? "button" : undefined)}
     >
       {children}
