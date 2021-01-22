@@ -39,6 +39,7 @@ export const permissions = shield({
     verifyEmail: allow,
 
     projectCreate: isSuperUser,
+    projectUpdate: isSuperUser,
 
     updateUser: and(isSuperUser, isVerifiedEmail),
   },
