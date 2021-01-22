@@ -1,6 +1,7 @@
 import type { UpdateUserMutationVariables } from "../../../../generated/operations"
 import { UpdateUserInput, validate } from "../../../../validators/structs"
 import type { Context } from "../../../context"
+import * as codes from "../../../errors/codes"
 import { ValidationErrors } from "../../../errors/InputValidationError"
 import { NotAuthenticatedError } from "../../../errors/NotAuthenticatedError"
 import { ServerError } from "../../../errors/ServerError"
@@ -29,6 +30,16 @@ export const updateUser = async (
 
     return updatedUser
   } catch (error) {
+    const emailExists =
+      error.code === codes.prisma.UNIQUE_VALIDATION_FAILURE &&
+      error.meta?.target?.includes("email")
+
+    if (emailExists)
+      return new ServerError({
+        message: `This email is already used by another account.`,
+        report: false,
+      })
+
     return error
   }
 }
