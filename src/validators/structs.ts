@@ -1,4 +1,5 @@
 import {
+  array,
   boolean,
   define,
   nullable,
@@ -68,6 +69,13 @@ export const SignupWithInvitationInput = object({
 
 export const ProjectCreateInput = object({
   name: optional(ProjectName),
+})
+
+export const ProjectUpdateInput = object({
+  id: number(),
+  name: optional(ProjectName),
+  newMemberIds: optional(array(number())),
+  removedMemberIds: optional(array(number())),
 })
 
 export const UpdateUserInput = object({
