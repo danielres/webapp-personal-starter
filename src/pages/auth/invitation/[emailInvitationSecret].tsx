@@ -2,7 +2,6 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { sdk } from "../../../../sdk"
-import { getPath } from "../../../getPath"
 import { FormSignupWithInvitation } from "../../../components/forms/FormSignupWithInvitation"
 import { Check } from "../../../components/Icons/Check"
 import { InlineIcon } from "../../../components/Icons/InlineIcon"
@@ -12,6 +11,7 @@ import { Card } from "../../../components/ui/Card"
 import { Container } from "../../../components/ui/Container"
 import { H2 } from "../../../components/ui/H2"
 import { Stack } from "../../../components/ui/Stack"
+import { getPath } from "../../../getPath"
 
 export default function PageSignupWithInvitation() {
   const { data } = sdk.useMe()
@@ -31,10 +31,10 @@ export default function PageSignupWithInvitation() {
         {isSuccess ? (
           <SuccessMessage />
         ) : (
-          <div>
+          <Stack>
             <H2>Please enter your name and create your password</H2>
             <FormSignupWithInvitation onSuccess={onSuccess} secret={secret} />
-          </div>
+          </Stack>
         )}
       </Card>
     </Container>

@@ -46,7 +46,7 @@ function EmailConfirmation({ secret }: EmailConfirmationProps) {
 
   return (
     <Stack>
-      <div className="mb-12 text-center">
+      <Stack className="mb-12 text-center">
         <H1 className="text-gray-600">
           Welcome{data.name ? ` ${data.name}` : ""}!
         </H1>
@@ -54,7 +54,7 @@ function EmailConfirmation({ secret }: EmailConfirmationProps) {
         <p>Your email has been successfully verified.</p>
 
         <p>You can now sign in using your email + password.</p>
-      </div>
+      </Stack>
 
       <FormSignin
         defaultValues={{ email: data.email }}
