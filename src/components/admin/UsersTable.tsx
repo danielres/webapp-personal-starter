@@ -13,7 +13,7 @@ export function UsersTable() {
   if (error) return <div>{error.message}</div>
 
   const headers = [
-    "id",
+    "",
     "name",
     "email",
     "superuser",
@@ -33,7 +33,12 @@ export function UsersTable() {
 function RowUser({ user }: { user: TUser }) {
   return (
     <tr>
-      <td>{user.id}</td>
+      <td
+        className="font-mono text-sm text-right text-gray-400"
+        title="User id"
+      >
+        <div className="pr-4">{user.id}</div>
+      </td>
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>{user.isSuperUser.toString()}</td>

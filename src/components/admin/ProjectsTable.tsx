@@ -1,8 +1,8 @@
 import Link from "next/link"
 import React from "react"
 import { sdk } from "../../../sdk"
+import type { ProjectQuery } from "../../generated/operations"
 import { getPath } from "../../getPath"
-import type { Project } from "../../generated/operations"
 import { Button } from "../ui/Button"
 import { TableOuter } from "../ui/TableOuter"
 import { Time } from "../ui/Time"
@@ -12,22 +12,34 @@ export function ProjectsTable() {
 
   if (error) return <div>{error.message}</div>
 
-  const headers = ["id", "name", "owner", "created", "updated", ""]
+  const headers = ["", "name", "owner", "created", "updated", ""]
 
   return (
     <TableOuter headers={headers}>
       {data?.projects.map(
         (project) =>
-          project && <RowProject key={project.id} project={project} />
+          project && (
+            <RowProject
+              key={project.id}
+              project={project as ProjectQuery["project"]}
+            />
+          )
       )}
     </TableOuter>
   )
 }
 
-function RowProject({ project }: { project: Project }) {
+function RowProject({ project }: { project: ProjectQuery["project"] }) {
+  if (!project) return null
+
   return (
     <tr>
-      <td>{project.id}</td>
+      <td
+        className="w-1 font-mono text-sm text-right text-gray-400"
+        title="Project id"
+      >
+        <div className="pr-4">{project.id}</div>
+      </td>
       <td>{project.name}</td>
       <td>
         <Link href={getPath.admin.users.edit(project.owner.id)} passHref>
