@@ -3,6 +3,9 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { sdk } from "../../../../sdk"
 import { FormSignin } from "../../../components/forms/FormSignin"
+import { Check } from "../../../components/Icons/Check"
+import { InlineIcon } from "../../../components/Icons/InlineIcon"
+import { Alert } from "../../../components/ui/Alert"
 import { Card } from "../../../components/ui/Card"
 import { Container } from "../../../components/ui/Container"
 import { ApolloErrors } from "../../../components/ui/forms/ApolloErrors"
@@ -51,9 +54,15 @@ function EmailConfirmation({ secret }: EmailConfirmationProps) {
           Welcome{data.name ? ` ${data.name}` : ""}!
         </H1>
 
-        <p>Your email has been successfully verified.</p>
-
-        <p>You can now sign in using your email + password.</p>
+        <Alert variant="success">
+          <p>
+            <InlineIcon>
+              <Check />
+            </InlineIcon>{" "}
+            Your email has been successfully verified.
+          </p>
+          <p>You can now sign in using your email + password.</p>
+        </Alert>
       </Stack>
 
       <FormSignin
