@@ -5,6 +5,7 @@ import { Card } from "../../../components/ui/Card"
 import { CardLinkBack } from "../../../components/ui/CardLinkBack"
 import { Spinner } from "../../../components/ui/Spinner"
 import { Stack } from "../../../components/ui/Stack"
+import { Project } from "../../../generated/operations"
 import { getPath } from "../../../getPath"
 
 export default function ProjectEditAsAdminById() {
@@ -26,10 +27,9 @@ function ProjectEditor() {
 
   if (!data?.project) return <Spinner />
 
-  const onSuccess = () => {
-    revalidate()
-    router.push(getPath.admin.projects.home())
-  }
+  const onSuccess = () => revalidate()
 
-  return <FormProjectEdit project={data.project} onSuccess={onSuccess} />
+  return (
+    <FormProjectEdit project={data.project as Project} onSuccess={onSuccess} />
+  )
 }
