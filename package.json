@@ -22,6 +22,7 @@
     "db:migrate:create": "env-cmd sh -c \"prisma migrate dev --preview-feature --create-only\"",
     "db:migrate:apply": "env-cmd sh -c \"prisma migrate deploy --preview-feature\"",
     "db:reset": " env-cmd sh -c \"prisma migrate reset --preview-feature\"",
+    "db:seed": "env-cmd sh -c \"ts-node ./prisma/seed.ts purge=true\"",
     "dc:up": "env-cmd sh -c \"cd dev; docker-compose up\"",
     "dc:destroy": "env-cmd sh -c \"cd dev; docker-compose down; docker-compose rm -f\""
   },
