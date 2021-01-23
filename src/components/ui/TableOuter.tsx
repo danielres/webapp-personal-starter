@@ -33,6 +33,9 @@ export function TableOuter({ className, children, headers }: TableOuterProps) {
           .TableOuter :global(th) {
             @apply p-1;
           }
+          .TableOuter :global(tr) {
+            @apply hover:bg-gray-100;
+          }
         `}
       </style>
     </>
