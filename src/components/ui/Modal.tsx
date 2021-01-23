@@ -32,14 +32,14 @@ export function Modal({ children, footer, icon, title }: ModapProps) {
                     </div>
                   )}
 
-                  <div className="pt-2 text-gray-500">
+                  <Stack className="pt-2 text-gray-500">
                     {title && (
                       <H2 className="text-center text-gray-900 md:text-left">
                         {title}
                       </H2>
                     )}
                     {children}
-                  </div>
+                  </Stack>
                 </div>
               </div>
 

@@ -4,5 +4,5 @@ type H2Props = {
 }
 
 export function H2({ children, className }: H2Props) {
-  return <h2 className={`mb-4 text-xl ${className}`}>{children}</h2>
+  return <h2 className={`text-xl ${className}`}>{children}</h2>
 }

@@ -29,7 +29,7 @@ function UserEditor() {
 
   const onSuccess = () => {
     revalidate()
-    router.push("/admin")
+    router.push(getPath.admin.users.home())
   }
 
   return <FormUser user={data.user} onSuccess={onSuccess} />

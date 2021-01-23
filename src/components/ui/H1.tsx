@@ -4,5 +4,5 @@ type H1Props = {
 }
 
 export function H1({ children, className }: H1Props) {
-  return <h1 className={`mb-4 text-2xl ${className}`}>{children}</h1>
+  return <h1 className={`text-2xl ${className}`}>{children}</h1>
 }

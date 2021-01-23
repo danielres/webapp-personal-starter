@@ -1,4 +1,5 @@
 import {
+  array,
   boolean,
   define,
   nullable,
@@ -10,6 +11,7 @@ import {
 import { isEmail } from "./isEmail"
 import { isName } from "./isName"
 import { isPassword } from "./isPassword"
+import { isProjectName } from "./isProjectName"
 import { messages } from "./messages"
 
 export { assert, create, is, validate } from "superstruct"
@@ -22,6 +24,11 @@ export const Password = define("Password", (value) => {
 export const Name = define("Name", (value) => {
   if (isName(value)) return true
   return messages.Name
+})
+
+export const ProjectName = define("ProjectName", (value) => {
+  if (isProjectName(value)) return true
+  return messages.ProjectName
 })
 
 export const Email = define("Email", (value) => {
@@ -58,6 +65,17 @@ export const SignupWithInvitationInput = object({
   name: Name,
   password: Password,
   secret: string(),
+})
+
+export const ProjectCreateInput = object({
+  name: optional(ProjectName),
+})
+
+export const ProjectUpdateInput = object({
+  id: number(),
+  name: optional(ProjectName),
+  newMemberIds: optional(array(number())),
+  removedMemberIds: optional(array(number())),
 })
 
 export const UpdateUserInput = object({

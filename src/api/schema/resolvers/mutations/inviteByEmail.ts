@@ -3,7 +3,7 @@ import { InviteByEmailInput, validate } from "../../../../validators/structs"
 import { Context } from "../../../context"
 import * as emails from "../../../emails"
 import { ValidationErrors } from "../../../errors/InputValidationError"
-import { ServerError } from "../../../errors/ServerError"
+import { NotAuthenticatedError } from "../../../errors/NotAuthenticatedError"
 
 // Exported so it can be mocked in tests:
 export const onSuccess = emails.inviteByEmail.success
@@ -14,11 +14,7 @@ export const inviteByEmail = async (
   { me, req }: Context
 ): Promise<true | Error> => {
   try {
-    if (!me?.name)
-      return new ServerError({
-        message: "Please sign in to continue",
-        report: false,
-      })
+    if (!me) return new NotAuthenticatedError()
 
     const [error] = validate(args, InviteByEmailInput)
     if (error) return new ValidationErrors(error.failures())

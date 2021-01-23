@@ -15,8 +15,8 @@ export function TableOuter({ className, children, headers }: TableOuterProps) {
             <thead className="border-b-2 border-gray-300">
               <tr>
                 {headers.map((header, i) => (
-                  <th className="text-gray-400" key={`${header}-${i}`}>
-                    {header}
+                  <th key={`${header}-${i}`} className="text-gray-400">
+                    <div>{header}</div>
                   </th>
                 ))}
               </tr>

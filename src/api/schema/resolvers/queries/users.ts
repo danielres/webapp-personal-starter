@@ -1,4 +1,4 @@
-import { Context } from "../../../context"
+import type { Context } from "../../../context"
 
 export const users = async (_: unused, __: unused, { prisma }: Context) =>
   prisma.user.findMany({ where: {} })
