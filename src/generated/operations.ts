@@ -59,6 +59,7 @@ export type Mutation = {
   updateUser?: Maybe<User>
   verifyEmail: VerifyEmailResponse
   projectCreate?: Maybe<Project>
+  projectUpdate?: Maybe<Project>
 }
 
 export type MutationInviteByEmailArgs = {
@@ -108,11 +109,19 @@ export type MutationProjectCreateArgs = {
   name: Scalars["String"]
 }
 
+export type MutationProjectUpdateArgs = {
+  id: Scalars["Int"]
+  name?: Maybe<Scalars["String"]>
+  newMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>>>
+  removedMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>>>
+}
+
 export type Project = {
   __typename?: "Project"
   id: Scalars["Int"]
   name: Scalars["String"]
   owner: User
+  members: Array<Maybe<User>>
   createdAt: Scalars["Date"]
   updatedAt: Scalars["Date"]
 }
@@ -169,7 +178,12 @@ export type ProjectQuery = { __typename?: "Query" } & {
     { __typename?: "Project" } & Pick<
       Project,
       "id" | "name" | "createdAt" | "updatedAt"
-    > & { owner: { __typename?: "User" } & UserFieldsFragment }
+    > & {
+        owner: { __typename?: "User" } & UserFieldsFragment
+        members: Array<
+          Maybe<{ __typename?: "User" } & Pick<User, "id" | "name" | "email">>
+        >
+      }
   >
 }
 
@@ -193,6 +207,22 @@ export type ProjectCreateMutationVariables = Exact<{
 
 export type ProjectCreateMutation = { __typename?: "Mutation" } & {
   projectCreate?: Maybe<
+    { __typename?: "Project" } & Pick<
+      Project,
+      "id" | "name" | "createdAt" | "updatedAt"
+    >
+  >
+}
+
+export type ProjectUpdateMutationVariables = Exact<{
+  id: Scalars["Int"]
+  name?: Maybe<Scalars["String"]>
+  newMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>> | Maybe<Scalars["Int"]>>
+  removedMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>> | Maybe<Scalars["Int"]>>
+}>
+
+export type ProjectUpdateMutation = { __typename?: "Mutation" } & {
+  projectUpdate?: Maybe<
     { __typename?: "Project" } & Pick<
       Project,
       "id" | "name" | "createdAt" | "updatedAt"
@@ -340,6 +370,11 @@ export const ProjectDocument = gql`
       owner {
         ...UserFields
       }
+      members {
+        id
+        name
+        email
+      }
       createdAt
       updatedAt
     }
@@ -365,6 +400,26 @@ export const UsersDocument = gql`
 export const ProjectCreateDocument = gql`
   mutation ProjectCreate($name: String!) {
     projectCreate(name: $name) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`
+export const ProjectUpdateDocument = gql`
+  mutation ProjectUpdate(
+    $id: Int!
+    $name: String
+    $newMemberIds: [Int]
+    $removedMemberIds: [Int]
+  ) {
+    projectUpdate(
+      id: $id
+      name: $name
+      newMemberIds: $newMemberIds
+      removedMemberIds: $removedMemberIds
+    ) {
       id
       name
       createdAt
@@ -519,6 +574,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<ProjectCreateMutation>(
           print(ProjectCreateDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    ProjectUpdate(
+      variables: ProjectUpdateMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<ProjectUpdateMutation> {
+      return withWrapper(() =>
+        client.request<ProjectUpdateMutation>(
+          print(ProjectUpdateDocument),
           variables,
           requestHeaders
         )

@@ -40,13 +40,19 @@ export const typeDefs = /* GraphQL */ `
     verifyEmail(emailVerificationSecret: String!): VerifyEmailResponse!
 
     projectCreate(name: String!): Project
+    projectUpdate(
+      id: Int!
+      name: String
+      newMemberIds: [Int]
+      removedMemberIds: [Int]
+    ): Project
   }
 
   type Project {
     id: Int!
     name: String!
     owner: User!
-    # members: [User]!
+    members: [User]!
     createdAt: Date!
     updatedAt: Date!
   }

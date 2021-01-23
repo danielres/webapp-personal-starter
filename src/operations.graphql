@@ -38,6 +38,11 @@ query Project($id: Int!) {
     owner {
       ...UserFields
     }
+    members {
+      id
+      name
+      email
+    }
     createdAt
     updatedAt
   }
@@ -57,6 +62,25 @@ query Users {
 
 mutation ProjectCreate($name: String!) {
   projectCreate(name: $name) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+
+mutation ProjectUpdate(
+  $id: Int!
+  $name: String
+  $newMemberIds: [Int]
+  $removedMemberIds: [Int]
+) {
+  projectUpdate(
+    id: $id
+    name: $name
+    newMemberIds: $newMemberIds
+    removedMemberIds: $removedMemberIds
+  ) {
     id
     name
     createdAt

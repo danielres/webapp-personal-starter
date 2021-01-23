@@ -1,7 +1,8 @@
 import type { Project, User } from "@prisma/client"
 import type { Context } from "../context"
 import { inviteByEmail } from "./resolvers/mutations/inviteByEmail"
-import { projectCreate } from "./resolvers/mutations/projectCreate"
+import { projectCreate } from "./resolvers/mutations/project.create"
+import { projectUpdate } from "./resolvers/mutations/project.update"
 import { resendVerificationEmail } from "./resolvers/mutations/resendVerificationEmail"
 import { resetPasswordBegin } from "./resolvers/mutations/resetPassword.begin"
 import { resetPasswordFinish } from "./resolvers/mutations/resetPassword.finish"
@@ -51,6 +52,7 @@ export const resolvers = {
     verifyEmail,
 
     projectCreate,
+    projectUpdate,
 
     updateUser,
   },
@@ -58,6 +60,15 @@ export const resolvers = {
   Project: {
     owner: (project: Project, args: unused, { prisma }: Context) =>
       prisma.user.findUnique({ where: { id: project.ownerId } }),
+
+    members: async (project: Project, args: unused, { prisma }: Context) => {
+      const dbProject = await prisma.project.findUnique({
+        where: { id: project.id },
+        include: { members: true },
+      })
+
+      return dbProject?.members ?? []
+    },
   },
 
   User: {
