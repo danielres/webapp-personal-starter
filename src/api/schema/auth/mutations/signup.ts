@@ -1,6 +1,5 @@
-import bcrypt from "bcrypt"
-import * as config from "../../../../../config"
 import { SignupMutationVariables } from "../../../../generated/operations"
+import * as password from "../../../../utils/password"
 import { SignupInput, validate } from "../../../../validators/structs"
 import { Context } from "../../../context"
 import * as emails from "../../../emails"
@@ -23,7 +22,7 @@ export const signup = async (
 
   const origin = req.headers.origin as string
 
-  const { password, ...rest } = args
+  const { password: pw, ...rest } = args
   const { email, name } = rest
 
   try {
@@ -37,7 +36,7 @@ export const signup = async (
 
     const isSuperUser = isFirstUser
     const emailVerifiedAt = isFirstUser ? new Date() : null
-    const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRounts)
+    const hashedPassword = await password.hash(pw)
 
     const data = {
       ...rest,

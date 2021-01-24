@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt"
 import * as config from "../../../../../config"
 import { ResetPasswordFinishMutationVariables } from "../../../../generated/operations"
+import * as password from "../../../../utils/password"
 import {
   ResetPasswordFinishInput,
   validate,
@@ -31,12 +31,12 @@ export const resetPasswordFinish = async (
     const now = Date.now()
 
     const decrypted = object.decrypt(secret)
-    const { email, password, timestamp } = decrypted
+    const { email, password: pw, timestamp } = decrypted
 
     const isSecretExpired = now - timestamp > ttl
     if (isSecretExpired) return new ResetPasswordSecretExpiredError()
 
-    const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRounts)
+    const hashedPassword = await password.hash(pw)
 
     await prisma.user.update({
       where: { email },

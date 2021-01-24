@@ -1,6 +1,5 @@
-import bcrypt from "bcrypt"
-import * as config from "../../../../../config"
 import { SignupWithInvitationMutationVariables } from "../../../../generated/operations"
+import * as password from "../../../../utils/password"
 import {
   SignupWithInvitationInput,
   validate,
@@ -26,14 +25,14 @@ export const signupWithInvitation = async (
 
   const origin = req.headers.origin as string
 
-  const { name, password, secret } = args
+  const { name, password: pw, secret } = args
 
   const { email, isSuperUser, invitedById } = object.decrypt(secret)
 
   const emailVerifiedAt = new Date()
 
   try {
-    const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRounts)
+    const hashedPassword = await password.hash(pw)
 
     const data = {
       email,
