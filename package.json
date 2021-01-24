@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn dev:schema:dump && env-cmd next dev",
-    "dev:schema:dump": "ts-node ./dev/bin/dumpSchema.ts",
+    "dev:schema:dump": "env-cmd sh -c \"ts-node ./dev/bin/dumpSchema.ts\"",
     "build": "next build",
     "start": "next start",
     "codegen": "graphql-codegen --config dev/codegen.yml",

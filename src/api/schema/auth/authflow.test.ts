@@ -1,6 +1,6 @@
 /** @usePrisma */
-import { TestSdk } from "./TestSdk"
-import * as signup from "../schema/resolvers/mutations/signup"
+import * as signup from "./mutations/signup"
+import { TestSdk } from "../../test/TestSdk"
 
 const sdk = TestSdk()
 

@@ -7,8 +7,7 @@ import { makeContext } from "./context"
 import { formatError } from "./formatError"
 import { middlewareCookieSession } from "./middleware/middlewareCookieSession"
 import { permissions } from "./permissions"
-import { resolvers } from "./schema/resolvers"
-import { typeDefs } from "./schema/typeDefs"
+import { resolvers, typeDefs } from "./schema"
 export type Request = NextApiRequest & {
   session: null | Record<string, any>
 }
