@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-server-micro"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { sdk } from "../../../../sdk"
+import { sdk } from "../../../sdk"
 import { FormResetPasswordBegin } from "../../../components/forms/FormResetPasswordBegin"
 import { FormResetPasswordBeginSuccess } from "../../../components/forms/FormResetPasswordBeginSuccess"
 import { Check } from "../../../components/Icons/Check"

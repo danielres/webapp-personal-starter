@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-server-micro"
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
-import { sdk } from "../../../../sdk"
+import { sdk } from "../../../sdk"
 import { isEmail } from "../../../validators/isEmail"
 import { messages } from "../../../validators/messages"
 import { Check } from "../../Icons/Check"

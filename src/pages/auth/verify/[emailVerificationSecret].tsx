@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-server-micro"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { sdk } from "../../../../sdk"
+import { sdk } from "../../../sdk"
 import { FormSignin } from "../../../components/forms/FormSignin"
 import { Check } from "../../../components/Icons/Check"
 import { InlineIcon } from "../../../components/Icons/InlineIcon"

@@ -1,5 +1,6 @@
 {
   "ts-node": {
+    "files": true, // without this, ts-node ignores *.d.ts files
     "compilerOptions": {
       "module": "commonjs"
     }

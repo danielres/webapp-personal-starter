@@ -1,5 +1,5 @@
 import fs from "fs"
-import { typeDefs } from "../../src/api/schema/typeDefs"
+import { typeDefs } from "../../src/api/schema"
 
 const path = "src/generated/schema.graphql"
 

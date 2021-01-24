@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
-import { sdk } from "../../../../sdk"
+import { sdk } from "../../../sdk"
 import { FormSignupWithInvitation } from "../../../components/forms/FormSignupWithInvitation"
 import { Check } from "../../../components/Icons/Check"
 import { InlineIcon } from "../../../components/Icons/InlineIcon"

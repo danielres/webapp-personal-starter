@@ -1,6 +1,7 @@
 import { GraphQLClient } from "graphql-request"
 import { print } from "graphql"
 import gql from "graphql-tag"
+import { ClientError } from "graphql-request/dist/types"
 import useSWR, {
   ConfigInterface as SWRConfigInterface,
   keyInterface as SWRKeyInterface,
@@ -40,31 +41,36 @@ export type QueryUserArgs = {
   id: Scalars["Int"]
 }
 
-export type VerifyEmailResponse = {
-  __typename?: "VerifyEmailResponse"
-  email?: Maybe<Scalars["String"]>
-  name?: Maybe<Scalars["String"]>
-}
-
 export type Mutation = {
   __typename?: "Mutation"
   inviteByEmail: Scalars["Boolean"]
+  projectCreate?: Maybe<Project>
+  projectUpdate?: Maybe<Project>
   resendVerificationEmail: Scalars["Boolean"]
   resetPasswordBegin: Scalars["Boolean"]
   resetPasswordFinish: Scalars["Boolean"]
-  signup: Scalars["Boolean"]
-  signupWithInvitation: Scalars["Boolean"]
   signin?: Maybe<User>
   signout: Scalars["Boolean"]
+  signup: Scalars["Boolean"]
+  signupWithInvitation: Scalars["Boolean"]
   updateUser?: Maybe<User>
   verifyEmail: VerifyEmailResponse
-  projectCreate?: Maybe<Project>
-  projectUpdate?: Maybe<Project>
 }
 
 export type MutationInviteByEmailArgs = {
   email: Scalars["String"]
   isSuperUser?: Maybe<Scalars["Boolean"]>
+}
+
+export type MutationProjectCreateArgs = {
+  name: Scalars["String"]
+}
+
+export type MutationProjectUpdateArgs = {
+  id: Scalars["Int"]
+  name?: Maybe<Scalars["String"]>
+  newMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>>>
+  removedMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>>>
 }
 
 export type MutationResetPasswordBeginArgs = {
@@ -74,6 +80,11 @@ export type MutationResetPasswordBeginArgs = {
 
 export type MutationResetPasswordFinishArgs = {
   secret: Scalars["String"]
+}
+
+export type MutationSigninArgs = {
+  email: Scalars["String"]
+  password: Scalars["String"]
 }
 
 export type MutationSignupArgs = {
@@ -88,11 +99,6 @@ export type MutationSignupWithInvitationArgs = {
   secret: Scalars["String"]
 }
 
-export type MutationSigninArgs = {
-  email: Scalars["String"]
-  password: Scalars["String"]
-}
-
 export type MutationUpdateUserArgs = {
   id: Scalars["Int"]
   email?: Maybe<Scalars["String"]>
@@ -105,15 +111,10 @@ export type MutationVerifyEmailArgs = {
   emailVerificationSecret: Scalars["String"]
 }
 
-export type MutationProjectCreateArgs = {
-  name: Scalars["String"]
-}
-
-export type MutationProjectUpdateArgs = {
-  id: Scalars["Int"]
+export type VerifyEmailResponse = {
+  __typename?: "VerifyEmailResponse"
+  email?: Maybe<Scalars["String"]>
   name?: Maybe<Scalars["String"]>
-  newMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>>>
-  removedMemberIds?: Maybe<Array<Maybe<Scalars["Int"]>>>
 }
 
 export type Project = {
@@ -714,7 +715,6 @@ export function getSdk(
   }
 }
 export type Sdk = ReturnType<typeof getSdk>
-
 export function getSdkWithHooks(
   client: GraphQLClient,
   withWrapper: SdkFunctionWrapper = defaultWrapper
@@ -731,8 +731,11 @@ export function getSdkWithHooks(
   ]
   return {
     ...sdk,
-    useMe(variables?: MeQueryVariables, config?: SWRConfigInterface<MeQuery>) {
-      return useSWR<MeQuery>(
+    useMe(
+      variables?: MeQueryVariables,
+      config?: SWRConfigInterface<MeQuery, ClientError>
+    ) {
+      return useSWR<MeQuery, ClientError>(
         genKey<MeQueryVariables>("Me", variables),
         () => sdk.Me(variables),
         config
@@ -740,9 +743,9 @@ export function getSdkWithHooks(
     },
     useProjects(
       variables?: ProjectsQueryVariables,
-      config?: SWRConfigInterface<ProjectsQuery>
+      config?: SWRConfigInterface<ProjectsQuery, ClientError>
     ) {
-      return useSWR<ProjectsQuery>(
+      return useSWR<ProjectsQuery, ClientError>(
         genKey<ProjectsQueryVariables>("Projects", variables),
         () => sdk.Projects(variables),
         config
@@ -750,9 +753,9 @@ export function getSdkWithHooks(
     },
     useProject(
       variables: ProjectQueryVariables,
-      config?: SWRConfigInterface<ProjectQuery>
+      config?: SWRConfigInterface<ProjectQuery, ClientError>
     ) {
-      return useSWR<ProjectQuery>(
+      return useSWR<ProjectQuery, ClientError>(
         genKey<ProjectQueryVariables>("Project", variables),
         () => sdk.Project(variables),
         config
@@ -760,9 +763,9 @@ export function getSdkWithHooks(
     },
     useUser(
       variables: UserQueryVariables,
-      config?: SWRConfigInterface<UserQuery>
+      config?: SWRConfigInterface<UserQuery, ClientError>
     ) {
-      return useSWR<UserQuery>(
+      return useSWR<UserQuery, ClientError>(
         genKey<UserQueryVariables>("User", variables),
         () => sdk.User(variables),
         config
@@ -770,9 +773,9 @@ export function getSdkWithHooks(
     },
     useUsers(
       variables?: UsersQueryVariables,
-      config?: SWRConfigInterface<UsersQuery>
+      config?: SWRConfigInterface<UsersQuery, ClientError>
     ) {
-      return useSWR<UsersQuery>(
+      return useSWR<UsersQuery, ClientError>(
         genKey<UsersQueryVariables>("Users", variables),
         () => sdk.Users(variables),
         config
