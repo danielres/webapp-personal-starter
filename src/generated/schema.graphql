@@ -2,45 +2,38 @@
 # Please do not edit!
 
 scalar Date
-
-type Query {
+type Query
+type Mutation
+extend type Query {
   me: User
-
-  project(id: Int!): Project
-  projects: [Project]!
-
-  user(id: Int!): User
-  users: [User]!
 }
 
-type VerifyEmailResponse {
-  email: String
-  name: String
-}
-
-type Mutation {
+extend type Mutation {
   inviteByEmail(email: String!, isSuperUser: Boolean): Boolean!
   resendVerificationEmail: Boolean!
   resetPasswordBegin(email: String!, password: String!): Boolean!
   resetPasswordFinish(secret: String!): Boolean!
+  signin(email: String!, password: String!): User
+  signout: Boolean!
   signup(email: String!, password: String!, name: String!): Boolean!
   signupWithInvitation(
     password: String!
     name: String!
     secret: String!
   ): Boolean!
-  signin(email: String!, password: String!): User
-  signout: Boolean!
-
-  updateUser(
-    id: Int!
-    email: String
-    name: String
-    isSuperUser: Boolean
-    isApproved: Boolean
-  ): User
   verifyEmail(emailVerificationSecret: String!): VerifyEmailResponse!
+}
 
+type VerifyEmailResponse {
+  email: String
+  name: String
+}
+extend type Query {
+  project(id: Int!): Project
+  projects: [Project]!
+}
+
+extend type Mutation {
   projectCreate(name: String!): Project
   projectUpdate(
     id: Int!
@@ -57,6 +50,20 @@ type Project {
   members: [User]!
   createdAt: Date!
   updatedAt: Date!
+}
+extend type Query {
+  user(id: Int!): User
+  users: [User]!
+}
+
+extend type Mutation {
+  updateUser(
+    id: Int!
+    email: String
+    name: String
+    isSuperUser: Boolean
+    isApproved: Boolean
+  ): User
 }
 
 type User {
