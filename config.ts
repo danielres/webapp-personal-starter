@@ -26,7 +26,7 @@ const KEY2 = isDev || isTest ? "secret" : process.env.COOKIE_SESSION_KEY2
 export const cookieSession = {
   name: "session",
   keys: [KEY1, KEY2],
-  maxAge: 24 * 60 * 60 * 1000,
+  maxAge: 1000 * 60 * 15, // 15 minutes "sliding" (see middlewareCookieSession)
 }
 
 export const crypto = {
