@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { sdk } from "../../../sdk"
+import { sdk } from "../../sdk"
 import { getPath } from "../../getPath"
 import { User as TUser } from "../../generated/operations"
 import { Button } from "../ui/Button"

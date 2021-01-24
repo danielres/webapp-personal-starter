@@ -1,6 +1,6 @@
 import { ApolloError } from "apollo-server-micro"
 import React, { useState } from "react"
-import { sdk } from "../../sdk"
+import { sdk } from "../sdk"
 import { FormSignin } from "./forms/FormSignin"
 import { InlineIcon } from "./Icons/InlineIcon"
 import { LockClosed } from "./Icons/LockClosed"

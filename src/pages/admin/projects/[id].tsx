@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { sdk } from "../../../../sdk"
+import { sdk } from "../../../sdk"
 import { FormProjectEdit } from "../../../components/admin/forms/FormProjectEdit"
 import { Card } from "../../../components/ui/Card"
 import { CardLinkBack } from "../../../components/ui/CardLinkBack"

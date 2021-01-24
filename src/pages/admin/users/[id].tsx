@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import React from "react"
-import { sdk } from "../../../../sdk"
+import { sdk } from "../../../sdk"
 import { getPath } from "../../../getPath"
 import { FormUser } from "../../../components/admin/forms/FormUser"
 import { Card } from "../../../components/ui/Card"

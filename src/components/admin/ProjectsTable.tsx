@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { sdk } from "../../../sdk"
+import { sdk } from "../../sdk"
 import type { ProjectQuery } from "../../generated/operations"
 import { getPath } from "../../getPath"
 import { Button } from "../ui/Button"
