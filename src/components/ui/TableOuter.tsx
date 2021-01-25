@@ -33,7 +33,7 @@ export function TableOuter({ className, children, headers }: TableOuterProps) {
           .TableOuter :global(th) {
             @apply p-1;
           }
-          .TableOuter :global(tr) {
+          .TableOuter :global(tbody tr) {
             @apply hover:bg-gray-100;
           }
         `}
