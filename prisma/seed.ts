@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import bcrypt from "bcrypt"
-import * as config from "../config"
+import * as password from "../src/utils/password"
 import { fakeUsersData } from "./seed/fakeUsersData"
 import { allowOnlyIn } from "./utils/allowOnlyIn"
 
@@ -14,8 +13,8 @@ async function main() {
     await prisma.user.deleteMany({ where: {} })
   }
 
-  const password = "big-red-fox"
-  const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRounts)
+  const pw = "big-red-fox"
+  const hashedPassword = await password.hash(pw)
 
   const superuser = await prisma.user.create({
     data: {

@@ -75,6 +75,12 @@ export const pages = {
   ],
 }
 
+export const pagination = {
+  perPage: {
+    default: 15,
+  },
+}
+
 export const prisma = {
   log: isDev ? ["query", "info", "warn", "error"] : [],
 }

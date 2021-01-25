@@ -29,16 +29,32 @@ export type Query = {
   me?: Maybe<User>
   project?: Maybe<Project>
   projects: Array<Maybe<Project>>
+  projectsCount?: Maybe<Scalars["Int"]>
   user?: Maybe<User>
   users: Array<Maybe<User>>
+  usersCount?: Maybe<Scalars["Int"]>
 }
 
 export type QueryProjectArgs = {
   id: Scalars["Int"]
 }
 
+export type QueryProjectsArgs = {
+  orderBy?: Maybe<Scalars["String"]>
+  orderDirection?: Maybe<Scalars["String"]>
+  take?: Maybe<Scalars["Int"]>
+  skip?: Maybe<Scalars["Int"]>
+}
+
 export type QueryUserArgs = {
   id: Scalars["Int"]
+}
+
+export type QueryUsersArgs = {
+  orderBy?: Maybe<Scalars["String"]>
+  orderDirection?: Maybe<Scalars["String"]>
+  take?: Maybe<Scalars["Int"]>
+  skip?: Maybe<Scalars["Int"]>
 }
 
 export type Mutation = {
@@ -157,36 +173,47 @@ export type MeQuery = { __typename?: "Query" } & {
   me?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
-export type ProjectsQueryVariables = Exact<{ [key: string]: never }>
+export type ProjectsQueryVariables = Exact<{
+  orderBy?: Maybe<Scalars["String"]>
+  orderDirection?: Maybe<Scalars["String"]>
+  take?: Maybe<Scalars["Int"]>
+  skip?: Maybe<Scalars["Int"]>
+}>
 
-export type ProjectsQuery = { __typename?: "Query" } & {
-  projects: Array<
-    Maybe<
-      { __typename?: "Project" } & Pick<
-        Project,
-        "id" | "name" | "createdAt" | "updatedAt"
-      > & { owner: { __typename?: "User" } & UserFieldsFragment }
+export type ProjectsQuery = { __typename?: "Query" } & Pick<
+  Query,
+  "projectsCount"
+> & {
+    projects: Array<
+      Maybe<
+        { __typename?: "Project" } & Pick<
+          Project,
+          "id" | "name" | "createdAt" | "updatedAt"
+        > & { owner: { __typename?: "User" } & UserFieldsFragment }
+      >
     >
-  >
-}
+  }
 
 export type ProjectQueryVariables = Exact<{
   id: Scalars["Int"]
 }>
 
-export type ProjectQuery = { __typename?: "Query" } & {
-  project?: Maybe<
-    { __typename?: "Project" } & Pick<
-      Project,
-      "id" | "name" | "createdAt" | "updatedAt"
-    > & {
-        owner: { __typename?: "User" } & UserFieldsFragment
-        members: Array<
-          Maybe<{ __typename?: "User" } & Pick<User, "id" | "name" | "email">>
-        >
-      }
-  >
-}
+export type ProjectQuery = { __typename?: "Query" } & Pick<
+  Query,
+  "projectsCount"
+> & {
+    project?: Maybe<
+      { __typename?: "Project" } & Pick<
+        Project,
+        "id" | "name" | "createdAt" | "updatedAt"
+      > & {
+          owner: { __typename?: "User" } & UserFieldsFragment
+          members: Array<
+            Maybe<{ __typename?: "User" } & Pick<User, "id" | "name" | "email">>
+          >
+        }
+    >
+  }
 
 export type UserQueryVariables = Exact<{
   id: Scalars["Int"]
@@ -196,11 +223,17 @@ export type UserQuery = { __typename?: "Query" } & {
   user?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
-export type UsersQueryVariables = Exact<{ [key: string]: never }>
+export type UsersQueryVariables = Exact<{
+  orderBy?: Maybe<Scalars["String"]>
+  orderDirection?: Maybe<Scalars["String"]>
+  take?: Maybe<Scalars["Int"]>
+  skip?: Maybe<Scalars["Int"]>
+}>
 
-export type UsersQuery = { __typename?: "Query" } & {
-  users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>>
-}
+export type UsersQuery = { __typename?: "Query" } & Pick<
+  Query,
+  "usersCount"
+> & { users: Array<Maybe<{ __typename?: "User" } & UserFieldsFragment>> }
 
 export type ProjectCreateMutationVariables = Exact<{
   name: Scalars["String"]
@@ -350,8 +383,18 @@ export const MeDocument = gql`
   ${UserFieldsFragmentDoc}
 `
 export const ProjectsDocument = gql`
-  query Projects {
-    projects {
+  query Projects(
+    $orderBy: String
+    $orderDirection: String
+    $take: Int
+    $skip: Int
+  ) {
+    projects(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      take: $take
+      skip: $skip
+    ) {
       id
       name
       owner {
@@ -360,6 +403,7 @@ export const ProjectsDocument = gql`
       createdAt
       updatedAt
     }
+    projectsCount
   }
   ${UserFieldsFragmentDoc}
 `
@@ -379,6 +423,7 @@ export const ProjectDocument = gql`
       createdAt
       updatedAt
     }
+    projectsCount
   }
   ${UserFieldsFragmentDoc}
 `
@@ -391,10 +436,21 @@ export const UserDocument = gql`
   ${UserFieldsFragmentDoc}
 `
 export const UsersDocument = gql`
-  query Users {
-    users {
+  query Users(
+    $orderBy: String
+    $orderDirection: String
+    $take: Int
+    $skip: Int
+  ) {
+    users(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      take: $take
+      skip: $skip
+    ) {
       ...UserFields
     }
+    usersCount
   }
   ${UserFieldsFragmentDoc}
 `

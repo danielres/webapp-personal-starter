@@ -1,14 +1,38 @@
 import React, { useState } from "react"
+import * as config from "../../../config"
 import { FormInviteByEmail } from "../../components/admin/forms/FormInviteByEmail"
 import { UsersTable } from "../../components/admin/UsersTable"
 import { InlineIcon } from "../../components/Icons/InlineIcon"
 import { PlusCircle } from "../../components/Icons/PlusCircle"
 import { Card } from "../../components/ui/Card"
 import { CardLinkBack } from "../../components/ui/CardLinkBack"
+import { H2 } from "../../components/ui/H2"
+import { Pagination } from "../../components/ui/Pagination"
 import { Stack } from "../../components/ui/Stack"
+import { sdk } from "../../sdk"
+
+const perPage = config.pagination.perPage.default
 
 export default function Admin() {
   const [isInviteActive, setIsInviteActive] = useState(false)
+  const [page, setPage] = useState(0)
+
+  const [orderBy, setOrderBy] = useState("name")
+  const [isAsc, setIsAsc] = useState(true)
+
+  const onFieldClick = (field: string) => {
+    setOrderBy(field)
+    if (field === orderBy) setIsAsc(!isAsc)
+  }
+
+  const { data, error } = sdk.useUsers({
+    skip: page * perPage,
+    take: perPage,
+    orderBy,
+    orderDirection: isAsc ? "asc" : "desc",
+  })
+
+  if (error) return <div>{error.message}</div> // FIXME
 
   return (
     <Card className="animate-fadein-fast">
@@ -20,10 +44,27 @@ export default function Admin() {
           </>
         )}
 
-        {!isInviteActive && (
+        {!isInviteActive && data?.users && data.usersCount && (
           <>
             <ButtonInviteByEmail onClick={() => setIsInviteActive(true)} />
-            <UsersTable />
+
+            <H2 className="text-gray-700">
+              Users{" "}
+              <span className="text-sm text-gray-500">({data.usersCount})</span>
+            </H2>
+
+            <UsersTable users={data.users} onFieldClick={onFieldClick} />
+
+            {data.usersCount > perPage && (
+              <div className="text-center">
+                <Pagination
+                  page={page}
+                  perPage={perPage}
+                  setPage={setPage}
+                  itemsCount={data.usersCount}
+                />
+              </div>
+            )}
           </>
         )}
       </Stack>

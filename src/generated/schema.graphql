@@ -30,7 +30,13 @@ type VerifyEmailResponse {
 }
 extend type Query {
   project(id: Int!): Project
-  projects: [Project]!
+  projects(
+    orderBy: String
+    orderDirection: String
+    take: Int
+    skip: Int
+  ): [Project]!
+  projectsCount: Int
 }
 
 extend type Mutation {
@@ -53,7 +59,8 @@ type Project {
 }
 extend type Query {
   user(id: Int!): User
-  users: [User]!
+  users(orderBy: String, orderDirection: String, take: Int, skip: Int): [User]!
+  usersCount: Int
 }
 
 extend type Mutation {
