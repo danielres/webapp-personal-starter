@@ -20,6 +20,7 @@ export const permissions = shield({
 
     project: and(isSuperUser, isVerifiedEmail),
     projects: and(isSuperUser, isVerifiedEmail),
+    projectsCount: and(isSuperUser, isVerifiedEmail),
 
     user: and(isSuperUser, isVerifiedEmail),
     users: and(isSuperUser, isVerifiedEmail),
