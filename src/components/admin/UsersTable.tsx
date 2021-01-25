@@ -1,36 +1,41 @@
+import type { User as PrismaUser } from "@prisma/client"
 import Link from "next/link"
-import React from "react"
-import { sdk } from "../../sdk"
+import type { User, UsersQuery } from "../../generated/operations"
 import { getPath } from "../../getPath"
-import { User as TUser } from "../../generated/operations"
 import { Button } from "../ui/Button"
 import { TableOuter } from "../ui/TableOuter"
 import { Time } from "../ui/Time"
 
-export function UsersTable() {
-  const { data, error } = sdk.useUsers()
+type UsersTableProps = {
+  onFieldClick: (fieldName: string) => void
+  users: UsersQuery["users"]
+}
 
-  if (error) return <div>{error.message}</div>
+type UserTableHeaders = {
+  field: keyof PrismaUser | null
+  label: string | null
+}[]
 
-  const headers = [
-    "",
-    "name",
-    "email",
-    "superuser",
-    "approved",
-    "created",
-    "updated",
-    "",
+export function UsersTable({ onFieldClick, users }: UsersTableProps) {
+  const headers: UserTableHeaders = [
+    { field: "id", label: null },
+    { field: "name", label: "name" },
+    { field: "email", label: "email" },
+    { field: "isSuperUser", label: "superuser" },
+    { field: "approvedById", label: "approved" },
+    { field: "createdAt", label: "created" },
+    { field: "updatedAt", label: "updated" },
+    { field: null, label: null },
   ]
 
   return (
-    <TableOuter headers={headers}>
-      {data?.users.map((user) => user && <RowUser key={user.id} user={user} />)}
+    <TableOuter headers={headers} onFieldClick={onFieldClick}>
+      {users?.map((user) => user && <RowUser key={user.id} user={user} />)}
     </TableOuter>
   )
 }
 
-function RowUser({ user }: { user: TUser }) {
+function RowUser({ user }: { user: User }) {
   return (
     <tr>
       <td
@@ -50,7 +55,6 @@ function RowUser({ user }: { user: TUser }) {
         {user.createdAt !== user.updatedAt && <Time time={user.updatedAt} />}
       </td>
       <td>
-        {/* <Link href={`/admin/user/${user.id}`} passHref> */}
         <Link href={getPath.admin.users.edit(user.id)} passHref>
           <Button as="a" variant="text" padding="none">
             edit

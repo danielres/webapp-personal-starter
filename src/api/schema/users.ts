@@ -1,4 +1,5 @@
-import { User } from "@prisma/client"
+import type { User } from "@prisma/client"
+import type { Context } from "../context"
 import { updateUser } from "./users/mutations/updateUser"
 import { user } from "./users/queries/user"
 import { users } from "./users/queries/users"
@@ -6,7 +7,13 @@ import { users } from "./users/queries/users"
 export const typeDefs = /* GraphQL */ `
   extend type Query {
     user(id: Int!): User
-    users: [User]!
+    users(
+      orderBy: String
+      orderDirection: String
+      take: Int
+      skip: Int
+    ): [User]!
+    usersCount: Int
   }
 
   extend type Mutation {
@@ -35,6 +42,8 @@ export const resolvers = {
   Query: {
     user,
     users,
+    usersCount: async (_: unused, __: unused, { prisma }: Context) =>
+      prisma.user.count(),
   },
 
   Mutation: {

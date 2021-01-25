@@ -1,22 +1,34 @@
+import type { Project as PrismaProject } from "@prisma/client"
 import Link from "next/link"
-import React from "react"
-import { sdk } from "../../sdk"
-import type { ProjectQuery } from "../../generated/operations"
+import type { ProjectQuery, ProjectsQuery } from "../../generated/operations"
 import { getPath } from "../../getPath"
 import { Button } from "../ui/Button"
 import { TableOuter } from "../ui/TableOuter"
 import { Time } from "../ui/Time"
 
-export function ProjectsTable() {
-  const { data, error } = sdk.useProjects()
+type ProjectsTableProps = {
+  onFieldClick: (fieldName: string) => void
+  projects: ProjectsQuery["projects"]
+}
 
-  if (error) return <div>{error.message}</div>
+type ProjectTableHeaders = {
+  field: keyof PrismaProject | null
+  label: string | null
+}[]
 
-  const headers = ["", "name", "owner", "created", "updated", ""]
+export function ProjectsTable({ onFieldClick, projects }: ProjectsTableProps) {
+  const headers: ProjectTableHeaders = [
+    { field: "id", label: null },
+    { field: "name", label: "name" },
+    { field: "ownerId", label: "email" },
+    { field: "createdAt", label: "created" },
+    { field: "updatedAt", label: "updated" },
+    { field: null, label: null },
+  ]
 
   return (
-    <TableOuter headers={headers}>
-      {data?.projects.map(
+    <TableOuter headers={headers} onFieldClick={onFieldClick}>
+      {projects.map(
         (project) =>
           project && (
             <RowProject

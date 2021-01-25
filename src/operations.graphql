@@ -15,8 +15,18 @@ query Me {
   }
 }
 
-query Projects {
-  projects {
+query Projects(
+  $orderBy: String
+  $orderDirection: String
+  $take: Int
+  $skip: Int
+) {
+  projects(
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    take: $take
+    skip: $skip
+  ) {
     id
     name
     owner {
@@ -29,6 +39,7 @@ query Projects {
     createdAt
     updatedAt
   }
+  projectsCount
 }
 
 query Project($id: Int!) {
@@ -46,6 +57,7 @@ query Project($id: Int!) {
     createdAt
     updatedAt
   }
+  projectsCount
 }
 
 query User($id: Int!) {
@@ -54,10 +66,16 @@ query User($id: Int!) {
   }
 }
 
-query Users {
-  users {
+query Users($orderBy: String, $orderDirection: String, $take: Int, $skip: Int) {
+  users(
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    take: $take
+    skip: $skip
+  ) {
     ...UserFields
   }
+  usersCount
 }
 
 mutation ProjectCreate($name: String!) {

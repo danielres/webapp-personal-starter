@@ -1,12 +1,22 @@
 import classnames from "classnames"
+import { Button } from "./Button"
 
 type TableOuterProps = {
   children: React.ReactNode
   className?: string
-  headers?: string[]
+  headers?: {
+    field: string | null
+    label: string | null
+  }[]
+  onFieldClick: (fieldName: string) => void
 }
 
-export function TableOuter({ className, children, headers }: TableOuterProps) {
+export function TableOuter({
+  className,
+  children,
+  headers,
+  onFieldClick,
+}: TableOuterProps) {
   return (
     <>
       <div className="overflow-x-auto TableOuter">
@@ -15,8 +25,15 @@ export function TableOuter({ className, children, headers }: TableOuterProps) {
             <thead className="border-b-2 border-gray-300">
               <tr>
                 {headers.map((header, i) => (
-                  <th key={`${header}-${i}`} className="text-gray-400">
-                    <div>{header}</div>
+                  <th key={`${header.field}-${i}`}>
+                    <Button
+                      className="font-bold text-gray-400"
+                      onClick={() => header.field && onFieldClick(header.field)}
+                      padding="none"
+                      variant="text"
+                    >
+                      {header.label}
+                    </Button>
                   </th>
                 ))}
               </tr>
