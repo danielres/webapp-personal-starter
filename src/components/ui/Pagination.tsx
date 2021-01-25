@@ -30,7 +30,7 @@ export function Pagination({
       </Button>
 
       <span className="text-sm text-gray-400">
-        {page + 1} / {Math.floor(itemsCount / perPage) + 1}
+        {page + 1} / {Math.ceil(itemsCount / perPage)}
       </span>
 
       <Button
