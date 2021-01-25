@@ -23,6 +23,7 @@ export const permissions = shield({
 
     user: and(isSuperUser, isVerifiedEmail),
     users: and(isSuperUser, isVerifiedEmail),
+    usersCount: and(isSuperUser, isVerifiedEmail),
   },
 
   Mutation: {
