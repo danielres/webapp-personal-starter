@@ -15,24 +15,36 @@ export const InlineIcon = ({
     <>
       <span
         className={classnames("relative inline-block", {
-          "bg-red-200": debug,
+          "bg-green-200": debug,
         })}
       >
-        <div
-          className={classnames("absolute", {
-            "bg-green-200": debug,
-          })}
-          style={{ width: "100%", height: "50%" }}
-        >
+        <div className="centered outer">
           <div
-            className="absolute opacity-60"
-            style={{ bottom: 0, marginBottom: -size / 2 }}
+            className="centered opacity-60"
+            style={{ width: size, height: size }}
           >
             {children}
           </div>
         </div>
         <div style={{ width: size }}>&nbsp;</div>
       </span>
+      <style jsx>{`
+        .centered {
+          position: absolute;
+          margin: auto;
+          display: block;
+          bottom: 0px;
+          top: 0px;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+
+        .outer {
+          ${debug && `background: red;`}
+          width: 5px;
+          height: 5px;
+        }
+      `}</style>
     </>
   )
 }
