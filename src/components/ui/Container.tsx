@@ -8,7 +8,7 @@ type ContainerProps = {
 
 export function Container({
   children,
-  className,
+  className = "",
   variant = "standard",
 }: ContainerProps) {
   return (

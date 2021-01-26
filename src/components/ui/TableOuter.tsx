@@ -12,7 +12,7 @@ type TableOuterProps = {
 }
 
 export function TableOuter({
-  className,
+  className = "",
   children,
   headers,
   onFieldClick,
