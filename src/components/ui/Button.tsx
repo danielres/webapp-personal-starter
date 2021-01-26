@@ -16,7 +16,7 @@ type ButtonProps = {
 export function Button({
   as = "button",
   children,
-  className,
+  className = "",
   disabled = false,
   href,
   padding = "md",

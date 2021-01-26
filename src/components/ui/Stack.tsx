@@ -4,7 +4,11 @@ type StackProps = {
   spacing?: "xs" | "sm" | "md" | "lg"
 }
 
-export function Stack({ children, className, spacing = "md" }: StackProps) {
+export function Stack({
+  children,
+  className = "",
+  spacing = "md",
+}: StackProps) {
   return (
     <>
       <div className={`stack-${spacing} ${className}`}>{children}</div>

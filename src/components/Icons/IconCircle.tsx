@@ -6,7 +6,11 @@ type IconCircleProps = {
   variant?: "danger" | "info" | "success"
 }
 
-export function IconCircle({ children, className, variant }: IconCircleProps) {
+export function IconCircle({
+  children,
+  className = "",
+  variant,
+}: IconCircleProps) {
   return (
     <div
       className={classnames(
