@@ -64,7 +64,7 @@ export const FormSignin = ({
 
             <FormRow>
               {/* <div className="flex justify-between"> */}
-              <div className="flex flex-col justify-between gap-4 text-center md:flex-row md:text-left">
+              <div className="flex flex-col justify-between text-center md:flex-row md:text-left">
                 <div>
                   <Button type="submit" variant="primary">
                     Sign in
@@ -82,7 +82,11 @@ export const FormSignin = ({
                 </div>
 
                 <Link href={getPath.password.reset.begin()} passHref>
-                  <Button className="text-gray-400" variant="text" as="a">
+                  <Button
+                    className="mt-4 text-gray-400 md:mt-0"
+                    variant="text"
+                    as="a"
+                  >
                     Forgot password?
                   </Button>
                 </Link>

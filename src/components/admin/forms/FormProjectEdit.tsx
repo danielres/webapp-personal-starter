@@ -85,8 +85,8 @@ export function FormProjectEdit({ project, onSuccess }: FormProjectEditProps) {
 
   return (
     <FormProvider {...formMethods}>
-      <div className="flex flex-col gap-8 sm:flex-row">
-        <Stack className="sm:w-2/3">
+      <div className="flex flex-col sm:flex-row">
+        <Stack className="sm:pr-8 sm:w-2/3">
           <ApolloErrors errors={apolloErrors} />
 
           <form onSubmit={formMethods.handleSubmit(onSubmit)}>
