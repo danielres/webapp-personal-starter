@@ -20,7 +20,7 @@ export function ProjectsTable({ onFieldClick, projects }: ProjectsTableProps) {
   const headers: ProjectTableHeaders = [
     { field: "id", label: null },
     { field: "name", label: "name" },
-    { field: "ownerId", label: "email" },
+    { field: "ownerId", label: "owner" },
     { field: "createdAt", label: "created" },
     { field: "updatedAt", label: "updated" },
     { field: null, label: null },
