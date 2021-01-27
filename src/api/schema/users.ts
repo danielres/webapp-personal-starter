@@ -3,6 +3,7 @@ import type { Context } from "../context"
 import { userUpdate } from "./users/mutations/user.update"
 import { user } from "./users/queries/user"
 import { users } from "./users/queries/users"
+import { userDelete } from "./users/mutations/user.delete"
 
 export const typeDefs = /* GraphQL */ `
   extend type Query {
@@ -17,6 +18,7 @@ export const typeDefs = /* GraphQL */ `
   }
 
   extend type Mutation {
+    userDelete(id: Int!): User
     userUpdate(
       id: Int!
       email: String
@@ -47,6 +49,7 @@ export const resolvers = {
   },
 
   Mutation: {
+    userDelete,
     userUpdate,
   },
 

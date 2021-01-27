@@ -70,6 +70,7 @@ export type Mutation = {
   signout: Scalars["Boolean"]
   signup: Scalars["Boolean"]
   signupWithInvitation: Scalars["Boolean"]
+  userDelete?: Maybe<User>
   userUpdate?: Maybe<User>
   verifyEmail: VerifyEmailResponse
 }
@@ -118,6 +119,10 @@ export type MutationSignupWithInvitationArgs = {
   password: Scalars["String"]
   name: Scalars["String"]
   secret: Scalars["String"]
+}
+
+export type MutationUserDeleteArgs = {
+  id: Scalars["Int"]
 }
 
 export type MutationUserUpdateArgs = {
@@ -354,6 +359,14 @@ export type SignoutMutation = { __typename?: "Mutation" } & Pick<
   "signout"
 >
 
+export type UserDeleteMutationVariables = Exact<{
+  id: Scalars["Int"]
+}>
+
+export type UserDeleteMutation = { __typename?: "Mutation" } & {
+  userDelete?: Maybe<{ __typename?: "User" } & Pick<User, "id" | "name">>
+}
+
 export type UserUpdateMutationVariables = Exact<{
   id: Scalars["Int"]
   email?: Maybe<Scalars["String"]>
@@ -552,6 +565,14 @@ export const SigninDocument = gql`
 export const SignoutDocument = gql`
   mutation Signout {
     signout
+  }
+`
+export const UserDeleteDocument = gql`
+  mutation UserDelete($id: Int!) {
+    userDelete(id: $id) {
+      id
+      name
+    }
   }
 `
 export const UserUpdateDocument = gql`
@@ -774,6 +795,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<SignoutMutation>(
           print(SignoutDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    UserDelete(
+      variables: UserDeleteMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<UserDeleteMutation> {
+      return withWrapper(() =>
+        client.request<UserDeleteMutation>(
+          print(UserDeleteDocument),
           variables,
           requestHeaders
         )

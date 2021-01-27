@@ -51,6 +51,7 @@ export const permissions = shield({
     projectDelete: or(isSuperUser, isProjectOwner),
     projectUpdate: isSuperUser,
 
+    userDelete: isSuperUser,
     userUpdate: and(isSuperUser, isVerifiedEmail),
   },
 })

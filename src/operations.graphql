@@ -151,6 +151,13 @@ mutation Signout {
   signout
 }
 
+mutation UserDelete($id: Int!) {
+  userDelete(id: $id) {
+    id
+    name
+  }
+}
+
 mutation UserUpdate(
   $id: Int!
   $email: String

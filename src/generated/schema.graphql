@@ -65,6 +65,7 @@ extend type Query {
 }
 
 extend type Mutation {
+  userDelete(id: Int!): User
   userUpdate(
     id: Int!
     email: String
