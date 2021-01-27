@@ -28,7 +28,9 @@ type SelectOption = {
 
 export function FormProjectEdit({ project, onSuccess }: FormProjectEditProps) {
   const formMethods = useForm({ defaultValues: project ?? undefined })
-  const { data: usersData } = sdk.useUsers()
+  const { data: usersData } = sdk.useUsers({
+    take: null, // disable pagination
+  })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
