@@ -87,6 +87,13 @@ mutation ProjectCreate($name: String!) {
   }
 }
 
+mutation ProjectDelete($id: Int!) {
+  projectDelete(id: $id) {
+    id
+    name
+  }
+}
+
 mutation ProjectUpdate(
   $id: Int!
   $name: String

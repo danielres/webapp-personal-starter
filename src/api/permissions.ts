@@ -1,8 +1,15 @@
-import { allow, and, deny, rule, shield } from "graphql-shield"
+import { allow, and, deny, or, rule, shield } from "graphql-shield"
 
 const isAuthenticated = rule({
   cache: "contextual",
 })((_: unused, __: unused, { me }) => Boolean(me))
+
+const isProjectOwner = rule({
+  cache: "no_cache",
+})(async (_: unused, args, { me, prisma }) => {
+  const project = await prisma.project.findUnique({ where: { id: args.id } })
+  return project.ownerId === me.id
+})
 
 const isSuperUser = rule({
   cache: "contextual",
@@ -41,6 +48,8 @@ export const permissions = shield({
     verifyEmail: allow,
 
     projectCreate: isSuperUser,
+    // projectDelete: or(isSuperUser, isProjectOwner),
+    projectDelete: or(isSuperUser, isProjectOwner),
     projectUpdate: isSuperUser,
 
     updateUser: and(isSuperUser, isVerifiedEmail),

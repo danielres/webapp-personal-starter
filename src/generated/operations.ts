@@ -61,6 +61,7 @@ export type Mutation = {
   __typename?: "Mutation"
   inviteByEmail: Scalars["Boolean"]
   projectCreate?: Maybe<Project>
+  projectDelete?: Maybe<Project>
   projectUpdate?: Maybe<Project>
   resendVerificationEmail: Scalars["Boolean"]
   resetPasswordBegin: Scalars["Boolean"]
@@ -80,6 +81,10 @@ export type MutationInviteByEmailArgs = {
 
 export type MutationProjectCreateArgs = {
   name: Scalars["String"]
+}
+
+export type MutationProjectDeleteArgs = {
+  id: Scalars["Int"]
 }
 
 export type MutationProjectUpdateArgs = {
@@ -245,6 +250,16 @@ export type ProjectCreateMutation = { __typename?: "Mutation" } & {
       Project,
       "id" | "name" | "createdAt" | "updatedAt"
     >
+  >
+}
+
+export type ProjectDeleteMutationVariables = Exact<{
+  id: Scalars["Int"]
+}>
+
+export type ProjectDeleteMutation = { __typename?: "Mutation" } & {
+  projectDelete?: Maybe<
+    { __typename?: "Project" } & Pick<Project, "id" | "name">
   >
 }
 
@@ -464,6 +479,14 @@ export const ProjectCreateDocument = gql`
     }
   }
 `
+export const ProjectDeleteDocument = gql`
+  mutation ProjectDelete($id: Int!) {
+    projectDelete(id: $id) {
+      id
+      name
+    }
+  }
+`
 export const ProjectUpdateDocument = gql`
   mutation ProjectUpdate(
     $id: Int!
@@ -631,6 +654,18 @@ export function getSdk(
       return withWrapper(() =>
         client.request<ProjectCreateMutation>(
           print(ProjectCreateDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    ProjectDelete(
+      variables: ProjectDeleteMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<ProjectDeleteMutation> {
+      return withWrapper(() =>
+        client.request<ProjectDeleteMutation>(
+          print(ProjectDeleteDocument),
           variables,
           requestHeaders
         )

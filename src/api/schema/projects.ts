@@ -1,6 +1,7 @@
 import { Project } from "@prisma/client"
 import type { Context } from "./../context"
 import { projectCreate } from "./projects/mutations/project.create"
+import { projectDelete } from "./projects/mutations/project.delete"
 import { projectUpdate } from "./projects/mutations/project.update"
 import { project } from "./projects/queries/project"
 import { projects } from "./projects/queries/projects"
@@ -19,6 +20,7 @@ export const typeDefs = /* GraphQL */ `
 
   extend type Mutation {
     projectCreate(name: String!): Project
+    projectDelete(id: Int!): Project
     projectUpdate(
       id: Int!
       name: String
@@ -47,6 +49,7 @@ export const resolvers = {
 
   Mutation: {
     projectCreate,
+    projectDelete,
     projectUpdate,
   },
 
