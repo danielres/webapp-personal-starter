@@ -1,6 +1,8 @@
 import type { AppProps } from "next/app"
 import { useRouter } from "next/router"
 import React, { Suspense } from "react"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import { SWRConfig } from "swr"
 import * as config from "../../config"
 import { MenuAdmin } from "../components/admin/MenuAdmin"
@@ -27,6 +29,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <ToastContainer
+        autoClose={6000}
+        hideProgressBar
+        newestOnTop
+        pauseOnHover
+        position="bottom-right"
+      />
+
       <div id="modal-root"></div>
 
       <SWRConfig value={{ suspense: true }}>

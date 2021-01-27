@@ -1,10 +1,13 @@
 import { useRouter } from "next/router"
+import React from "react"
+import { toast } from "react-toastify"
 import { FormProjectEdit } from "../../../components/admin/forms/FormProjectEdit"
 import { Button } from "../../../components/ui/Button"
 import { Card } from "../../../components/ui/Card"
 import { CardLinkBack } from "../../../components/ui/CardLinkBack"
 import { Spinner } from "../../../components/ui/Spinner"
 import { Stack } from "../../../components/ui/Stack"
+import { DeleteSuccessMessage } from "../../../components/ui/toasts/DeleteSuccessMessage"
 import { Project } from "../../../generated/operations"
 import { getPath } from "../../../getPath"
 import { sdk } from "../../../sdk"
@@ -40,7 +43,9 @@ function ProjectEditor() {
     if (!confirmed) return
 
     router.push(getPath.admin.projects.home())
-    sdk.ProjectDelete({ id: data.project.id })
+
+    await sdk.ProjectDelete({ id: data.project.id })
+    toast(<DeleteSuccessMessage name={data.project.name} />)
   }
 
   const onSuccess = () => revalidate()
