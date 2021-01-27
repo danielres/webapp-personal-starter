@@ -70,7 +70,8 @@ export type Mutation = {
   signout: Scalars["Boolean"]
   signup: Scalars["Boolean"]
   signupWithInvitation: Scalars["Boolean"]
-  updateUser?: Maybe<User>
+  userDelete?: Maybe<User>
+  userUpdate?: Maybe<User>
   verifyEmail: VerifyEmailResponse
 }
 
@@ -120,7 +121,11 @@ export type MutationSignupWithInvitationArgs = {
   secret: Scalars["String"]
 }
 
-export type MutationUpdateUserArgs = {
+export type MutationUserDeleteArgs = {
+  id: Scalars["Int"]
+}
+
+export type MutationUserUpdateArgs = {
   id: Scalars["Int"]
   email?: Maybe<Scalars["String"]>
   name?: Maybe<Scalars["String"]>
@@ -354,7 +359,15 @@ export type SignoutMutation = { __typename?: "Mutation" } & Pick<
   "signout"
 >
 
-export type UpdateUserMutationVariables = Exact<{
+export type UserDeleteMutationVariables = Exact<{
+  id: Scalars["Int"]
+}>
+
+export type UserDeleteMutation = { __typename?: "Mutation" } & {
+  userDelete?: Maybe<{ __typename?: "User" } & Pick<User, "id" | "name">>
+}
+
+export type UserUpdateMutationVariables = Exact<{
   id: Scalars["Int"]
   email?: Maybe<Scalars["String"]>
   name?: Maybe<Scalars["String"]>
@@ -362,8 +375,8 @@ export type UpdateUserMutationVariables = Exact<{
   isApproved?: Maybe<Scalars["Boolean"]>
 }>
 
-export type UpdateUserMutation = { __typename?: "Mutation" } & {
-  updateUser?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
+export type UserUpdateMutation = { __typename?: "Mutation" } & {
+  userUpdate?: Maybe<{ __typename?: "User" } & UserFieldsFragment>
 }
 
 export type VerifyEmailMutationVariables = Exact<{
@@ -554,15 +567,23 @@ export const SignoutDocument = gql`
     signout
   }
 `
-export const UpdateUserDocument = gql`
-  mutation UpdateUser(
+export const UserDeleteDocument = gql`
+  mutation UserDelete($id: Int!) {
+    userDelete(id: $id) {
+      id
+      name
+    }
+  }
+`
+export const UserUpdateDocument = gql`
+  mutation UserUpdate(
     $id: Int!
     $email: String
     $name: String
     $isSuperUser: Boolean
     $isApproved: Boolean
   ) {
-    updateUser(
+    userUpdate(
       id: $id
       email: $email
       name: $name
@@ -779,13 +800,25 @@ export function getSdk(
         )
       )
     },
-    UpdateUser(
-      variables: UpdateUserMutationVariables,
+    UserDelete(
+      variables: UserDeleteMutationVariables,
       requestHeaders?: Headers
-    ): Promise<UpdateUserMutation> {
+    ): Promise<UserDeleteMutation> {
       return withWrapper(() =>
-        client.request<UpdateUserMutation>(
-          print(UpdateUserDocument),
+        client.request<UserDeleteMutation>(
+          print(UserDeleteDocument),
+          variables,
+          requestHeaders
+        )
+      )
+    },
+    UserUpdate(
+      variables: UserUpdateMutationVariables,
+      requestHeaders?: Headers
+    ): Promise<UserUpdateMutation> {
+      return withWrapper(() =>
+        client.request<UserUpdateMutation>(
+          print(UserUpdateDocument),
           variables,
           requestHeaders
         )

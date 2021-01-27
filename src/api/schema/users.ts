@@ -1,8 +1,9 @@
 import type { User } from "@prisma/client"
 import type { Context } from "../context"
-import { updateUser } from "./users/mutations/updateUser"
+import { userUpdate } from "./users/mutations/user.update"
 import { user } from "./users/queries/user"
 import { users } from "./users/queries/users"
+import { userDelete } from "./users/mutations/user.delete"
 
 export const typeDefs = /* GraphQL */ `
   extend type Query {
@@ -17,7 +18,8 @@ export const typeDefs = /* GraphQL */ `
   }
 
   extend type Mutation {
-    updateUser(
+    userDelete(id: Int!): User
+    userUpdate(
       id: Int!
       email: String
       name: String
@@ -47,7 +49,8 @@ export const resolvers = {
   },
 
   Mutation: {
-    updateUser,
+    userDelete,
+    userUpdate,
   },
 
   User: {
