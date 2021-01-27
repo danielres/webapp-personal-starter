@@ -1,14 +1,14 @@
-import type { UpdateUserMutationVariables } from "../../../../generated/operations"
-import { UpdateUserInput, validate } from "../../../../validators/structs"
+import type { UserUpdateMutationVariables } from "../../../../generated/operations"
+import { UserUpdateInput, validate } from "../../../../validators/structs"
 import type { Context } from "../../../context"
 import * as codes from "../../../errors/codes"
 import { ValidationErrors } from "../../../errors/InputValidationError"
 import { NotAuthenticatedError } from "../../../errors/NotAuthenticatedError"
 import { ServerError } from "../../../errors/ServerError"
 
-export const updateUser = async (
+export const userUpdate = async (
   _: unused,
-  args: UpdateUserMutationVariables,
+  args: UserUpdateMutationVariables,
   { me, prisma }: Context
 ) => {
   try {
@@ -22,7 +22,7 @@ export const updateUser = async (
       approvedById: args.isApproved ? me.id : null,
     }
 
-    const [error] = validate(coerced, UpdateUserInput)
+    const [error] = validate(coerced, UserUpdateInput)
     if (error) return new ValidationErrors(error.failures())
 
     const { id, ...data } = coerced

@@ -151,14 +151,14 @@ mutation Signout {
   signout
 }
 
-mutation UpdateUser(
+mutation UserUpdate(
   $id: Int!
   $email: String
   $name: String
   $isSuperUser: Boolean
   $isApproved: Boolean
 ) {
-  updateUser(
+  userUpdate(
     id: $id
     email: $email
     name: $name

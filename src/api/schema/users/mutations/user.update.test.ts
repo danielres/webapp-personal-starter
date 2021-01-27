@@ -31,16 +31,16 @@ beforeEach(async () => {
 
 describe("Mutation updateUser", () => {
   it(`works, but for superUsers only`, async () => {
-    const res1: any = await sdks.anon.UpdateUser({ id, name: "updated" })
-    expect(res1.data.updateUser === null).toBe(true)
+    const res1: any = await sdks.anon.UserUpdate({ id, name: "updated" })
+    expect(res1.data.userUpdate === null).toBe(true)
     expect(res1.errors[0].message).toMatch("Not Authorised!")
 
-    const res2: any = await sdks.user.UpdateUser({ id, name: "updated" })
-    expect(res2.data.updateUser === null).toBe(true)
+    const res2: any = await sdks.user.UserUpdate({ id, name: "updated" })
+    expect(res2.data.userUpdate === null).toBe(true)
     expect(res2.errors[0].message).toMatch("Not Authorised!")
 
-    const res3: any = await sdks.superUser.UpdateUser({ id, name: "updated" })
-    expect(res3.data.updateUser).toMatchObject({ id, name: "updated" })
+    const res3: any = await sdks.superUser.UserUpdate({ id, name: "updated" })
+    expect(res3.data.userUpdate).toMatchObject({ id, name: "updated" })
     expect(res3.errors === undefined).toBe(true)
   })
 })

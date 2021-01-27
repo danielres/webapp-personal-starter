@@ -1,5 +1,5 @@
 import { User } from "@prisma/client"
-import { updateUser } from "./mutations/updateUser"
+import { userUpdate } from "./mutations/user.update"
 import { user } from "./queries/user"
 import { users } from "./queries/users"
 
@@ -21,7 +21,7 @@ export const typeDefs = /* GraphQL */ `
   }
 
   extend type Mutation {
-    updateUser(
+    userUpdate(
       id: Int!
       email: String
       name: String
@@ -37,7 +37,7 @@ export const resolvers = {
     users,
   },
   Mutation: {
-    updateUser,
+    userUpdate,
   },
 
   User: {

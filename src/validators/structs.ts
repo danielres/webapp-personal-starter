@@ -78,7 +78,7 @@ export const ProjectUpdateInput = object({
   removedMemberIds: optional(array(number())),
 })
 
-export const UpdateUserInput = object({
+export const UserUpdateInput = object({
   id: number(),
   email: optional(Email),
   name: optional(Name),

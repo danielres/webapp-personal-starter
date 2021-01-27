@@ -25,7 +25,7 @@ export function FormUser({ onSuccess, user }: FormUserProps) {
 
   const onSubmit = async (vars: any) => {
     try {
-      await sdk.UpdateUser({ ...vars, id: Number(user.id) })
+      await sdk.UserUpdate({ ...vars, id: Number(user.id) })
       setApolloErrors(undefined)
       onSuccess && onSuccess()
     } catch ({ response }) {
