@@ -46,7 +46,7 @@ export default function PageAdminProjects() {
           </>
         )}
 
-        {!isAddProjectDialogActive && data?.projects && data.projectsCount && (
+        {!isAddProjectDialogActive && data?.projects && (
           <>
             <ButtonCreateProject
               onClick={() => setIsAddProjectDialogActive(true)}
@@ -64,13 +64,13 @@ export default function PageAdminProjects() {
               onFieldClick={onFieldClick}
             />
 
-            {data.projectsCount > perPage && (
+            {(data.projectsCount ?? 0) > perPage && (
               <div className="text-center">
                 <Pagination
                   page={page}
                   perPage={perPage}
                   setPage={setPage}
-                  itemsCount={data.projectsCount}
+                  itemsCount={data.projectsCount ?? 0}
                 />
               </div>
             )}
