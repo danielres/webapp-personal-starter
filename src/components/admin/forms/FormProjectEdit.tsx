@@ -28,7 +28,9 @@ type SelectOption = {
 
 export function FormProjectEdit({ project, onSuccess }: FormProjectEditProps) {
   const formMethods = useForm({ defaultValues: project ?? undefined })
-  const { data: usersData } = sdk.useUsers()
+  const { data: usersData } = sdk.useUsers({
+    take: null, // disable pagination
+  })
   const [apolloErrors, setApolloErrors] = useState<ApolloError[]>()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -55,6 +57,7 @@ export function FormProjectEdit({ project, onSuccess }: FormProjectEditProps) {
   const clearSelect = () => setSelectKey(selectKey + 1)
 
   const resetForm = () => {
+    setApolloErrors(undefined)
     clearSelect()
     setRemovedMemberIds([])
   }
@@ -72,9 +75,7 @@ export function FormProjectEdit({ project, onSuccess }: FormProjectEditProps) {
         removedMemberIds,
         id: project.id,
       })
-      setApolloErrors(undefined)
-      clearSelect()
-      setRemovedMemberIds([])
+      resetForm()
       onSuccess()
     } catch ({ response }) {
       setApolloErrors(response.errors)
