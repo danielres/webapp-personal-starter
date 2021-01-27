@@ -39,8 +39,8 @@ function ProjectEditor() {
     const confirmed = confirm("Are you sure you want to delete this project?")
     if (!confirmed) return
 
-    await sdk.ProjectDelete({ id: data.project.id })
     router.push(getPath.admin.projects.home())
+    sdk.ProjectDelete({ id: data.project.id })
   }
 
   const onSuccess = () => revalidate()
