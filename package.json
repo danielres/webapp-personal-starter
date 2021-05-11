@@ -54,7 +54,7 @@
     "graphql-middleware": "^6.0.0",
     "graphql-request": "^3.4.0",
     "graphql-shield": "^7.5.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mjml": "^4.8.1",
     "next": "10.0.5",
     "nodemailer": "^6.4.17",
