@@ -93,7 +93,7 @@
     "husky": "^4.3.7",
     "jest": "^26.6.3",
     "lint-staged": ">=10",
-    "postcss": "^8.2.4",
+    "postcss": "^8.4.20",
     "prettier": "2.2.1",
     "styled-jsx-plugin-postcss": "^4.0.0",
     "supertest": "^6.1.3",
